@@ -59,37 +59,39 @@
             </div>
 
             <div class="hero-visual">
-                <article class="hero-panel" aria-label="How StratoWeave operates">
-                    <p class="panel-kicker">Core loop</p>
-                    <h2>From intent to live network state.</h2>
-                    <p>
-                        StratoWeave stays focused on one job: take northbound intent, apply layered
-                        transforms, push declarative configuration, and feed telemetry back into the
-                        next decision.
-                    </p>
-                    <ol class="hero-loop">
-                        <li>
-                            <strong>1. Capture intent</strong>
-                            <span>Take service and policy input from NETCONF, RESTCONF, TMF640/641, and source-of-truth systems.</span>
-                        </li>
-                        <li>
-                            <strong>2. Layer transforms</strong>
-                            <span>Break automation into tractable YANG-backed transforms instead of giant scripts.</span>
-                        </li>
-                        <li>
-                            <strong>3. Target real networks</strong>
-                            <span>Render for Cisco XR, Juniper, Nokia, and other major network operating systems.</span>
-                        </li>
-                        <li>
-                            <strong>4. React to telemetry</strong>
-                            <span>Consume streaming state and drive closed-loop automation from what the network reports.</span>
-                        </li>
-                    </ol>
-                    <div class="hero-compatibility" aria-label="Supported network operating systems">
-                        <span>Cisco XR</span>
-                        <span>Juniper</span>
-                        <span>Nokia</span>
-                        <span>More major network OSs</span>
+                <article class="hero-panel hero-panel--lottie" aria-label="StratoWeave transform flow">
+                    <div class="hero-lottie__stage">
+                        <div class="hero-lottie__viewport">
+                            <div
+                                id="hero-lottie"
+                                class="hero-lottie__canvas"
+                                aria-hidden="true"
+                                data-animation-path="{{ get_url(path="hero-transform-flow.json") }}"
+                            ></div>
+                            <div id="hero-sparkles" class="hero-sparkle" aria-hidden="true"></div>
+                            <div class="hero-lottie__sources" aria-label="Intent sources">
+                                <span class="hero-lottie__source--oss">OSS/BSS</span>
+                                <span class="hero-lottie__source--crm">Customer/CRM</span>
+                            </div>
+                            <div class="hero-lottie__orchestrator" aria-hidden="true"></div>
+                            <div class="hero-lottie__protocols" aria-label="Northbound intent interfaces">
+                                <span>NETCONF</span>
+                                <span>RESTCONF</span>
+                                <span>TMF640</span>
+                            </div>
+                            <div class="hero-lottie__layers" aria-hidden="true">
+                                <span class="hero-lottie__layer hero-lottie__layer--service">Service</span>
+                                <span class="hero-lottie__layer hero-lottie__layer--network">Network</span>
+                                <span class="hero-lottie__layer hero-lottie__layer--device-krk">IOS-XR</span>
+                                <span class="hero-lottie__layer hero-lottie__layer--device-fra">JunOS</span>
+                                <span class="hero-lottie__layer hero-lottie__layer--device-sto">SROS</span>
+                            </div>
+                            <div class="hero-lottie__router-labels" aria-hidden="true">
+                                <span>KRK Router</span>
+                                <span>FRA Router</span>
+                                <span>STO Router</span>
+                            </div>
+                        </div>
                     </div>
                 </article>
             </div>
@@ -286,6 +288,288 @@
             <a href="https://www.stratoweave.org">stratoweave.org</a> © 2026
         </small>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.getElementById("hero-lottie");
+            const sparkleLayer = document.getElementById("hero-sparkles");
+
+            function createHeroSparkles(root) {
+                if (!root) {
+                    return null;
+                }
+
+                const metrics = {
+                    sourceY: 39,
+                    protocolAlignY: 92,
+                    sources: [
+                        { x: 251, y: 39 },
+                        { x: 469, y: 39 }
+                    ],
+                    protocols: [
+                        { x: 181, y: 157 },
+                        { x: 360, y: 157 },
+                        { x: 539, y: 157 }
+                    ],
+                    service: { x: 360, y: 240 },
+                    network: { x: 360, y: 372 },
+                    devices: [
+                        { x: 168, y: 504, routerY: 652 },
+                        { x: 360, y: 504, routerY: 652 },
+                        { x: 552, y: 504, routerY: 652 }
+                    ]
+                };
+                const variations = [
+                    { source: 0, protocol: 0, targets: [0], offset: 0, trunkDuration: 2920, branchDuration: 1760 },
+                    { source: 1, protocol: 2, targets: [2], offset: 1340, trunkDuration: 3040, branchDuration: 1820 },
+                    { source: 0, protocol: 1, targets: [1], offset: 2740, trunkDuration: 2840, branchDuration: 1680 },
+                    { source: 1, protocol: 0, targets: [0, 1], offset: 4160, trunkDuration: 3160, branchDuration: 1880 },
+                    { source: 0, protocol: 2, targets: [1, 2], offset: 5600, trunkDuration: 3240, branchDuration: 1940 },
+                    { source: 1, protocol: 1, targets: [0, 2], offset: 7060, trunkDuration: 2960, branchDuration: 1840 },
+                    { source: 0, protocol: 0, targets: [0, 1, 2], offset: 8520, trunkDuration: 3360, branchDuration: 2040 },
+                    { source: 1, protocol: 2, targets: [2, 1], offset: 10000, trunkDuration: 3120, branchDuration: 1900 },
+                    { source: 0, protocol: 1, targets: [0, 2], offset: 11480, trunkDuration: 2880, branchDuration: 1800 },
+                    { source: 1, protocol: 0, targets: [1], offset: 12980, trunkDuration: 3000, branchDuration: 1720 },
+                    { source: 0, protocol: 2, targets: [0], offset: 14500, trunkDuration: 3200, branchDuration: 1840 },
+                    { source: 1, protocol: 1, targets: [1, 2, 0], offset: 16040, trunkDuration: 3320, branchDuration: 2080 }
+                ];
+                const cycleDuration = 20600;
+                const branchLead = 120;
+                const branchStagger = 140;
+                let animationFrameId = null;
+
+                function createParticle() {
+                    const group = document.createElement("span");
+                    group.className = "hero-sparkle__particle";
+                    group.innerHTML = ""
+                        + '<span class="hero-sparkle__glow"></span>'
+                        + '<span class="hero-sparkle__core"></span>'
+                        + '<span class="hero-sparkle__beam hero-sparkle__beam--horizontal"></span>'
+                        + '<span class="hero-sparkle__beam hero-sparkle__beam--vertical"></span>'
+                        + '<span class="hero-sparkle__beam hero-sparkle__beam--diag-a"></span>'
+                        + '<span class="hero-sparkle__beam hero-sparkle__beam--diag-b"></span>'
+                        + '<span class="hero-sparkle__hotspot"></span>';
+                    root.appendChild(group);
+
+                    return group;
+                }
+
+                function buildPath(points) {
+                    const segments = [];
+                    let total = 0;
+
+                    for (let index = 0; index < points.length - 1; index += 1) {
+                        const from = points[index];
+                        const to = points[index + 1];
+                        const length = Math.hypot(to.x - from.x, to.y - from.y);
+                        segments.push({ from: from, to: to, length: length });
+                        total += length;
+                    }
+
+                    return { points: points, segments: segments, total: total };
+                }
+
+                function pointAt(path, progress) {
+                    if (path.total === 0) {
+                        return path.points[0];
+                    }
+
+                    const targetDistance = path.total * Math.min(Math.max(progress, 0), 1);
+                    let traversed = 0;
+
+                    for (const segment of path.segments) {
+                        if (traversed + segment.length >= targetDistance) {
+                            const distanceInSegment = targetDistance - traversed;
+                            const ratio = segment.length === 0 ? 0 : distanceInSegment / segment.length;
+                            return {
+                                x: segment.from.x + (segment.to.x - segment.from.x) * ratio,
+                                y: segment.from.y + (segment.to.y - segment.from.y) * ratio
+                            };
+                        }
+
+                        traversed += segment.length;
+                    }
+
+                    return path.points[path.points.length - 1];
+                }
+
+                function envelope(progress) {
+                    if (progress <= 0 || progress >= 1) {
+                        return 0;
+                    }
+
+                    if (progress < 0.12) {
+                        return progress / 0.12;
+                    }
+
+                    if (progress > 0.84) {
+                        return (1 - progress) / 0.16;
+                    }
+
+                    return 1;
+                }
+
+                function getLayout() {
+                    const rect = root.getBoundingClientRect();
+                    const size = Math.min(rect.width, rect.height);
+
+                    return {
+                        offsetX: (rect.width - size) / 2,
+                        offsetY: (rect.height - size) / 2,
+                        scale: size / 720
+                    };
+                }
+
+                function hideParticle(group) {
+                    group.style.opacity = "0";
+                }
+
+                function renderParticle(group, path, progress, elapsed, scaleBase, layout) {
+                    const point = pointAt(path, progress);
+                    const opacity = envelope(progress);
+                    const pulse = 1 + 0.04 * Math.sin(elapsed / 170);
+                    const scale = layout.scale * scaleBase * pulse;
+                    const x = layout.offsetX + point.x * layout.scale;
+                    const y = layout.offsetY + point.y * layout.scale;
+
+                    group.style.transform = "translate(" + x.toFixed(2) + "px, " + y.toFixed(2) + "px) translate(-50%, -50%) scale(" + scale.toFixed(3) + ")";
+                    group.style.opacity = opacity.toFixed(3);
+                }
+
+                const transactions = variations.map(function (variation) {
+                    const trunkPath = buildPath([
+                        metrics.sources[variation.source],
+                        { x: metrics.sources[variation.source].x, y: metrics.protocolAlignY },
+                        { x: metrics.protocols[variation.protocol].x, y: metrics.protocolAlignY },
+                        metrics.protocols[variation.protocol],
+                        metrics.service,
+                        metrics.network
+                    ]);
+                    const branchPaths = variation.targets.map(function (targetIndex) {
+                        return buildPath([
+                            metrics.network,
+                            { x: metrics.devices[targetIndex].x, y: metrics.network.y },
+                            { x: metrics.devices[targetIndex].x, y: metrics.devices[targetIndex].y },
+                            { x: metrics.devices[targetIndex].x, y: metrics.devices[targetIndex].routerY }
+                        ]);
+                    });
+
+                    return {
+                        variation: variation,
+                        trunkPath: trunkPath,
+                        branchPaths: branchPaths,
+                        trunkParticle: createParticle(),
+                        branchParticles: branchPaths.map(function () {
+                            return createParticle();
+                        })
+                    };
+                });
+
+                function renderFrame(now) {
+                    const layout = getLayout();
+
+                    transactions.forEach(function (transaction) {
+                        const variation = transaction.variation;
+                        let localTime = (now - variation.offset) % cycleDuration;
+
+                        if (localTime < 0) {
+                            localTime += cycleDuration;
+                        }
+
+                        if (localTime <= variation.trunkDuration) {
+                            renderParticle(
+                                transaction.trunkParticle,
+                                transaction.trunkPath,
+                                localTime / variation.trunkDuration,
+                                localTime,
+                                0.78,
+                                layout
+                            );
+                        } else {
+                            hideParticle(transaction.trunkParticle);
+                        }
+
+                        transaction.branchParticles.forEach(function (particle, index) {
+                            const branchStart = variation.trunkDuration - branchLead + index * branchStagger;
+                            const branchEnd = branchStart + variation.branchDuration;
+
+                            if (localTime >= branchStart && localTime <= branchEnd) {
+                                const branchElapsed = localTime - branchStart;
+                                renderParticle(
+                                    particle,
+                                    transaction.branchPaths[index],
+                                    branchElapsed / variation.branchDuration,
+                                    branchElapsed,
+                                    0.72 - index * 0.04,
+                                    layout
+                                );
+                            } else {
+                                hideParticle(particle);
+                            }
+                        });
+                    });
+
+                    animationFrameId = window.requestAnimationFrame(renderFrame);
+                }
+
+                return {
+                    start: function () {
+                        if (animationFrameId !== null) {
+                            return;
+                        }
+
+                        animationFrameId = window.requestAnimationFrame(renderFrame);
+                    },
+                    stop: function () {
+                        if (animationFrameId !== null) {
+                            window.cancelAnimationFrame(animationFrameId);
+                            animationFrameId = null;
+                        }
+
+                        transactions.forEach(function (transaction) {
+                            hideParticle(transaction.trunkParticle);
+                            transaction.branchParticles.forEach(hideParticle);
+                        });
+                    }
+                };
+            }
+
+            if (!container || !window.lottie) {
+                return;
+            }
+
+            const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            const sparkleController = createHeroSparkles(sparkleLayer);
+            const animation = window.lottie.loadAnimation({
+                container,
+                renderer: "svg",
+                loop: !reduceMotion,
+                autoplay: !reduceMotion,
+                path: container.dataset.animationPath,
+                rendererSettings: {
+                    preserveAspectRatio: "xMidYMid meet"
+                }
+            });
+
+            if (reduceMotion) {
+                if (sparkleController) {
+                    sparkleController.stop();
+                }
+
+                animation.addEventListener("DOMLoaded", function () {
+                    animation.goToAndStop(72, true);
+                });
+                return;
+            }
+
+            animation.setSpeed(0.85);
+
+            if (sparkleController) {
+                sparkleController.start();
+            }
+        });
+    </script>
 </body>
 
 </html>
