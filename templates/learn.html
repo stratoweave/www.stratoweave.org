@@ -1,0 +1,78 @@
+{% import "_macros.html" as macros %}
+{% extends "base.html" %}
+
+{% block header %}
+<header class="site-header">
+    {{ macros::render_header() }}
+</header>
+{% endblock header %}
+
+{% block content %}
+<div class="learn-hub">
+    <div class="heading-text">{{ section.title }}</div>
+    {% if section.description %}
+    <p class="page-intro">{{ section.description }}</p>
+    {% endif %}
+
+    <div class="learn-hub__intro">
+        {{ section.content | safe }}
+    </div>
+
+    <section class="learn-group" aria-labelledby="learn-run-title">
+        <div class="learn-group__header">
+            <p class="eyebrow">Run SORESPO</p>
+            <h2 id="learn-run-title">Start by running a complete reference implementation.</h2>
+            <p>These guides get SORESPO up and running so you can load intent, inspect layered outputs, and see the closed loop in action.</p>
+        </div>
+        <div class="learn-grid">
+            {% for page in section.pages %}
+            {% if page.extra and page.extra.track == "run" %}
+            <a class="learn-card" href="{{ page.permalink | safe }}">
+                <span class="learn-card__meta">{{ page.extra.platform }}</span>
+                <strong>{{ page.title }}</strong>
+                <span>{{ page.description }}</span>
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="learn-group" aria-labelledby="learn-develop-title">
+        <div class="learn-group__header">
+            <p class="eyebrow">Develop With SORESPO</p>
+            <h2 id="learn-develop-title">Then change the code, rebuild, and see the result.</h2>
+            <p>These guides take the running lab one step further: modify a transform, rebuild the binary, and validate the network-level effect.</p>
+        </div>
+        <div class="learn-grid">
+            {% for page in section.pages %}
+            {% if page.extra and page.extra.track == "develop" %}
+            <a class="learn-card" href="{{ page.permalink | safe }}">
+                <span class="learn-card__meta">{{ page.extra.platform }}</span>
+                <strong>{{ page.title }}</strong>
+                <span>{{ page.description }}</span>
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="learn-group" aria-labelledby="learn-resources-title">
+        <div class="learn-group__header">
+            <p class="eyebrow">Supporting Notes</p>
+            <h2 id="learn-resources-title">Keep the platform details close at hand.</h2>
+            <p>These companion notes cover runtime options and other details that the platform-specific tutorials reference.</p>
+        </div>
+        <div class="learn-grid learn-grid--compact">
+            {% for page in section.pages %}
+            {% if page.extra and page.extra.track == "resource" %}
+            <a class="learn-card" href="{{ page.permalink | safe }}">
+                <span class="learn-card__meta">Reference</span>
+                <strong>{{ page.title }}</strong>
+                <span>{{ page.description }}</span>
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock content %}

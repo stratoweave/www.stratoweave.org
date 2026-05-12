@@ -1,0 +1,33 @@
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Set vars for build only if not on main"
+        run: |
+          echo "PAGES_BRANCH=test-pages" >> $GITHUB_ENV
+        if: github.ref != 'refs/heads/main'
+      - name: "Set vars for deploy if on main"
+        run: |
+          echo "PAGES_BRANCH=gh-pages" >> $GITHUB_ENV
+        if: github.ref == 'refs/heads/main'
+      - name: 'Checkout'
+        uses: actions/checkout@master
+      - name: "Set repo-specific site vars"
+        run: |
+          echo "SITE_DOMAIN=www.stratoweave.org" >> $GITHUB_ENV
+          echo "SITE_BASE_URL=https://www.stratoweave.org" >> $GITHUB_ENV
+      - name: "Set deploy CNAME"
+        run: |
+          printf '%s\n' "$SITE_DOMAIN" > static/CNAME
+      - name: 'Build and deploy'
+        uses: shalzz/zola-deploy-action@master
+        env:
+          BUILD_DIR: .
+          TOKEN: ${{ secrets.ACTBOT_PAT }}
+          PAGES_BRANCH: ${{ env.PAGES_BRANCH }}
+          BUILD_FLAGS: --base-url ${{ env.SITE_BASE_URL }}

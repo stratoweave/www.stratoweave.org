@@ -1,0 +1,49 @@
+.content {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+}
+
+.content pre {
+  overflow-x: auto;
+  padding: 1.25em 1.5em;
+  white-space: pre-wrap;
+  word-wrap: normal;
+  background-color: var(--code-color);
+  color: var(--primary-text-color);
+  font-size: .875em;
+  font-family: monospace;
+}
+
+.content code {
+  background-color: rgba(226, 232, 240, 0.08);
+  color: var(--stratoweave-mist);
+  font-size: .875em;
+  font-weight: normal;
+  padding: 0.2em 0.45em;
+  border-radius: 0.4rem;
+  font-family: monospace;
+}
+
+.content pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.content a {
+  color: var(--primary-link-color);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.content blockquote {
+  border-left: var(--primary-color-touch) 4px solid;
+  margin: 0;
+  background-color: rgba(34, 211, 238, 0.08);
+  padding: 0.25rem 1rem;
+  border-radius: 0.75rem;
+}

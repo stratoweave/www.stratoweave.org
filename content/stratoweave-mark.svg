@@ -1,0 +1,29 @@
+<svg viewBox="0 0 128 128" fill="none" role="img" aria-labelledby="title desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="title">StratoWeave mark</title>
+  <desc id="desc">An interwoven globe made from crossing bands in blue, cyan, violet, and fuchsia.</desc>
+  <defs>
+    <clipPath id="globe-clip">
+      <circle cx="64" cy="64" r="48" />
+    </clipPath>
+    <linearGradient id="weave-a" x1="14" y1="16" x2="114" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2563EB" />
+      <stop offset="0.45" stop-color="#22D3EE" />
+      <stop offset="1" stop-color="#8B5CF6" />
+    </linearGradient>
+    <linearGradient id="weave-b" x1="112" y1="18" x2="18" y2="114" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2563EB" />
+      <stop offset="0.55" stop-color="#8B5CF6" />
+      <stop offset="1" stop-color="#A855F7" />
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#globe-clip)" stroke-linecap="round" stroke-linejoin="round" stroke-width="8.5">
+    <path d="M-10 26C16 8 36 8 60 26S102 44 138 24" stroke="url(#weave-a)" />
+    <path d="M-14 50C14 30 36 30 62 50S104 70 142 48" stroke="url(#weave-a)" />
+    <path d="M-10 74C18 54 40 54 66 74S108 94 138 72" stroke="url(#weave-b)" />
+    <path d="M-2 98C28 78 50 78 76 98S112 118 134 96" stroke="url(#weave-b)" />
+    <path d="M26 -10C8 16 8 36 26 60S44 104 22 140" stroke="url(#weave-b)" />
+    <path d="M50 -14C30 14 30 36 50 62S72 104 48 142" stroke="url(#weave-a)" />
+    <path d="M74 -10C54 18 54 40 74 66S96 108 70 140" stroke="url(#weave-a)" />
+    <path d="M98 -2C78 28 78 50 98 76S116 112 94 134" stroke="url(#weave-b)" />
+  </g>
+</svg>

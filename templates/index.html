@@ -1,0 +1,291 @@
+{% import "_macros.html" as macros %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{{ section.title }} | {{ config.title }}{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a SORESPO learning path.">
+    {% block favicon %}
+    <link rel="icon" href="/favicon.svg">
+    {% endblock favicon %}
+    {% include "_variables.html" %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="{{ get_url(path="juice.css") }}">
+    {% block head %}
+    {% endblock head %}
+</head>
+
+<body class="home-page">
+    <header class="site-header site-header--home">
+        {{ macros::render_header() }}
+    </header>
+
+    <main class="home home-shell">
+        <section class="hero-shell" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <p class="eyebrow">StratoWeave</p>
+                <h1 id="hero-title">Intent-based network orchestration, built to close the loop.</h1>
+                <p class="hero-tagline">Declarative transforms, YANG-driven abstraction, and native telemetry in one focused platform.</p>
+                <p class="hero-lede">
+                    StratoWeave is a platform for robust network orchestration systems based on
+                    model-driven declarative transforms. It turns network intent into layered,
+                    typed automation, reacts to streaming telemetry, and ships as one binary with
+                    zero dependencies.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="{{ get_url(path="/learn") }}">Learn through SORESPO</a>
+                    <a class="button button-secondary" href="https://github.com/stratoweave/stratoweave">View the source</a>
+                    <a class="button button-secondary" href="{{ get_url(path="/about") }}">Read the background</a>
+                </div>
+                <dl class="hero-proof">
+                    <div>
+                        <dt>Completely declarative</dt>
+                        <dd>Model desired state as intent instead of stitching imperative device workflows together.</dd>
+                    </div>
+                    <div>
+                        <dt>YANG as types</dt>
+                        <dd>Build layered abstractions on typed YANG models and catch more errors before runtime.</dd>
+                    </div>
+                    <div>
+                        <dt>Closed loop by default</dt>
+                        <dd>Use streaming telemetry and reactive transforms to keep intent and live state aligned.</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <div class="hero-visual">
+                <article class="hero-panel" aria-label="How StratoWeave operates">
+                    <p class="panel-kicker">Core loop</p>
+                    <h2>From intent to live network state.</h2>
+                    <p>
+                        StratoWeave stays focused on one job: take northbound intent, apply layered
+                        transforms, push declarative configuration, and feed telemetry back into the
+                        next decision.
+                    </p>
+                    <ol class="hero-loop">
+                        <li>
+                            <strong>1. Capture intent</strong>
+                            <span>Take service and policy input from NETCONF, RESTCONF, TMF640/641, and source-of-truth systems.</span>
+                        </li>
+                        <li>
+                            <strong>2. Layer transforms</strong>
+                            <span>Break automation into tractable YANG-backed transforms instead of giant scripts.</span>
+                        </li>
+                        <li>
+                            <strong>3. Target real networks</strong>
+                            <span>Render for Cisco XR, Juniper, Nokia, and other major network operating systems.</span>
+                        </li>
+                        <li>
+                            <strong>4. React to telemetry</strong>
+                            <span>Consume streaming state and drive closed-loop automation from what the network reports.</span>
+                        </li>
+                    </ol>
+                    <div class="hero-compatibility" aria-label="Supported network operating systems">
+                        <span>Cisco XR</span>
+                        <span>Juniper</span>
+                        <span>Nokia</span>
+                        <span>More major network OSs</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="proof-strip" aria-label="Product proof points">
+            <article class="proof-card">
+                <strong>One binary</strong>
+                <span>Deploy StratoWeave as a focused executable, not a sprawling platform stack.</span>
+            </article>
+            <article class="proof-card">
+                <strong>Zero dependencies</strong>
+                <span>Keep installation and operations simple with minimal moving parts around the core runtime.</span>
+            </article>
+            <article class="proof-card">
+                <strong>Open source</strong>
+                <span>Build on an open platform and inspect the system you run, extend, and automate with.</span>
+            </article>
+            <article class="proof-card">
+                <strong>Linux Foundation Networking</strong>
+                <span>Position the platform in an open networking ecosystem instead of behind a closed vendor wall.</span>
+            </article>
+        </section>
+
+        <section class="pillar-section" aria-labelledby="pillar-title">
+            <div class="section-intro">
+                <p class="eyebrow">Core selling points</p>
+                <h2 id="pillar-title">The platform stays focused on network automation, not framework assembly.</h2>
+                <p>
+                    The value proposition is narrow and practical: describe intent declaratively,
+                    layer transforms on typed models, close the loop with telemetry, and ship the
+                    whole thing as a small open platform that operators can actually run.
+                </p>
+            </div>
+            <div class="pillar-grid">
+                <article class="pillar-card">
+                    <span class="pillar-card__index">01</span>
+                    <h3>Completely intent-based</h3>
+                    <p>Describe desired behavior declaratively and let transforms derive the device-facing configuration.</p>
+                </article>
+                <article class="pillar-card">
+                    <span class="pillar-card__index">02</span>
+                    <h3>Layered YANG abstractions</h3>
+                    <p>Turn YANG models into typed layers so large automation problems break down into smaller tractable ones.</p>
+                </article>
+                <article class="pillar-card">
+                    <span class="pillar-card__index">03</span>
+                    <h3>Telemetry-driven closed loop</h3>
+                    <p>Subscribe to streaming telemetry, observe live state, and react with the same transform system that drove the change.</p>
+                </article>
+                <article class="pillar-card">
+                    <span class="pillar-card__index">04</span>
+                    <h3>Batteries included</h3>
+                    <p>SORESPO, short for SOmewhat REalistic Service Provider Orchestrator, is a complete reference implementation, not a toy demo, and it doubles as the main learning path.</p>
+                </article>
+                <article class="pillar-card">
+                    <span class="pillar-card__index">05</span>
+                    <h3>One binary, zero dependencies</h3>
+                    <p>Keep the operational footprint small and predictable instead of assembling a tower of services and packages.</p>
+                </article>
+                <article class="pillar-card">
+                    <span class="pillar-card__index">06</span>
+                    <h3>Open by design</h3>
+                    <p>Use an open-source platform aligned with Linux Foundation Networking rather than a black-box orchestration product.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="flow-section" aria-labelledby="flow-title">
+            <div class="section-intro">
+                <p class="eyebrow">How it works</p>
+                <h2 id="flow-title">StratoWeave uses transforms to move from service intent to verified state.</h2>
+                <p>
+                    The platform is reactive end to end. It acts on configuration changes from
+                    NETCONF, RESTCONF, or TMF640/641 northbound APIs, or subscriptions on streaming telemetry from devices, and it uses
+                    typed YANG-backed layers to keep that logic understandable.
+                </p>
+            </div>
+            <div class="flow-track">
+                <article class="flow-step">
+                    <span>Northbound intent</span>
+                    <h3>Start from desired state.</h3>
+                    <p>Feed service intent, policies, and inventory into the system instead of hand-authoring device changes.</p>
+                </article>
+                <article class="flow-step">
+                    <span>Layered transforms</span>
+                    <h3>Break complexity into typed stages.</h3>
+                    <p>Use YANG-derived types and layered transforms to move from service models down toward implementation detail.</p>
+                </article>
+                <article class="flow-step">
+                    <span>Device output</span>
+                    <h3>Target multi-vendor networks.</h3>
+                    <p>Render configuration across Cisco XR, Juniper, Nokia, and other major network operating systems.</p>
+                </article>
+                <article class="flow-step">
+                    <span>Telemetry feedback</span>
+                    <h3>Close the loop.</h3>
+                    <p>Collect streaming telemetry, compare live state to intent, and drive the next reaction from observed reality.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="learn-path" aria-labelledby="learn-title">
+            <div class="learn-path__copy">
+                <p class="eyebrow">Learn through SORESPO</p>
+                <h2 id="learn-title">SORESPO is the complete sample implementation, not a side demo.</h2>
+                <p>
+                    The fastest way to understand StratoWeave is to build with SORESPO. It shows how
+                    layered transforms, YANG-backed models, declarative configuration, and telemetry-driven
+                    reactions fit together in one working system.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="{{ get_url(path="/learn") }}">Open the Learn section</a>
+                    <a class="button button-secondary" href="https://github.com/stratoweave/sorespo">View the SORESPO repo</a>
+                </div>
+            </div>
+            <div class="learn-path__panel">
+                <div class="learn-path__panel-copy">
+                    <p class="panel-kicker">What you will learn</p>
+                    <h3>Move from platform concepts to a working orchestration system.</h3>
+                </div>
+                <div class="learn-outcomes" aria-label="SORESPO learning outcomes">
+                    <article class="learn-outcome">
+                        <strong>Intent to config</strong>
+                        <span>Follow how declarative service intent becomes device-facing configuration.</span>
+                    </div>
+                    <article class="learn-outcome">
+                        <strong>YANG-backed layers</strong>
+                        <span>See how typed models break orchestration into maintainable stages.</span>
+                    </article>
+                    <article class="learn-outcome">
+                        <strong>Streaming telemetry</strong>
+                        <span>Use observed device state to drive a reactive automation loop.</span>
+                    </article>
+                    <article class="learn-outcome">
+                        <strong>Real deployment shape</strong>
+                        <span>Work from a complete sample implementation instead of disconnected snippets.</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="compatibility-section" aria-labelledby="compatibility-title">
+            <div class="section-intro">
+                <p class="eyebrow">Deployment reality</p>
+                <h2 id="compatibility-title">Work with the network operating systems you already run.</h2>
+                <p>
+                    StratoWeave is built for multi-vendor networks. The transform model lets you keep
+                    intent and abstractions stable while adapting the output for the platforms underneath.
+                </p>
+            </div>
+            <div class="compatibility-panel">
+                <div class="compatibility-badges" aria-label="Supported vendors">
+                    <span>Cisco XR</span>
+                    <span>Juniper</span>
+                    <span>Nokia</span>
+                    <span>Other major network OSs</span>
+                </div>
+                <div class="compatibility-details">
+                    <article>
+                        <strong>Model once</strong>
+                        <span>Keep service intent and policy at the right abstraction level.</span>
+                    </article>
+                    <article>
+                        <strong>Adapt by transform</strong>
+                        <span>Handle vendor differences in layered outputs instead of rewriting the whole control plane.</span>
+                    </article>
+                    <article>
+                        <strong>Verify by telemetry</strong>
+                        <span>Use live state to confirm that the rendered intent behaves the way the model expected.</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="landing-cta" aria-labelledby="landing-cta-title">
+            <div class="landing-cta__copy">
+                <p class="eyebrow">Start here</p>
+                <h2 id="landing-cta-title">Start with SORESPO, then build your own transforms.</h2>
+                <p>
+                    The first implementation target is the Learn section on this site. That path will guide
+                    you through SORESPO as the reference way to understand StratoWeave in practice.
+                </p>
+            </div>
+            <div class="landing-cta__actions">
+                <a class="button button-primary" href="{{ get_url(path="/learn") }}">Go to Learn</a>
+                <a class="button button-secondary" href="https://github.com/stratoweave/stratoweave">Read the README</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <small class="subtext">
+            <a href="https://www.stratoweave.org">stratoweave.org</a> © 2026
+        </small>
+    </footer>
+</body>
+
+</html>

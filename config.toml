@@ -1,0 +1,29 @@
+# The URL the site will be built for
+base_url = "https://www.stratoweave.org"
+title = "StratoWeave"
+description = "Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a SORESPO learning path."
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+[markdown]
+
+[markdown.highlighting]
+light_theme = "github-light"
+dark_theme = "github-dark"
+
+[extra]
+# Put all your custom variables here
+juice_logo_name = "StratoWeave"
+juice_logo_path = "stratoweave-mark.svg"
+
+juice_extra_menu = [
+    { title = "Learn", link = "/learn"},
+    { title = "About", link = "/about"},
+    { title = "Blog", link = "/blog"},
+    { title = "Github", link = "https://github.com/stratoweave/stratoweave"}
+]
+repository_url = "https://github.com/stratoweave/stratoweave"

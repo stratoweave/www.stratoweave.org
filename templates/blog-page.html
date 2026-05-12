@@ -1,0 +1,16 @@
+{% import "_macros.html" as macros %}
+{% extends "base.html" %}
+
+{% block header %}
+<header class="site-header">
+    {{ macros::render_header() }}
+</header>
+{% endblock header %}
+
+{% block content %}
+<div class="heading-text">{{ page.title }}</div>
+{% if page.description %}
+<p class="page-intro">{{ page.description }}</p>
+{% endif %}
+{{ page.content | safe }}
+{% endblock content %}
