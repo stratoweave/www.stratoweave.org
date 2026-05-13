@@ -30,30 +30,29 @@
             <div class="hero-copy">
                 <p class="eyebrow">StratoWeave</p>
                 <h1 id="hero-title">Intent-based network orchestration, built to close the loop.</h1>
-                <p class="hero-tagline">Declarative transforms, YANG-driven abstraction, and native telemetry in one focused platform.</p>
+                <p class="hero-tagline">Declarative configuration, YANG-modeled abstraction layers, and telemetry in one focused platform.</p>
                 <p class="hero-lede">
                     StratoWeave is a platform for robust network orchestration systems based on
-                    model-driven declarative transforms. It turns network intent into layered,
-                    typed automation, reacts to streaming telemetry, and ships as one binary with
-                    zero dependencies.
+                    model-driven declarative transforms. Build automation that makes sense for your
+                    network with reactive closed loops and observability powered by streaming telemetry.
                 </p>
                 <div class="hero-actions">
                     <a class="button button-primary" href="{{ get_url(path="/learn") }}">Learn through SORESPO</a>
                     <a class="button button-secondary" href="https://github.com/stratoweave/stratoweave">View the source</a>
-                    <a class="button button-secondary" href="{{ get_url(path="/about") }}">Read the background</a>
+                    <a class="button button-secondary" href="{{ get_url(path="/technology") }}">Understand the tech</a>
                 </div>
                 <dl class="hero-proof">
                     <div>
                         <dt>Completely declarative</dt>
-                        <dd>Model desired state as intent instead of stitching imperative device workflows together.</dd>
+                        <dd>Express desired config as intent instead of stitching imperative device workflows together.</dd>
                     </div>
                     <div>
-                        <dt>YANG as types</dt>
-                        <dd>Build layered abstractions on typed YANG models and catch more errors before runtime.</dd>
+                        <dt>Strong typing</dt>
+                        <dd>Build layered abstractions from YANG models and catch more errors before runtime.</dd>
                     </div>
                     <div>
-                        <dt>Closed loop by default</dt>
-                        <dd>Use streaming telemetry and reactive transforms to keep intent and live state aligned.</dd>
+                        <dt>Open Source</dt>
+                        <dd>Released under the BSD 3-Clause License and part of the Linux Foundation Networking.</dd>
                     </div>
                 </dl>
             </div>
@@ -68,6 +67,12 @@
                                 aria-hidden="true"
                                 data-animation-path="{{ get_url(path="hero-transform-flow.json") }}"
                             ></div>
+                            <svg id="hero-telemetry" class="hero-telemetry" viewBox="0 0 720 720" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                                <path class="hero-telemetry__lane hero-telemetry__lane--left" data-duration="2840" data-phase="0" d="M 168 652 C 168 624, 154 580, 162 532 C 172 476, 210 434, 252 410"></path>
+                                <path class="hero-telemetry__lane hero-telemetry__lane--center" data-duration="3040" data-phase="380" d="M 360 652 C 360 622, 352 578, 360 532 C 368 480, 388 438, 412 410"></path>
+                                <path class="hero-telemetry__lane hero-telemetry__lane--right" data-duration="2920" data-phase="760" d="M 552 652 C 552 624, 566 580, 558 532 C 548 476, 510 434, 468 410"></path>
+                                <g class="hero-telemetry__particles"></g>
+                            </svg>
                             <div id="hero-sparkles" class="hero-sparkle" aria-hidden="true"></div>
                             <div class="hero-lottie__sources" aria-label="Intent sources">
                                 <span class="hero-lottie__source--oss">OSS/BSS</span>
@@ -77,14 +82,38 @@
                             <div class="hero-lottie__protocols" aria-label="Northbound intent interfaces">
                                 <span>NETCONF</span>
                                 <span>RESTCONF</span>
-                                <span>TMF640</span>
+                                <span>TMF640/641</span>
                             </div>
                             <div class="hero-lottie__layers" aria-hidden="true">
-                                <span class="hero-lottie__layer hero-lottie__layer--service">Service</span>
-                                <span class="hero-lottie__layer hero-lottie__layer--network">Network</span>
-                                <span class="hero-lottie__layer hero-lottie__layer--device-krk">IOS-XR</span>
-                                <span class="hero-lottie__layer hero-lottie__layer--device-fra">JunOS</span>
-                                <span class="hero-lottie__layer hero-lottie__layer--device-sto">SROS</span>
+                                <span class="hero-lottie__layer hero-lottie__layer--service">Service Layer</span>
+                                <div class="hero-lottie__service-cloud">
+                                    <span>L3VPN</span>
+                                    <span>L2VPN</span>
+                                    <span>Internet access</span>
+                                    <span>DCI</span>
+                                </div>
+                                <span class="hero-lottie__layer hero-lottie__layer--network">Network Layer</span>
+                                <div class="hero-lottie__network-cloud">
+                                    <span>PE Router</span>
+                                    <span>Access Switch</span>
+                                    <span>CPE Router</span>
+                                    <span>ROADM</span>
+                                </div>
+                                <span class="hero-lottie__layer hero-lottie__layer--device-krk">
+                                    IOS-XR<br>
+                                    NETCONF<br>
+                                    Adapter
+                                </span>
+                                <span class="hero-lottie__layer hero-lottie__layer--device-fra">
+                                    JunOS<br>
+                                    NETCONF<br>
+                                    Adapter
+                                </span>
+                                <span class="hero-lottie__layer hero-lottie__layer--device-sto">
+                                    IOS-XE<br>
+                                    CLI<br>
+                                    Adapter
+                                </span>
                             </div>
                             <div class="hero-lottie__router-labels" aria-hidden="true">
                                 <span>KRK Router</span>
@@ -293,7 +322,135 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const container = document.getElementById("hero-lottie");
+            const telemetryLayer = document.getElementById("hero-telemetry");
             const sparkleLayer = document.getElementById("hero-sparkles");
+
+            function createHeroTelemetry(root) {
+                if (!root) {
+                    return null;
+                }
+
+                const svgNamespace = "http://www.w3.org/2000/svg";
+                const particleHost = root.querySelector(".hero-telemetry__particles");
+                const lanePaths = Array.from(root.querySelectorAll(".hero-telemetry__lane"));
+                const particleCount = 4;
+                let animationFrameId = null;
+
+                if (!particleHost || lanePaths.length === 0) {
+                    return null;
+                }
+
+                function createSvgNode(tagName, attributes) {
+                    const node = document.createElementNS(svgNamespace, tagName);
+
+                    Object.keys(attributes).forEach(function (attributeName) {
+                        node.setAttribute(attributeName, attributes[attributeName]);
+                    });
+
+                    return node;
+                }
+
+                function createParticle() {
+                    const group = createSvgNode("g", { class: "hero-telemetry__particle" });
+                    group.appendChild(createSvgNode("ellipse", { class: "hero-telemetry__trail", cx: "-6.8", cy: "0", rx: "8.1", ry: "1.9" }));
+                    group.appendChild(createSvgNode("circle", { class: "hero-telemetry__glow", cx: "0", cy: "0", r: "5.1" }));
+                    group.appendChild(createSvgNode("circle", { class: "hero-telemetry__core", cx: "0", cy: "0", r: "1.9" }));
+                    particleHost.appendChild(group);
+
+                    return group;
+                }
+
+                function envelope(progress) {
+                    if (progress <= 0 || progress >= 1) {
+                        return 0;
+                    }
+
+                    if (progress < 0.1) {
+                        return progress / 0.1;
+                    }
+
+                    if (progress > 0.88) {
+                        return (1 - progress) / 0.12;
+                    }
+
+                    return 1;
+                }
+
+                function hideParticle(particle) {
+                    particle.style.opacity = "0";
+                }
+
+                function angleAt(path, distance, length) {
+                    const before = path.getPointAtLength(Math.max(distance - 4, 0));
+                    const after = path.getPointAtLength(Math.min(distance + 4, length));
+                    return Math.atan2(after.y - before.y, after.x - before.x) * 180 / Math.PI;
+                }
+
+                const lanes = lanePaths.map(function (path) {
+                    const duration = Number(path.dataset.duration) || 3000;
+                    return {
+                        path: path,
+                        length: path.getTotalLength(),
+                        duration: duration,
+                        phase: Number(path.dataset.phase) || 0,
+                        particles: Array.from({ length: particleCount }, function (_value, particleIndex) {
+                            return {
+                                element: createParticle(),
+                                offset: particleIndex * (duration / particleCount)
+                            };
+                        })
+                    };
+                });
+
+                function renderFrame(now) {
+                    lanes.forEach(function (lane, laneIndex) {
+                        lane.particles.forEach(function (particle, particleIndex) {
+                            let localTime = (now + lane.phase - particle.offset) % lane.duration;
+
+                            if (localTime < 0) {
+                                localTime += lane.duration;
+                            }
+
+                            const progress = localTime / lane.duration;
+                            const distance = lane.length * progress;
+                            const point = lane.path.getPointAtLength(distance);
+                            const angle = angleAt(lane.path, distance, lane.length);
+                            const opacity = envelope(progress) * (0.58 - particleIndex * 0.08);
+                            const scale = 0.94 + 0.08 * Math.sin((now + lane.phase + particleIndex * 120 + laneIndex * 160) / 240);
+
+                            particle.element.setAttribute(
+                                "transform",
+                                "translate(" + point.x.toFixed(2) + " " + point.y.toFixed(2) + ") rotate(" + angle.toFixed(2) + ") scale(" + scale.toFixed(3) + ")"
+                            );
+                            particle.element.style.opacity = opacity.toFixed(3);
+                        });
+                    });
+
+                    animationFrameId = window.requestAnimationFrame(renderFrame);
+                }
+
+                return {
+                    start: function () {
+                        if (animationFrameId !== null) {
+                            return;
+                        }
+
+                        animationFrameId = window.requestAnimationFrame(renderFrame);
+                    },
+                    stop: function () {
+                        if (animationFrameId !== null) {
+                            window.cancelAnimationFrame(animationFrameId);
+                            animationFrameId = null;
+                        }
+
+                        lanes.forEach(function (lane) {
+                            lane.particles.forEach(function (particle) {
+                                hideParticle(particle.element);
+                            });
+                        });
+                    }
+                };
+            }
 
             function createHeroSparkles(root) {
                 if (!root) {
@@ -540,6 +697,7 @@
             }
 
             const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            const telemetryController = createHeroTelemetry(telemetryLayer);
             const sparkleController = createHeroSparkles(sparkleLayer);
             const animation = window.lottie.loadAnimation({
                 container,
@@ -553,6 +711,10 @@
             });
 
             if (reduceMotion) {
+                if (telemetryController) {
+                    telemetryController.stop();
+                }
+
                 if (sparkleController) {
                     sparkleController.stop();
                 }
@@ -564,6 +726,10 @@
             }
 
             animation.setSpeed(0.85);
+
+            if (telemetryController) {
+                telemetryController.start();
+            }
 
             if (sparkleController) {
                 sparkleController.start();

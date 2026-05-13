@@ -1,5 +1,5 @@
 +++
-title = "About"
+title = "Technology"
 weight = 3
 +++
 # Why StratoWeave exists
@@ -58,4 +58,4 @@ YANG-backed abstraction layers, improve model reuse, expand real network
 coverage, and make it easier to move from lab validation to production-grade
 workflows.
 
-For the current project outlook, see the [current state and roadmap](@/about/future.md).
+For the current project outlook, see the [current state and roadmap](@/technology/future.md).
