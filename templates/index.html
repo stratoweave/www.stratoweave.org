@@ -68,6 +68,10 @@
                                 data-animation-path="{{ get_url(path="hero-transform-flow.json") }}"
                             ></div>
                             <svg id="hero-telemetry" class="hero-telemetry" viewBox="0 0 720 720" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                                <path class="hero-telemetry__lane" data-duration="2360" data-phase="180" data-particles="3" d="M 181 157 C 166 128, 176 84, 224 50 C 236 42, 245 39, 251 39"></path>
+                                <path class="hero-telemetry__lane" data-duration="2580" data-phase="620" data-particles="3" d="M 360 157 C 344 124, 320 88, 286 60 C 272 48, 260 41, 251 39"></path>
+                                <path class="hero-telemetry__lane" data-duration="2520" data-phase="980" data-particles="3" d="M 360 157 C 376 124, 400 88, 434 60 C 448 48, 460 41, 469 39"></path>
+                                <path class="hero-telemetry__lane" data-duration="2400" data-phase="1380" data-particles="3" d="M 539 157 C 554 128, 544 84, 496 50 C 484 42, 475 39, 469 39"></path>
                                 <path class="hero-telemetry__lane hero-telemetry__lane--left" data-duration="2840" data-phase="0" d="M 168 652 C 168 624, 154 580, 162 532 C 172 476, 210 434, 252 410"></path>
                                 <path class="hero-telemetry__lane hero-telemetry__lane--center" data-duration="3040" data-phase="380" d="M 360 652 C 360 622, 352 578, 360 532 C 368 480, 388 438, 412 410"></path>
                                 <path class="hero-telemetry__lane hero-telemetry__lane--right" data-duration="2920" data-phase="760" d="M 552 652 C 552 624, 566 580, 558 532 C 548 476, 510 434, 468 410"></path>
@@ -388,6 +392,7 @@
 
                 const lanes = lanePaths.map(function (path) {
                     const duration = Number(path.dataset.duration) || 3000;
+                    const particleCount = Number(path.dataset.particles) || 4;
                     return {
                         path: path,
                         length: path.getTotalLength(),
