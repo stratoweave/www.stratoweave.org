@@ -7,13 +7,14 @@
 </header>
 {% endblock header %}
 
+{% block page_shell_class -%}
+{% if page.extra and page.extra.full_width | default(value=false) %} page-shell--full-width{% endif %}
+{%- endblock page_shell_class %}
+
 {% block content %}
 <div class="heading-text">{{ page.title }}</div>
 {% if page.description %}
 <p class="page-intro">{{ page.description }}</p>
-{% endif %}
-{% if page.title is containing("SORESPO") %}
-<p class="page-intro">SORESPO stands for SOmewhat REalistic Service Provider Orchestrator.</p>
 {% endif %}
 {{ page.content | safe }}
 {% endblock content %}

@@ -1511,12 +1511,14 @@ header {
   padding: clamp(1.5rem, 4vw, 3rem) 0 4rem;
 }
 
+.page-shell--full-width {
+  width: calc(100% - 2rem);
+  max-width: none;
+}
+
 .content {
   flex: 1;
-  display: flex;
-  flex-direction: column;
   min-width: 0;
-  gap: 1.2rem;
   overflow: hidden;
   padding: clamp(1.5rem, 4vw, 2.4rem);
   border: 1px solid rgba(226, 232, 240, 0.12);
@@ -1595,13 +1597,14 @@ header {
 }
 
 .learn-hub {
-  display: grid;
-  gap: clamp(2rem, 5vw, 3.5rem);
+  display: block;
+}
+
+.learn-hub > * + * {
+  margin-top: 1rem;
 }
 
 .learn-hub__intro {
-  display: grid;
-  gap: 1rem;
   max-width: 50rem;
 }
 
@@ -1614,8 +1617,11 @@ header {
 }
 
 .learn-group {
-  display: grid;
-  gap: 1.25rem;
+  display: block;
+}
+
+.learn-group--list > * + * {
+  margin-top: 0.75rem;
 }
 
 .learn-group__header {
@@ -1630,16 +1636,51 @@ header {
   line-height: 0.98;
 }
 
+.learn-group--list h2 {
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  line-height: 1.15;
+}
+
 .learn-group__header p:last-child {
   margin: 0;
   color: var(--secondary-text-color);
   line-height: 1.7;
 }
 
+.learn-group--list > p {
+  color: var(--secondary-text-color);
+  line-height: 1.6;
+}
+
+.learn-link-list {
+  padding-left: 1.1rem;
+}
+
+.learn-link-list li {
+  color: var(--secondary-text-color);
+  line-height: 1.55;
+}
+
+.learn-link-list a {
+  color: var(--primary-text-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.learn-link-list a:hover {
+  color: var(--primary-link-color);
+  text-decoration: underline;
+}
+
 .learn-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+}
+
+.learn-grid--stacked {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
 }
 
 .learn-grid--compact {
@@ -1663,6 +1704,14 @@ header {
     box-shadow 180ms ease;
 }
 
+.learn-card--compact {
+  min-height: 0;
+  padding: 0.95rem 1rem;
+  gap: 0.35rem;
+  border-radius: 1rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+}
+
 .learn-card__meta {
   color: var(--secondary-text-color);
   font-size: 0.74rem;
@@ -1678,9 +1727,19 @@ header {
   line-height: 1.08;
 }
 
+.learn-card--compact strong {
+  font-size: 1rem;
+  line-height: 1.15;
+}
+
 .learn-card span:last-child {
   color: var(--secondary-text-color);
   line-height: 1.65;
+}
+
+.learn-card--compact span:last-child {
+  font-size: 0.94rem;
+  line-height: 1.5;
 }
 
 .learn-card:hover {

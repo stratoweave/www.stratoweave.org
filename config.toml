@@ -23,7 +23,7 @@ juice_logo_path = "stratoweave-mark.svg"
 juice_extra_menu = [
     { title = "Learn", link = "/learn"},
     { title = "Technology", link = "/technology"},
-    { title = "Blog", link = "/blog"},
+    { title = "Governance", link = "/governance"},
     { title = "Github", link = "https://github.com/stratoweave/stratoweave"}
 ]
 repository_url = "https://github.com/stratoweave/stratoweave"

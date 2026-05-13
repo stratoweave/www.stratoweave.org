@@ -18,61 +18,32 @@
         {{ section.content | safe }}
     </div>
 
-    <section class="learn-group" aria-labelledby="learn-run-title">
-        <div class="learn-group__header">
-            <p class="eyebrow">Run SORESPO</p>
-            <h2 id="learn-run-title">Start by running a complete reference implementation.</h2>
-            <p>These guides get SORESPO up and running so you can load intent, inspect layered outputs, and see the closed loop in action.</p>
-        </div>
-        <div class="learn-grid">
+    <section class="learn-group learn-group--list" aria-labelledby="learn-run-title">
+        <h2 id="learn-run-title">Run SORESPO</h2>
+        <p>See what StratoWeave and SORESPO can do by learning how to run and interact with SORESPO:</p>
+        <ul class="learn-link-list">
             {% for page in section.pages %}
             {% if page.extra and page.extra.track == "run" %}
-            <a class="learn-card" href="{{ page.permalink | safe }}">
-                <span class="learn-card__meta">{{ page.extra.platform }}</span>
-                <strong>{{ page.title }}</strong>
-                <span>{{ page.description }}</span>
-            </a>
+            <li>
+                <a href="{{ page.permalink | safe }}">{{ page.title }}</a>{% if page.extra.platform == "GitHub Codespaces" %} only requires a browser and a free GitHub account.{% endif %}
+            </li>
             {% endif %}
             {% endfor %}
-        </div>
+        </ul>
     </section>
 
-    <section class="learn-group" aria-labelledby="learn-develop-title">
-        <div class="learn-group__header">
-            <p class="eyebrow">Develop With SORESPO</p>
-            <h2 id="learn-develop-title">Then change the code, rebuild, and see the result.</h2>
-            <p>These guides take the running lab one step further: modify a transform, rebuild the binary, and validate the network-level effect.</p>
-        </div>
-        <div class="learn-grid">
+    <section class="learn-group learn-group--list" aria-labelledby="learn-develop-title">
+        <h2 id="learn-develop-title">Develop With SORESPO</h2>
+        <p>Then continue by learning how to make code changes and build your own SORESPO image:</p>
+        <ul class="learn-link-list">
             {% for page in section.pages %}
             {% if page.extra and page.extra.track == "develop" %}
-            <a class="learn-card" href="{{ page.permalink | safe }}">
-                <span class="learn-card__meta">{{ page.extra.platform }}</span>
-                <strong>{{ page.title }}</strong>
-                <span>{{ page.description }}</span>
-            </a>
+            <li>
+                <a href="{{ page.permalink | safe }}">{{ page.title }}</a>{% if page.extra.platform == "GitHub Codespaces" %} only requires a browser and a free GitHub account.{% endif %}
+            </li>
             {% endif %}
             {% endfor %}
-        </div>
-    </section>
-
-    <section class="learn-group" aria-labelledby="learn-resources-title">
-        <div class="learn-group__header">
-            <p class="eyebrow">Supporting Notes</p>
-            <h2 id="learn-resources-title">Keep the platform details close at hand.</h2>
-            <p>These companion notes cover runtime options and other details that the platform-specific tutorials reference.</p>
-        </div>
-        <div class="learn-grid learn-grid--compact">
-            {% for page in section.pages %}
-            {% if page.extra and page.extra.track == "resource" %}
-            <a class="learn-card" href="{{ page.permalink | safe }}">
-                <span class="learn-card__meta">Reference</span>
-                <strong>{{ page.title }}</strong>
-                <span>{{ page.description }}</span>
-            </a>
-            {% endif %}
-            {% endfor %}
-        </div>
+        </ul>
     </section>
 </div>
 {% endblock content %}

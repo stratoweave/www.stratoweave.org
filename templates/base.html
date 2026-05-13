@@ -28,7 +28,7 @@
     </header>
     {% endblock header %}
 
-    <main class="page-shell">
+    <main class="page-shell{% block page_shell_class %}{% endblock page_shell_class %}">
         {% block toc %}
         {% if section.toc %}
         {% set toc = section.toc %}
@@ -69,7 +69,7 @@
     {% block footer %}
     <footer class="site-footer">
         <small class="subtext">
-            <a href="https://www.stratoweave.org">stratoweave.org</a> © 2026
+            Copyright © 2026 <a href="https://www.stratoweave.org">StratoWeave Project</a> © 2026 <a href="https://www.linuxfoundation.org/">The Linux Foundation®</a>. All rights reserved.
         </small>
     </footer>
     {% endblock footer %}
