@@ -8,13 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a SORESPO learning path.">
     {% block favicon %}
-    <link rel="icon" href="/favicon.svg">
+    <link rel="icon" href="{{ get_url(path="favicon.svg") }}">
     {% endblock favicon %}
     {% include "_variables.html" %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="{{ get_url(path="normalize.css") }}">
     <link rel="stylesheet" href="{{ get_url(path="juice.css") }}">
     {% block head %}
     {% endblock head %}
@@ -29,7 +29,7 @@
         <div class="home-partner">
             <a class="hero-partner" href="https://lfnetworking.org/" aria-label="Linux Foundation Networking">
                 <span class="hero-partner__eyebrow">Member of</span>
-                <img src="/LFN-Logo-White.svg" alt="Linux Foundation Networking" loading="lazy">
+                <img src="{{ get_url(path="LFN-Logo-White.svg") }}" alt="Linux Foundation Networking" loading="lazy">
             </a>
         </div>
 
