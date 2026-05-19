@@ -2206,6 +2206,44 @@ footer a {
   }
 }
 
+@media screen and (max-width: 480px) {
+  .hero-lottie__sources span,
+  .hero-lottie__protocols span,
+  .hero-lottie__layer {
+    min-height: 1.9rem;
+    padding: 0 0.6rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+  }
+
+  .hero-lottie__layer {
+    max-width: 34%;
+  }
+
+  .hero-lottie__layer--service,
+  .hero-lottie__layer--network {
+    left: 12.8%;
+  }
+
+  .hero-lottie__service-cloud {
+    left: 43%;
+    right: 10.5%;
+  }
+
+  .hero-lottie__network-cloud {
+    left: 42.4%;
+    right: 10.6%;
+  }
+
+  .hero-lottie__service-cloud span,
+  .hero-lottie__network-cloud span {
+    min-height: 0.95rem;
+    padding: 0 0.3rem;
+    font-size: 0.38rem;
+    letter-spacing: 0.03em;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     background:
