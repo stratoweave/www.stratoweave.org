@@ -2157,11 +2157,14 @@ footer a {
   .hero-lottie__layer--device-fra,
   .hero-lottie__layer--device-sto {
     top: 65%;
+    width: 17.2%;
     min-height: 2.7rem;
-    padding: 0.24rem 0.45rem;
-    font-size: 0.52rem;
-    letter-spacing: 0.05em;
+    padding: 0.24rem 0.3rem;
+    box-sizing: border-box;
+    font-size: 0.5rem;
+    letter-spacing: 0.04em;
     line-height: 1.08;
+    text-align: center;
   }
 
   .hero-lottie__layer--device-krk {
@@ -2223,6 +2226,18 @@ footer a {
   .hero-lottie__layer--service,
   .hero-lottie__layer--network {
     left: 12.8%;
+  }
+
+  .hero-lottie__layer--device-krk {
+    left: 13.6%;
+  }
+
+  .hero-lottie__layer--device-fra {
+    left: 41.8%;
+  }
+
+  .hero-lottie__layer--device-sto {
+    left: 66.8%;
   }
 
   .hero-lottie__service-cloud {
