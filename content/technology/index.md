@@ -58,6 +58,10 @@ telemetry events and react to changes in the network as they happen. Any
 transform, at any layer, can be made reactive, so the platform supports a wide
 range of use cases.
 
+<figure class="technology-diagram">
+	<img src="../reactiveTransform.svg" alt="Diagram of reactive transforms in StratoWeave">
+</figure>
+
 Each reactive transform can itself expose operational state for higher-layer
 transforms to subscribe to. It becomes natural to abstract and encapsulate
 implementation details at each layer, while still making it possible to drive
