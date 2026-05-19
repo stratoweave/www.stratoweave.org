@@ -6,6 +6,10 @@ description = "How StratoWeave's architecture and design principles enable scala
 
 # Transforms and layering
 
+<figure class="technology-diagram">
+	<img src="../TransformLayersSVG.svg" alt="Diagram of layered transforms in StratoWeave">
+</figure>
+
 ## Declarative automation through transforms
 
 Automation in StratoWeave is carried out by transforms. A transform owns the
