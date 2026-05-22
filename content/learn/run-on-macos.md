@@ -31,7 +31,7 @@ likely need more CPU cores and memory allocated to Docker than described here.
 
 * Install the following prerequisites:
   * [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or
-    [Colima](../colima.md) if you prefer an open-source alternative)
+    [Colima](@/learn/colima.md) if you prefer an open-source alternative)
   * [Git](https://git-scm.com/downloads/mac) and *coreutils* , both of which
     you can install with [Homebrew](https://brew.sh/):
   ```shell

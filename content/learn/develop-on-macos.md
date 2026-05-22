@@ -1,7 +1,7 @@
 +++
 title = "Developing SORESPO on macOS"
 weight = 60
-description = "Use Docker Desktop or Colima on macOS to modify SORESPO, rebuild it, and validate the resulting configuration change."
+description = "Your first steps in modifying the SORESPO codebase and seeing the effects in the lab."
 
 [extra]
 track = "develop"
@@ -15,19 +15,20 @@ This tutorial will guide you through making your first changes to the
 SORESPO automation code and building the application. If you are not yet
 familiar with the basic steps involved in running and interacting with
 SORESPO, you might want to start out with the tutorial on
-[running SORESPO](run-on-macos.md) first.
+[running SORESPO](@/learn/run-on-macos.md) first.
 
 ## Preparing the Environment
 
 * Install the following prerequisites:
   * [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or
-    [Colima](../colima.md) for an open-source alternative)
-  * [Git](https://git-scm.com/downloads/mac) and *coreutils* , both of which
+    [Colima](@/learn/colima.md) for an open-source alternative)
+  * [Git](https://git-scm.com/downloads/mac), *coreutils* , and
+    [Acton](https://acton.guide/install.html), all of which
     you can install with [Homebrew](https://brew.sh/):
+    * *Note:* Acton is an additional prerequisite compared to [running SORESPO](@/learn/run-on-macos.md)
   ```shell
-  brew install git coreutils
+  brew install git coreutils actonlang/acton/acton
   ```
-  * [Acton](https://acton.guide/install_tip.html) (*Note:* This is an additional prerequite compared to [running SORESPO](run-on-macos.md))
 * After the installation has completed, start your container runtime.
     * For *Docker Desktop*, open *Settings* and in the *Resources* section make
         sure you've allocated at least 4 CPU cores and 8GB of RAM to Docker.
@@ -37,8 +38,8 @@ SORESPO, you might want to start out with the tutorial on
       ```
 
 ## Starting the SORESPO Network
-*NOTE*: If you already completed the tutorial on [running SORESPO](run-on-macos.md),
-you can skip ahead to the [next step](develop-on-macos.md#modifying-the-sorespo-application)!
+*NOTE*: If you already completed the tutorial on [running SORESPO](@/learn/run-on-macos.md),
+you can skip ahead to the [next step](@/learn/develop-on-macos.md#modifying-the-sorespo-application)!
 
 Clone the project:
 ```shell

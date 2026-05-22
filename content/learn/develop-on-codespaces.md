@@ -1,7 +1,7 @@
 +++
 title = "Developing SORESPO on GitHub Codespaces"
 weight = 80
-description = "Modify SORESPO and rebuild it entirely inside GitHub Codespaces, without setting up a local dev machine."
+description = "Your first steps in modifying the SORESPO codebase and seeing the effects in the lab."
 
 [extra]
 track = "develop"
@@ -15,7 +15,7 @@ This tutorial will guide you through making your first changes to the
 SORESPO automation code and building the application. If you are not yet
 familiar with the basic steps involved in running and interacting with
 SORESPO, you might want to start out with the tutorial on
-[running SORESPO](run-on-codespaces.md) first.
+[running SORESPO](@/learn/run-on-codespaces.md) first.
 
 GitHub Codespaces is a VM managed by GitHub that runs the Dev Container (part
 of this project) and Visual Studio Code that is made available in your browser
@@ -35,8 +35,8 @@ access to VS Code running in Dev Container with all the tools and source code
 available in your browser.
 
 ## Starting the SORESPO Network
-*NOTE*: If you already completed the tutorial on [running SORESPO](run-on-codespaces.md),
-you can skip ahead to the [next step](develop-on-codespaces.md#modifying-the-sorespo-application)!
+*NOTE*: If you already completed the tutorial on [running SORESPO](@/learn/run-on-codespaces.md),
+you can skip ahead to the [next step](@/learn/develop-on-codespaces.md#modifying-the-sorespo-application)!
 
 Go into the `/workspaces/sorespo/test/quicklab-srl` directory and start the
 development tutorial:
@@ -54,7 +54,7 @@ All config files applied
 
 You now have a running lab topology with fully configured containerized
 routers. The current state of the lab is identical to the final step in the
-[tutorial on running SORESPO](run-on-codespaces.md).
+[tutorial on running SORESPO](@/learn/run-on-codespaces.md).
 
 ----
 

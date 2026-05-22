@@ -1,7 +1,7 @@
 +++
 title = "Developing SORESPO on Windows"
 weight = 70
-description = "Use WSL2 to modify SORESPO, rebuild the binary, and validate the change from a Windows workstation."
+description = "Your first steps in modifying the SORESPO codebase and seeing the effects in the lab."
 
 [extra]
 track = "develop"
@@ -15,7 +15,7 @@ This tutorial will guide you through making your first changes to the
 SORESPO automation code and building the application. If you are not yet
 familiar with the basic steps involved in running and interacting with
 SORESPO, you might want to start out with the tutorial on
-[running SORESPO](run-on-windows.md) first.
+[running SORESPO](@/learn/run-on-windows.md) first.
 
 ## Preparing the Environment
 
@@ -35,14 +35,14 @@ SORESPO, you might want to start out with the tutorial on
 sudo apt update
 sudo apt install make
 ```
-* Install [Acton](https://acton.guide/install_tip.html) (*Note:* This is an additional prerequite compared to [running SORESPO](run-on-windows.md))
+* Install [Acton](https://acton.guide/install.html) (*Note:* This is an additional prerequite compared to [running SORESPO](@/learn/run-on-windows.md))
   * Follow the instructions for `Debian / Ubuntu` in your `Ubuntu` (`WSL2`) shell
 
 Perform all further instructions in this tutorial from the `Ubuntu` (`WSL2`) shell.
 
 ## Starting the SORESPO Network
-*NOTE*: If you already completed the tutorial on [running SORESPO](run-on-windows.md),
-you can skip ahead to the [next step](develop-on-windows.md#modifying-the-sorespo-application)!
+*NOTE*: If you already completed the tutorial on [running SORESPO](@/learn/run-on-windows.md),
+you can skip ahead to the [next step](@/learn/develop-on-windows.md#modifying-the-sorespo-application)!
 
 Clone the project:
 ```shell
@@ -65,7 +65,7 @@ All config files applied
 
 You now have a running lab topology with fully configured containerized
 routers. The current state of the lab is identical to the final step in the
-[tutorial on running SORESPO](run-on-windows.md).
+[tutorial on running SORESPO](@/learn/run-on-windows.md).
 
 ----
 

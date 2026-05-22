@@ -1,7 +1,7 @@
 +++
-title = "Running SORESPO on macOS with Colima"
+title = "Colima Guidelines"
 weight = 90
-description = "Use Colima as a lighter-weight container runtime on macOS before starting the SORESPO lab."
+description = "Use Colima as a lighter-weight container / ContainerLab runtime on macOS."
 
 [extra]
 track = "resource"
@@ -9,14 +9,10 @@ platform = "macOS"
 upstream = "https://github.com/stratoweave/sorespo/blob/main/docs/colima.md"
 +++
 
-This note is adapted from the upstream SORESPO documentation. Use it if you want
-an open-source alternative to Docker Desktop on macOS before starting the main
-SORESPO tutorials.
-
 ## Install Colima
 
-Install Colima and Docker with Homebrew, then start a VM sized for the Nokia SR
-Linux quicklab:
+Install Colima and Docker with Homebrew, then start a VM that is sufficiently
+powerful to run the labs:
 
 ```shell
 brew install colima docker
@@ -37,9 +33,3 @@ exit
 ```
 
 If you recreate the VM or boot into a new kernel, repeat that step.
-
-## Next
-
-1. Continue to [Running SORESPO on macOS](@/learn/run-on-macos.md).
-2. If you are ready to modify the transforms, jump to [Developing SORESPO on macOS](@/learn/develop-on-macos.md).
-3. For the full upstream note, see the [original Colima guide](https://github.com/stratoweave/sorespo/blob/main/docs/colima.md).

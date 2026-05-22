@@ -1,7 +1,7 @@
 +++
 title = "Developing SORESPO on Linux"
 weight = 50
-description = "Modify a transform, rebuild the binary, and validate the effect on a running SORESPO lab from Linux."
+description = "Your first steps in modifying the SORESPO codebase and seeing the effects in the lab."
 
 [extra]
 track = "develop"
@@ -15,14 +15,14 @@ This tutorial will guide you through making your first changes to the
 SORESPO automation code and building the application. If you are not yet
 familiar with the basic steps involved in running and interacting with
 SORESPO, you might want to start out with the tutorial on
-[running SORESPO](run-on-linux.md) first.
+[running SORESPO](@/learn/run-on-linux.md) first.
 
 ## Preparing the Environment
 
 * Install the following prerequisites:
   * [Docker Engine](https://docs.docker.com/engine/install/)
   * [Git](https://git-scm.com/downloads/linux)
-  * [Acton](https://acton.guide/install_tip.html) (*Note:* This is an additional prerequite compared to [running SORESPO](run-on-linux.md))
+  * [Acton](https://acton.guide/install.html) (*Note:* This is an additional prerequite compared to [running SORESPO](@/learn/run-on-linux.md))
 * Install the  `vrf` kernel module, on Ubuntu or Debian this can be done with:
 ``` shell
 sudo apt update
@@ -30,8 +30,8 @@ sudo apt install linux-modules-extra-$(uname -r)
 ```
 
 ## Starting the SORESPO Network
-*NOTE*: If you already completed the tutorial on [running SORESPO](run-on-linux.md),
-you can skip ahead to the [next step](develop-on-linux.md#modifying-the-sorespo-application)!
+*NOTE*: If you already completed the tutorial on [running SORESPO](@/learn/run-on-linux.md),
+you can skip ahead to the [next step](@/learn/develop-on-linux.md#modifying-the-sorespo-application)!
 
 Clone the project:
 ```shell
@@ -54,7 +54,7 @@ All config files applied
 
 You now have a running lab topology with fully configured containerized
 routers. The current state of the lab is identical to the final step in the
-[tutorial on running SORESPO](run-on-linux.md).
+[tutorial on running SORESPO](@/learn/run-on-linux.md).
 
 ----
 
