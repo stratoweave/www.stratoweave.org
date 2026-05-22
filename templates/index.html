@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}{{ section.title }} | {{ config.title }}{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a SORESPO learning path.">
+    <meta name="description" content="Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a complete reference implementation.">
     {% block favicon %}
     <link rel="icon" href="{{ get_url(path="favicon.svg") }}">
     {% endblock favicon %}
@@ -44,7 +44,7 @@
                     network with reactive closed loops and observability powered by streaming telemetry.
                 </p>
                 <div class="hero-actions">
-                    <a class="button button-primary" href="{{ get_url(path="/learn") }}">Learn through SORESPO</a>
+                    <a class="button button-primary" href="{{ get_url(path="/learn") }}">Try it in a virtual lab</a>
                     <a class="button button-secondary" href="https://github.com/stratoweave/stratoweave">View the source</a>
                     <a class="button button-secondary" href="{{ get_url(path="/technology") }}">Understand the tech</a>
                 </div>
@@ -192,15 +192,15 @@
 
         <section class="learn-path" aria-labelledby="learn-title">
             <div class="learn-path__copy">
-                <p class="eyebrow">Learn through SORESPO</p>
-                <h2 id="learn-title">SORESPO is a complete reference implementation, not just a demo.</h2>
+                <p class="eyebrow">Hands-on experience in no time</p>
+                <h2 id="learn-title">Our complete reference implementation is open-source too.</h2>
                 <p>
-                    The fastest way to understand StratoWeave is to run the SOmewhat REalistic Service Provider Orchestrator (SORESPO) environment.
+                    The fastest way to understand StratoWeave is to run the <strong>SOmewhat REalistic Service Provider Orchestrator (SORESPO)</strong> virtual lab.
                     Various Containerlab environments let you explore the platform wiith Cisco XRd, Juniper cRPD and Nokia SR Linux devices.
                     Load intent, inspect layered outputs, and then change the transform code yourself.
                 </p>
                 <div class="hero-actions">
-                    <a class="button button-primary" href="{{ get_url(path="/learn") }}">Open the Learn section</a>
+                    <a class="button button-primary" href="{{ get_url(path="/learn") }}">Guided SORESPO tour</a>
                     <a class="button button-secondary" href="https://github.com/stratoweave/sorespo">View the SORESPO repo</a>
                 </div>
             </div>
@@ -209,7 +209,7 @@
                     <p class="panel-kicker">What you will learn</p>
                     <h3>Move from platform concepts to a working orchestration system.</h3>
                 </div>
-                <div class="learn-outcomes" aria-label="SORESPO learning outcomes">
+                <div class="learn-outcomes" aria-label="Learning outcomes">
                     <article class="learn-outcome">
                         <strong>Experience declarative intent</strong>
                         <span>See how a declarative platform can build and maintain a consistent network state.</span>
@@ -219,8 +219,8 @@
                         <span>Follow the decomposition of business intent into real-world device configurations.</span>
                     </article>
                     <article class="learn-outcome">
-                        <strong>Streaming telemetry</strong>
-                        <span>Collect telemetry data to react to network changes and visualize network state.</span>
+                        <strong>Developer experience</strong>
+                        <span>Make real changes to your orchestrator and see the effects immediately.</span>
                     </article>
                     <article class="learn-outcome">
                         <strong>Real platform shape</strong>
