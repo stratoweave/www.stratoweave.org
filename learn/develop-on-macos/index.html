@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>StratoWeave</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a SORESPO learning path.">
+    
+    <link rel="icon" href="https://stratoweave.github.io/www.stratoweave.org/favicon.svg">
+    
+    <style>
+    :root {
+        --stratoweave-navy: #081020;
+        --stratoweave-blue: #2563eb;
+        --stratoweave-cyan: #22d3ee;
+        --stratoweave-violet: #8b5cf6;
+        --stratoweave-fuchsia: #a855f7;
+        --stratoweave-slate: #64748b;
+        --stratoweave-mist: #e2e8f0;
+        --stratoweave-ink-900: #0d1730;
+        --stratoweave-ink-800: #16223f;
+        --stratoweave-ink-700: #233456;
+        --stratoweave-ink-500: #7d8cac;
+        --stratoweave-ink-300: #c7d1e4;
+        --stratoweave-paper: #f8fbff;
+
+        --primary-color: var(--stratoweave-blue);
+        --primary-color-touch: var(--stratoweave-cyan);
+        --primary-text-color: var(--stratoweave-paper);
+        --primary-hero-text-color: var(--stratoweave-paper);
+        --nav-text-color: var(--stratoweave-paper);
+        --primary-link-color: var(--stratoweave-cyan);
+        --secondary-color: var(--stratoweave-navy);
+        --secondary-color-accent: var(--stratoweave-ink-900);
+        --secondary-text-color: #a7b5d1;
+        --toc-highlight-text-color: var(--stratoweave-cyan);
+        --tertiary-color: #050b17;
+        --panel-color: rgba(13, 23, 48, 0.76);
+        --border-color: rgba(226, 232, 240, 0.14);
+        --chrome-color: rgba(8, 16, 32, 0.9);
+        --code-color: rgba(5, 11, 23, 0.92);
+        color-scheme: dark;
+    }
+</style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stratoweave.github.io/www.stratoweave.org/normalize.css">
+    <link rel="stylesheet" href="https://stratoweave.github.io/www.stratoweave.org/juice.css">
+    
+    
+</head>
+
+<body class="site-page">
+    
+<header class="site-header">
+    
+<a class="site-logo" href="https://stratoweave.github.io/www.stratoweave.org">
+    <span class="brand-mark" aria-hidden="true">
+        <img src="https://stratoweave.github.io/www.stratoweave.org/stratoweave-mark.svg" alt="">
+    </span>
+    <span class="site-logo__lockup">
+        <span class="site-logo__name">StratoWeave</span>
+        <span class="site-logo__eyebrow">Orchestration Platform</span>
+    </span>
+</a>
+
+<div class="site-nav-shell">
+    <button
+        class="site-nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav-primary"
+        aria-label="Toggle navigation menu"
+    >
+        <span class="site-nav-toggle__bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <nav id="site-nav-primary" class="site-nav" aria-label="Primary navigation">
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/learn">Learn</a>
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/technology">Technology</a>
+        <a class="nav-item" href="https://stratoweave.github.io/stratoweave.guide/">Documentation</a>
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/governance">Governance</a>
+        <a class="nav-item" href="https://github.com/stratoweave/stratoweave">GitHub</a>
+    </nav>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".site-nav-shell").forEach(function (shell) {
+        const toggle = shell.querySelector(".site-nav-toggle");
+        const nav = shell.querySelector(".site-nav");
+
+        if (!toggle || !nav) {
+            return;
+        }
+
+        const mobileQuery = window.matchMedia("(max-width: 700px)");
+
+        function closeMenu() {
+            shell.classList.remove("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+
+        function syncMenuState() {
+            shell.classList.add("site-nav-shell--ready");
+
+            if (!mobileQuery.matches) {
+                closeMenu();
+            }
+        }
+
+        toggle.addEventListener("click", function () {
+            const isOpen = shell.classList.toggle("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!mobileQuery.matches || shell.contains(event.target)) {
+                return;
+            }
+
+            closeMenu();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+        });
+
+        if (typeof mobileQuery.addEventListener === "function") {
+            mobileQuery.addEventListener("change", syncMenuState);
+        } else {
+            mobileQuery.addListener(syncMenuState);
+        }
+
+        syncMenuState();
+    });
+});
+</script>
+
+</header>
+
+
+    <main class="page-shell page-shell--full-width">
+        
+        
+        
+        
+        
+        <div class="toc">
+            <div class="toc-sticky">
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/learn/develop-on-macos/#introduction">Introduction</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/learn/develop-on-macos/#preparing-the-environment">Preparing the Environment</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/learn/develop-on-macos/#starting-the-sorespo-network">Starting the SORESPO Network</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/learn/develop-on-macos/#modifying-the-sorespo-application">Modifying the SORESPO application</a>
+                </div>
+                
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/learn/develop-on-macos/#modifying-the-sorespo-yang-models"><small>- Modifying the SORESPO YANG models</small></a>
+                </div>
+                
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/learn/develop-on-macos/#what-s-next">What&#x27;s Next</a>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+        
+
+        <div class="content text">
+            
+<div class="heading-text">Developing SORESPO on macOS</div>
+
+<p class="page-intro">Your first steps in modifying the SORESPO codebase and seeing the effects in the lab.</p>
+
+<h2 id="introduction">Introduction</h2>
+<p>This tutorial will guide you through making your first changes to the
+SORESPO automation code and building the application. If you are not yet
+familiar with the basic steps involved in running and interacting with
+SORESPO, you might want to start out with the tutorial on
+<a href="https://stratoweave.github.io/www.stratoweave.org/learn/run-on-macos/">running SORESPO</a> first.</p>
+<h2 id="preparing-the-environment">Preparing the Environment</h2>
+<ul>
+<li>Install the following prerequisites:
+<ul>
+<li><a rel="external" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a> (or
+<a href="https://stratoweave.github.io/www.stratoweave.org/learn/colima/">Colima</a> for an open-source alternative)</li>
+<li><a rel="external" href="https://git-scm.com/downloads/mac">Git</a>, <em>coreutils</em> , and
+<a rel="external" href="https://acton.guide/install.html">Acton</a>, all of which
+you can install with <a rel="external" href="https://brew.sh/">Homebrew</a>:
+<ul>
+<li><em>Note:</em> Acton is an additional prerequisite compared to <a href="https://stratoweave.github.io/www.stratoweave.org/learn/run-on-macos/">running SORESPO</a></li>
+</ul>
+</li>
+</ul>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">brew</span><span style="color: light-dark(#032F62, #9ECBFF);"> install</span><span style="color: light-dark(#032F62, #9ECBFF);"> git</span><span style="color: light-dark(#032F62, #9ECBFF);"> coreutils</span><span style="color: light-dark(#032F62, #9ECBFF);"> actonlang/acton/acton</span></span></code></pre></li>
+<li>After the installation has completed, start your container runtime.
+<ul>
+<li>For <em>Docker Desktop</em>, open <em>Settings</em> and in the <em>Resources</em> section make
+sure you've allocated at least 4 CPU cores and 8GB of RAM to Docker.</li>
+<li>Or, start your Colima VM with the appropriate resources:<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">colima</span><span style="color: light-dark(#032F62, #9ECBFF);"> start</span><span style="color: light-dark(#005CC5, #79B8FF);"> -</span><span style="color: light-dark(#005CC5, #79B8FF);">-cpu</span><span style="color: light-dark(#005CC5, #79B8FF);"> 4</span><span style="color: light-dark(#005CC5, #79B8FF);"> -</span><span style="color: light-dark(#005CC5, #79B8FF);">-memory</span><span style="color: light-dark(#005CC5, #79B8FF);"> 8</span></span></code></pre></li>
+</ul>
+</li>
+</ul>
+<h2 id="starting-the-sorespo-network">Starting the SORESPO Network</h2>
+<p><em>NOTE</em>: If you already completed the tutorial on <a href="https://stratoweave.github.io/www.stratoweave.org/learn/run-on-macos/">running SORESPO</a>,
+you can skip ahead to the <a href="https://stratoweave.github.io/www.stratoweave.org/learn/develop-on-macos/#modifying-the-sorespo-application">next step</a>!</p>
+<p>Clone the project:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">git</span><span style="color: light-dark(#032F62, #9ECBFF);"> clone</span><span style="color: light-dark(#032F62, #9ECBFF);"> https://github.com/stratoweave/sorespo.git</span></span></code></pre>
+<p>Go into the <code>sorespo/test/quicklab-srl</code> directory and start the development
+tutorial:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">cd</span><span style="color: light-dark(#032F62, #9ECBFF);"> sorespo/test/quicklab-srl</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> dev-tutorial</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#6A737D, #6A737D);"> #</span><span style="color: light-dark(#6A737D, #6A737D);"> Containerlab starts the SR Linux lab, this may take a few minutes ...</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">StratoWeave/sorespo</span><span style="color: light-dark(#032F62, #9ECBFF);"> running..</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">All</span><span style="color: light-dark(#032F62, #9ECBFF);"> config</span><span style="color: light-dark(#032F62, #9ECBFF);"> files</span><span style="color: light-dark(#032F62, #9ECBFF);"> applied</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span></span></code></pre>
+<p>You now have a running lab topology with fully configured containerized
+routers. The current state of the lab is identical to the final step in the
+<a href="https://stratoweave.github.io/www.stratoweave.org/learn/develop-on-macos/run-on-macos.md">tutorial on running SORESPO</a>.</p>
+<hr />
+<p><em>Notes</em>:</p>
+<ul>
+<li>The SORESPO process runs interactively in this shell window. When you
+kill it with <em>Ctrl+C</em>, SORESPO itself will stop, but the lab and all the
+routers will continue to run.</li>
+<li><strong>Open a second shell</strong> to continue with the tutorial.</li>
+<li>The lab can be shut down with <code>make stop</code>.</li>
+</ul>
+<h2 id="modifying-the-sorespo-application">Modifying the SORESPO application</h2>
+<p>Changing the application typically involves modifying the RFS transforms to
+modify the output configuration and optionally modifying the models.</p>
+<p>Retrieve the current configuration on the <code>ams-core-1</code> router, by connecting to
+the router directly over NETCONF.
+In a new shell navigate to the <code>sorespo/test/quicklab-srl</code>
+directory and get the configuration:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">cd</span><span style="color: light-dark(#032F62, #9ECBFF);"> sorespo/test/quicklab-srl</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-dev-config-ams-core-1</span><span style="color: light-dark(#D73A49, #F97583);"> |</span><span style="color: light-dark(#6F42C1, #B392F0);"> sed</span><span style="color: light-dark(#005CC5, #79B8FF);"> -</span><span style="color: light-dark(#005CC5, #79B8FF);">n</span><span style="color: light-dark(#032F62, #9ECBFF);"> &#39;</span><span style="color: light-dark(#032F62, #9ECBFF);">/&lt;interface xmlns=&quot;urn:nokia.com:srlinux:chassis:interfaces&quot;&gt;/,/&lt;\/interface&gt;/p</span><span style="color: light-dark(#032F62, #9ECBFF);">&#39;</span></span></code></pre>
+<p><em>NOTE</em>: The <code>sed</code> command filters the output down to the interface section.</p>
+<p>Part of the output is the VRF interface:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="xml"><span class="giallo-l"><span>...</span></span>
+<span class="giallo-l"><span>&lt;</span><span style="color: light-dark(#22863A, #85E89D);">interface</span><span style="color: light-dark(#6F42C1, #B392F0);"> xmlns</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">urn:nokia.com:srlinux:chassis:interfaces</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>ethernet-1/3</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">admin-state</span><span>&gt;</span><span>enable</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">admin-state</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vlan-tagging</span><span style="color: light-dark(#6F42C1, #B392F0);"> xmlns</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">urn:nokia.com:srlinux:chassis:interfaces-vlans</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>&gt;</span><span>true</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vlan-tagging</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">subinterface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;</span><span style="color: light-dark(#22863A, #85E89D);">index</span><span>&gt;</span><span>100</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">index</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span><span>Customer VPN access SITE-1 [SNA-1-1] in VPN acme-65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;</span><span style="color: light-dark(#22863A, #85E89D);">admin-state</span><span>&gt;</span><span>enable</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">admin-state</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">admin-state</span><span>&gt;</span><span>enable</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">admin-state</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>                &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ip-prefix</span><span>&gt;</span><span>10.201.1.1/30</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ip-prefix</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vlan</span><span style="color: light-dark(#6F42C1, #B392F0);"> xmlns</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">urn:nokia.com:srlinux:chassis:interfaces-vlans</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">encap</span><span>&gt;</span></span>
+<span class="giallo-l"><span>                &lt;</span><span style="color: light-dark(#22863A, #85E89D);">single-tagged</span><span>&gt;</span></span>
+<span class="giallo-l"><span>                    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vlan-id</span><span>&gt;</span><span>100</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vlan-id</span><span>&gt;</span></span>
+<span class="giallo-l"><span>                &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">single-tagged</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">encap</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vlan</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">subinterface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>...</span></span></code></pre>
+<p>Notice how SORESPO filled in a handy interface description for the
+subinterface, but there is no description on the main <code>ethernet-1/3</code>
+interface. Modify the SORESPO code to add in a description.</p>
+<p>Open <code>sorespo/src/sorespo/rfs.act</code> in your favorite editor and find the
+following section of the code:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="python"><span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">class</span><span style="color: light-dark(#6F42C1, #B392F0);"> VrfInterface</span><span>(</span><span style="color: light-dark(#6F42C1, #B392F0);">base</span><span>.</span><span style="color: light-dark(#6F42C1, #B392F0);">VrfInterface</span><span>)</span><span>:</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">    def</span><span style="color: light-dark(#6F42C1, #B392F0);"> transform</span><span>(</span><span>self</span><span>,</span><span> i</span><span>,</span><span> di</span><span>)</span><span>:</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">        ...</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">        elif</span><span style="color: light-dark(#032F62, #9ECBFF);"> &quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">srl_nokia-system</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#D73A49, #F97583);"> in</span><span> di</span><span>.</span><span>modules</span><span>:</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">            print</span><span>(</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">RFS /rfs</span><span style="color: light-dark(#005CC5, #79B8FF);">{{</span><span style="color: light-dark(#005CC5, #79B8FF);">{di.name}</span><span style="color: light-dark(#005CC5, #79B8FF);">}}</span><span style="color: light-dark(#032F62, #9ECBFF);">/vrf-interface transform running </span><span style="color: light-dark(#005CC5, #79B8FF);">{i.name}</span><span style="color: light-dark(#032F62, #9ECBFF);"> for Nokia SRLinux</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>,</span><span style="color: light-dark(#E36209, #FFAB70);"> err</span><span style="color: light-dark(#D73A49, #F97583);">=</span><span style="color: light-dark(#005CC5, #79B8FF);">True</span><span>)</span></span>
+<span class="giallo-l"><span>            dev</span><span style="color: light-dark(#D73A49, #F97583);"> =</span><span> srl25</span><span>.</span><span>root</span><span>(</span><span>)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: light-dark(#6A737D, #6A737D);">            #</span><span style="color: light-dark(#6A737D, #6A737D);"> Create the main interface</span></span>
+<span class="giallo-l"><span>            intf</span><span style="color: light-dark(#D73A49, #F97583);"> =</span><span> dev</span><span>.</span><span>interface</span><span>.</span><span>create</span><span>(</span><span>main_intf</span><span>)</span></span>
+<span class="giallo-l"><span>            intf</span><span>.</span><span>admin_state</span><span style="color: light-dark(#D73A49, #F97583);"> =</span><span style="color: light-dark(#032F62, #9ECBFF);"> &quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">enable</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span></span>
+<span class="giallo-l"><span>            intf</span><span>.</span><span>vlan_tagging</span><span style="color: light-dark(#D73A49, #F97583);"> =</span><span style="color: light-dark(#005CC5, #79B8FF);"> True</span></span></code></pre>
+<p>Modify <code>sorespo/src/sorespo/rfs.act</code> to set an interface description on
+VRF interfaces:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="diff"><span class="giallo-l"><span>class VrfInterface(base.VrfInterface):</span></span>
+<span class="giallo-l"><span>    def transform(self, i, di):</span></span>
+<span class="giallo-l"><span>        ...</span></span>
+<span class="giallo-l"><span>        elif &quot;srl_nokia-system&quot; in di.modules:</span></span>
+<span class="giallo-l"><span>            print(&quot;RFS /rfs{{{di.name}}}/vrf-interface transform running {i.name} for Nokia SRLinux&quot;, err=True)</span></span>
+<span class="giallo-l"><span>            dev = srl25.root()</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>            # Create the main interface</span></span>
+<span class="giallo-l"><span>            intf = dev.interface.create(main_intf)</span></span>
+<span class="giallo-l"><span>            intf.admin_state = &quot;enable&quot;</span></span>
+<span class="giallo-l"><span>            intf.vlan_tagging = True</span></span>
+<span class="giallo-l"><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">+</span><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">           intf.description = &quot;VRF Interface for customer connections&quot;</span></span></code></pre>
+<p>After you have saved the file to disk, re-build the SORESPO binary
+to incorporate the change. Press <em>Ctrl+C</em> in the terminal window where
+SORESPO is running.</p>
+<p>In the same terminal window trigger a build:</p>
+<ul>
+<li>If you are running macOS on Apple Silicon use:</li>
+</ul>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#005CC5, #79B8FF);"> -</span><span style="color: light-dark(#005CC5, #79B8FF);">C</span><span style="color: light-dark(#032F62, #9ECBFF);"> ../../</span><span style="color: light-dark(#032F62, #9ECBFF);"> build-linux-aarch64</span></span></code></pre>
+<ul>
+<li>If you are running macOS on Intel use:</li>
+</ul>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#005CC5, #79B8FF);"> -</span><span style="color: light-dark(#005CC5, #79B8FF);">C</span><span style="color: light-dark(#032F62, #9ECBFF);"> ../../</span><span style="color: light-dark(#032F62, #9ECBFF);"> build-linux-x86_64</span></span></code></pre>
+<p><em>NOTE</em>: With <code>-C ../../</code> <code>make</code> runs the <code>build</code> recipe two
+levels up from the current directory, saving us the hassle of moving around in
+the directory structure.</p>
+<p>After the build has completed copy your updated binary into the lab and
+re-run and re-configure SORESPO:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> copy</span><span style="color: light-dark(#032F62, #9ECBFF);"> run-and-configure</span></span></code></pre>
+<p>Wait a few seconds for SORESPO to apply your changes to the routers and
+repeat the steps above to validate your change was successful.</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-dev-config-ams-core-1</span><span style="color: light-dark(#D73A49, #F97583);"> |</span><span style="color: light-dark(#6F42C1, #B392F0);"> sed</span><span style="color: light-dark(#005CC5, #79B8FF);"> -</span><span style="color: light-dark(#005CC5, #79B8FF);">n</span><span style="color: light-dark(#032F62, #9ECBFF);"> &#39;</span><span style="color: light-dark(#032F62, #9ECBFF);">/&lt;interface xmlns=&quot;urn:nokia.com:srlinux:chassis:interfaces&quot;&gt;/,/&lt;\/interface&gt;/p</span><span style="color: light-dark(#032F62, #9ECBFF);">&#39;</span></span></code></pre>
+<p>The interface description has been applied to each of the VRF interfaces:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="diff"><span class="giallo-l"><span>...</span></span>
+<span class="giallo-l"><span>&lt;interface xmlns=&quot;urn:nokia.com:srlinux:chassis:interfaces&quot;&gt;</span></span>
+<span class="giallo-l"><span>    &lt;name&gt;ethernet-1/3&lt;/name&gt;</span></span>
+<span class="giallo-l"><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">+</span><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">   &lt;description&gt;VRF Interface for customer connections&lt;/description&gt;</span></span>
+<span class="giallo-l"><span>    &lt;admin-state&gt;enable&lt;/admin-state&gt;</span></span>
+<span class="giallo-l"><span>    &lt;vlan-tagging xmlns=&quot;urn:nokia.com:srlinux:chassis:interfaces-vlans&quot;&gt;true&lt;/vlan-tagging&gt;</span></span>
+<span class="giallo-l"><span>    &lt;subinterface&gt;</span></span>
+<span class="giallo-l"><span>        &lt;index&gt;100&lt;/index&gt;</span></span>
+<span class="giallo-l"><span>        &lt;description&gt;Customer VPN access SITE-1 [SNA-1-1] in VPN acme-65501&lt;/description&gt;</span></span>
+<span class="giallo-l"><span>        &lt;admin-state&gt;enable&lt;/admin-state&gt;</span></span>
+<span class="giallo-l"><span>        &lt;ipv4&gt;</span></span>
+<span class="giallo-l"><span>            &lt;admin-state&gt;enable&lt;/admin-state&gt;</span></span>
+<span class="giallo-l"><span>            &lt;address&gt;</span></span>
+<span class="giallo-l"><span>                &lt;ip-prefix&gt;10.201.1.1/30&lt;/ip-prefix&gt;</span></span>
+<span class="giallo-l"><span>            &lt;/address&gt;</span></span>
+<span class="giallo-l"><span>        &lt;/ipv4&gt;</span></span>
+<span class="giallo-l"><span>        &lt;vlan xmlns=&quot;urn:nokia.com:srlinux:chassis:interfaces-vlans&quot;&gt;</span></span>
+<span class="giallo-l"><span>            &lt;encap&gt;</span></span>
+<span class="giallo-l"><span>                &lt;single-tagged&gt;</span></span>
+<span class="giallo-l"><span>                    &lt;vlan-id&gt;100&lt;/vlan-id&gt;</span></span>
+<span class="giallo-l"><span>                &lt;/single-tagged&gt;</span></span>
+<span class="giallo-l"><span>            &lt;/encap&gt;</span></span>
+<span class="giallo-l"><span>        &lt;/vlan&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/subinterface&gt;</span></span>
+<span class="giallo-l"><span>&lt;/interface&gt;</span></span>
+<span class="giallo-l"><span>...</span></span></code></pre><h3 id="modifying-the-sorespo-yang-models">Modifying the SORESPO YANG models</h3>
+<p>Besides modifying transform code, you may also want to modify the YANG models
+themselves to be able to pass different parameters from layer to layer.</p>
+<p>Retrieve the current input to the RFS layer, i.e. <code>layer2</code>:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-config2</span><span style="color: light-dark(#D73A49, #F97583);"> |</span><span style="color: light-dark(#6F42C1, #B392F0);"> sed</span><span style="color: light-dark(#005CC5, #79B8FF);"> -</span><span style="color: light-dark(#005CC5, #79B8FF);">n</span><span style="color: light-dark(#032F62, #9ECBFF);"> &#39;</span><span style="color: light-dark(#032F62, #9ECBFF);">/&lt;vrf-interface&gt;/,/&lt;\/vrf-interface&gt;/p</span><span style="color: light-dark(#032F62, #9ECBFF);">&#39;</span></span></code></pre>
+<p>Part of the output will be a configuration instance for the <code>vrf-interface</code> on <code>ams-core-1</code>:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="xml"><span class="giallo-l"><span>...</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vrf-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>ethernet-1/3.100</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span><span>Customer VPN access SITE-1 [SNA-1-1] in VPN acme-65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vrf</span><span>&gt;</span><span>acme-65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vrf</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span><span>10.201.1.1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-prefix-length</span><span>&gt;</span><span>30</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-prefix-length</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vrf-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">rfs</span><span>&gt;</span></span>
+<span class="giallo-l"><span>...</span></span></code></pre>
+<p>This RFS instance at present does not have an input for MTU configuration.
+Review the YANG model for this layer in <code>sorespo/spec/yang/rfs/sorespo-rfs.yang</code>.</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="plain"><span class="giallo-l"><span>...</span></span>
+<span class="giallo-l"><span>list vrf-interface {</span></span>
+<span class="giallo-l"><span>    key &quot;name&quot;;</span></span>
+<span class="giallo-l"><span>    sw:rfs-transform sorespo.rfs.VrfInterface;</span></span>
+<span class="giallo-l"><span>    leaf name {</span></span>
+<span class="giallo-l"><span>        type string;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>    leaf description {</span></span>
+<span class="giallo-l"><span>        type string;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>    leaf vrf {</span></span>
+<span class="giallo-l"><span>        type string;</span></span>
+<span class="giallo-l"><span>        description</span></span>
+<span class="giallo-l"><span>            &quot;VRF name&quot;;</span></span>
+<span class="giallo-l"><span>        mandatory true;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>    leaf ipv4-address {</span></span>
+<span class="giallo-l"><span>        type inet:ipv4-address;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>    leaf ipv4-prefix-length {</span></span>
+<span class="giallo-l"><span>        type uint8 {</span></span>
+<span class="giallo-l"><span>            range &quot;1..31&quot;;</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>        default &quot;30&quot;;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Modify the YANG module to add in the <code>mtu</code> leaf:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="diff"><span class="giallo-l"><span>...</span></span>
+<span class="giallo-l"><span>list vrf-interface {</span></span>
+<span class="giallo-l"><span>    key &quot;name&quot;;</span></span>
+<span class="giallo-l"><span>    sw:rfs-transform sorespo.rfs.VrfInterface;</span></span>
+<span class="giallo-l"><span>    leaf name {</span></span>
+<span class="giallo-l"><span>        type string;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>    leaf description {</span></span>
+<span class="giallo-l"><span>        type string;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>    leaf vrf {</span></span>
+<span class="giallo-l"><span>        type string;</span></span>
+<span class="giallo-l"><span>        description</span></span>
+<span class="giallo-l"><span>            &quot;VRF name&quot;;</span></span>
+<span class="giallo-l"><span>        mandatory true;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>    leaf ipv4-address {</span></span>
+<span class="giallo-l"><span>        type inet:ipv4-address;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>    leaf ipv4-prefix-length {</span></span>
+<span class="giallo-l"><span>        type uint8 {</span></span>
+<span class="giallo-l"><span>            range &quot;1..31&quot;;</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>        default &quot;30&quot;;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">+</span><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">   leaf mtu {</span></span>
+<span class="giallo-l"><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">+</span><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">       type uint16 {</span></span>
+<span class="giallo-l"><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">+</span><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">           range &quot;1..9000&quot;;</span></span>
+<span class="giallo-l"><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">+</span><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">       }</span></span>
+<span class="giallo-l"><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">+</span><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">   }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Open <code>sorespo/src/sorespo/inter.act</code> in your favorite editor and find the
+following section of the code:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="python"><span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">...</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">class</span><span style="color: light-dark(#6F42C1, #B392F0);"> L3Vpn</span><span>(</span><span style="color: light-dark(#6F42C1, #B392F0);">base</span><span>.</span><span style="color: light-dark(#6F42C1, #B392F0);">L3Vpn</span><span>)</span><span>:</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">    def</span><span style="color: light-dark(#6F42C1, #B392F0);"> transform</span><span>(</span><span>self</span><span>,</span><span> i</span><span>)</span><span>:</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">...</span></span>
+<span class="giallo-l"><span>            vi</span><span style="color: light-dark(#D73A49, #F97583);"> =</span><span> rfs</span><span>.</span><span>vrf_interface</span><span>.</span><span>create</span><span>(</span><span>ep</span><span>.</span><span>interface</span><span>)</span></span>
+<span class="giallo-l"><span>            vi</span><span>.</span><span>description</span><span style="color: light-dark(#D73A49, #F97583);"> =</span><span style="color: light-dark(#032F62, #9ECBFF);"> &quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">Customer VPN access </span><span style="color: light-dark(#005CC5, #79B8FF);">%s</span><span style="color: light-dark(#032F62, #9ECBFF);"> [</span><span style="color: light-dark(#005CC5, #79B8FF);">%s</span><span style="color: light-dark(#032F62, #9ECBFF);">] in VPN </span><span style="color: light-dark(#005CC5, #79B8FF);">%s</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#D73A49, #F97583);"> %</span><span> (</span><span>ep</span><span>.</span><span>site</span><span>,</span><span> ep</span><span>.</span><span>site_network_access</span><span>,</span><span> i</span><span>.</span><span>name</span><span>)</span></span>
+<span class="giallo-l"><span>            vi</span><span>.</span><span>ipv4_address</span><span style="color: light-dark(#D73A49, #F97583);"> =</span><span> ep</span><span>.</span><span>provider_ipv4_address</span></span>
+<span class="giallo-l"><span>            vi</span><span>.</span><span>ipv4_prefix_length</span><span style="color: light-dark(#D73A49, #F97583);"> =</span><span> ep</span><span>.</span><span>ipv4_prefix_length</span></span>
+<span class="giallo-l"><span>            vi</span><span>.</span><span>vrf</span><span style="color: light-dark(#D73A49, #F97583);"> =</span><span> i</span><span>.</span><span>name</span></span></code></pre>
+<p>Modify <code>sorespo/src/sorespo/inter.act</code> to set an MTU on VRF interfaces:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="diff"><span class="giallo-l"><span>...</span></span>
+<span class="giallo-l"><span>class L3Vpn(base.L3Vpn):</span></span>
+<span class="giallo-l"><span>    def transform(self, i):</span></span>
+<span class="giallo-l"><span>...</span></span>
+<span class="giallo-l"><span>            vi = rfs.vrf_interface.create(ep.interface)</span></span>
+<span class="giallo-l"><span>            vi.description = &quot;Customer VPN access %s [%s] in VPN %s&quot; % (ep.site, ep.site_network_access, i.name)</span></span>
+<span class="giallo-l"><span>            vi.ipv4_address = ep.provider_ipv4_address</span></span>
+<span class="giallo-l"><span>            vi.ipv4_prefix_length = ep.ipv4_prefix_length</span></span>
+<span class="giallo-l"><span>            vi.vrf = i.name</span></span>
+<span class="giallo-l"><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">+</span><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">           vi.mtu = 1500</span></span></code></pre>
+<p>After you have saved the files to disk, you can re-build the SORESPO binary
+to incorporate the change. Press <em>Ctrl+C</em> in the terminal window
+where SORESPO is running.</p>
+<p>In the same terminal window, request the StratoWeave build system and
+Acton YANG parser to re-generate the codebase from the SORESPO YANG modules:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#005CC5, #79B8FF);"> -</span><span style="color: light-dark(#005CC5, #79B8FF);">C</span><span style="color: light-dark(#032F62, #9ECBFF);"> ../../</span><span style="color: light-dark(#032F62, #9ECBFF);"> gen</span></span></code></pre>
+<p>In the same terminal window trigger a build:</p>
+<ul>
+<li>If you are running macOS on Apple Silicon use:</li>
+</ul>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#005CC5, #79B8FF);"> -</span><span style="color: light-dark(#005CC5, #79B8FF);">C</span><span style="color: light-dark(#032F62, #9ECBFF);"> ../../</span><span style="color: light-dark(#032F62, #9ECBFF);"> build-linux-aarch64</span></span></code></pre>
+<ul>
+<li>If you are running macOS on Intel use:</li>
+</ul>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#005CC5, #79B8FF);"> -</span><span style="color: light-dark(#005CC5, #79B8FF);">C</span><span style="color: light-dark(#032F62, #9ECBFF);"> ../../</span><span style="color: light-dark(#032F62, #9ECBFF);"> build-linux-x86_64</span></span></code></pre>
+<p>After the build has completed copy your updated binary into the lab and
+re-run and re-configure SORESPO:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> copy</span><span style="color: light-dark(#032F62, #9ECBFF);"> run-and-configure</span></span></code></pre>
+<p>Wait a few seconds for SORESPO to start and retrieve the configuration for
+<code>layer2</code>.</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-config2</span></span></code></pre>
+<p>Part of the output will be a configuration instance for the <code>vrf-interface</code> on
+<code>ams-core-1</code>:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);"><code data-lang="diff"><span class="giallo-l"><span>...</span></span>
+<span class="giallo-l"><span>  &lt;vrf-interface&gt;</span></span>
+<span class="giallo-l"><span>    &lt;name&gt;ethernet-1/3.100&lt;/name&gt;</span></span>
+<span class="giallo-l"><span>    &lt;description&gt;Customer VPN access SITE-1 [SNA-1-1] in VPN acme-65501&lt;/description&gt;</span></span>
+<span class="giallo-l"><span>    &lt;vrf&gt;acme-65501&lt;/vrf&gt;</span></span>
+<span class="giallo-l"><span>    &lt;ipv4-address&gt;10.201.1.1&lt;/ipv4-address&gt;</span></span>
+<span class="giallo-l"><span>    &lt;ipv4-prefix-length&gt;30&lt;/ipv4-prefix-length&gt;</span></span>
+<span class="giallo-l"><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">+</span><span style="color: light-dark(#22863A, #85E89D);background-color: light-dark(#F0FFF4, #144620);">   &lt;mtu&gt;1500&lt;/mtu&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/vrf-interface&gt;</span></span>
+<span class="giallo-l"><span>...</span></span></code></pre>
+<p><em>Note</em>: In reality, You wouldn't likely hard-code the MTU in the Intermediate
+Transform. We would expect the MTU to be passed down from higher layers, e.g.
+from the CFS intent all the way down to the device configuration. But the
+development process from here on out is always the same.</p>
+<h2 id="what-s-next">What's Next</h2>
+<p>Now that you are familiar with running and developing for SORESPO, continue
+to explore the <a rel="external" href="https://github.com/stratoweave/sorespo/blob/main/test/README.md">other labs</a> we have available, including
+more router vendors etc..</p>
+
+
+        </div>
+
+        
+        
+    </main>
+
+    
+    <footer class="site-footer">
+        <small class="subtext">
+            Copyright © 2026 <a href="https://www.stratoweave.org">StratoWeave Project</a> © 2026 <a href="https://www.linuxfoundation.org/">The Linux Foundation®</a>. All rights reserved.
+        </small>
+    </footer>
+    
+</body>
+<script>
+    function highlightNav(heading) {
+        let pathname = location.pathname;
+        document.querySelectorAll(".toc a").forEach((item) => {
+            item.classList.remove("active");
+        });
+        const activeItem = document.querySelector(".toc a[href$='" + pathname + "#" + heading + "']");
+        if (activeItem) {
+            activeItem.classList.add("active");
+        }
+    }
+
+    let currentHeading = "";
+    window.onscroll = function () {
+        if (!document.querySelector(".toc")) {
+            return;
+        }
+
+        let h = document.querySelectorAll("h1,h2,h3,h4,h5,h6");
+        let elementArr = [];
+
+        h.forEach(item => {
+            if (item.id !== "") {
+                elementArr[item.id] = item.getBoundingClientRect().top;
+            }
+        });
+        elementArr.sort();
+        for (let key in elementArr) {
+            if (!elementArr.hasOwnProperty(key)) {
+                continue;
+            }
+            if (elementArr[key] > 0 && elementArr[key] < 300) {
+                if (currentHeading !== key) {
+                    highlightNav(key);
+                    currentHeading = key;
+                }
+                break;
+            }
+        }
+    }
+</script>
+
+</html>

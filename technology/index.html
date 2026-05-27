@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>StratoWeave</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a SORESPO learning path.">
+    
+    <link rel="icon" href="https://stratoweave.github.io/www.stratoweave.org/favicon.svg">
+    
+    <style>
+    :root {
+        --stratoweave-navy: #081020;
+        --stratoweave-blue: #2563eb;
+        --stratoweave-cyan: #22d3ee;
+        --stratoweave-violet: #8b5cf6;
+        --stratoweave-fuchsia: #a855f7;
+        --stratoweave-slate: #64748b;
+        --stratoweave-mist: #e2e8f0;
+        --stratoweave-ink-900: #0d1730;
+        --stratoweave-ink-800: #16223f;
+        --stratoweave-ink-700: #233456;
+        --stratoweave-ink-500: #7d8cac;
+        --stratoweave-ink-300: #c7d1e4;
+        --stratoweave-paper: #f8fbff;
+
+        --primary-color: var(--stratoweave-blue);
+        --primary-color-touch: var(--stratoweave-cyan);
+        --primary-text-color: var(--stratoweave-paper);
+        --primary-hero-text-color: var(--stratoweave-paper);
+        --nav-text-color: var(--stratoweave-paper);
+        --primary-link-color: var(--stratoweave-cyan);
+        --secondary-color: var(--stratoweave-navy);
+        --secondary-color-accent: var(--stratoweave-ink-900);
+        --secondary-text-color: #a7b5d1;
+        --toc-highlight-text-color: var(--stratoweave-cyan);
+        --tertiary-color: #050b17;
+        --panel-color: rgba(13, 23, 48, 0.76);
+        --border-color: rgba(226, 232, 240, 0.14);
+        --chrome-color: rgba(8, 16, 32, 0.9);
+        --code-color: rgba(5, 11, 23, 0.92);
+        color-scheme: dark;
+    }
+</style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stratoweave.github.io/www.stratoweave.org/normalize.css">
+    <link rel="stylesheet" href="https://stratoweave.github.io/www.stratoweave.org/juice.css">
+    
+    
+</head>
+
+<body class="site-page">
+    
+<header class="site-header">
+    
+<a class="site-logo" href="https://stratoweave.github.io/www.stratoweave.org">
+    <span class="brand-mark" aria-hidden="true">
+        <img src="https://stratoweave.github.io/www.stratoweave.org/stratoweave-mark.svg" alt="">
+    </span>
+    <span class="site-logo__lockup">
+        <span class="site-logo__name">StratoWeave</span>
+        <span class="site-logo__eyebrow">Orchestration Platform</span>
+    </span>
+</a>
+
+<div class="site-nav-shell">
+    <button
+        class="site-nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav-primary"
+        aria-label="Toggle navigation menu"
+    >
+        <span class="site-nav-toggle__bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <nav id="site-nav-primary" class="site-nav" aria-label="Primary navigation">
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/learn">Learn</a>
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/technology">Technology</a>
+        <a class="nav-item" href="https://stratoweave.github.io/stratoweave.guide/">Documentation</a>
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/governance">Governance</a>
+        <a class="nav-item" href="https://github.com/stratoweave/stratoweave">GitHub</a>
+    </nav>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".site-nav-shell").forEach(function (shell) {
+        const toggle = shell.querySelector(".site-nav-toggle");
+        const nav = shell.querySelector(".site-nav");
+
+        if (!toggle || !nav) {
+            return;
+        }
+
+        const mobileQuery = window.matchMedia("(max-width: 700px)");
+
+        function closeMenu() {
+            shell.classList.remove("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+
+        function syncMenuState() {
+            shell.classList.add("site-nav-shell--ready");
+
+            if (!mobileQuery.matches) {
+                closeMenu();
+            }
+        }
+
+        toggle.addEventListener("click", function () {
+            const isOpen = shell.classList.toggle("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!mobileQuery.matches || shell.contains(event.target)) {
+                return;
+            }
+
+            closeMenu();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+        });
+
+        if (typeof mobileQuery.addEventListener === "function") {
+            mobileQuery.addEventListener("change", syncMenuState);
+        } else {
+            mobileQuery.addListener(syncMenuState);
+        }
+
+        syncMenuState();
+    });
+});
+</script>
+
+</header>
+
+
+    <main class="page-shell">
+        
+        
+        
+        
+        
+        <div class="toc">
+            <div class="toc-sticky">
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#transforms-and-layering">Transforms and layering</a>
+                </div>
+                
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#declarative-automation-through-transforms"><small>- Declarative automation through transforms</small></a>
+                </div>
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#layered-transforms-for-scalable-automation"><small>- Layered transforms for scalable automation</small></a>
+                </div>
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#multi-stage-transforms-for-complex-logic"><small>- Multi-stage transforms for complex logic</small></a>
+                </div>
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#reactive-transforms-for-closed-loop-automation"><small>- Reactive transforms for closed-loop automation</small></a>
+                </div>
+                
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#northbound-interfaces">Northbound interfaces</a>
+                </div>
+                
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#tmf-open-apis"><small>- TMF Open APIs</small></a>
+                </div>
+                
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#southbound-adapters">Southbound adapters</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#brownfield-and-migrations">Brownfield and migrations</a>
+                </div>
+                
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#service-discovery"><small>- Service discovery</small></a>
+                </div>
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#co-existence-and-migration"><small>- Co-existence and migration</small></a>
+                </div>
+                
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#quality-and-developer-experience">Quality and developer experience</a>
+                </div>
+                
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#yang-native-transform-definitions"><small>- YANG-native transform definitions</small></a>
+                </div>
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#testing-and-validation"><small>- Testing and validation</small></a>
+                </div>
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#developer-tools-and-documentation"><small>- Developer tools and documentation</small></a>
+                </div>
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#migrating-from-cli-to-model-driven"><small>- Migrating from CLI to model-driven</small></a>
+                </div>
+                
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/technology/#platform-design-principles">Platform design principles</a>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+        
+
+        <div class="content text">
+            
+<div class="heading-text">Technology</div>
+
+<p class="page-intro">How StratoWeave&#x27;s architecture and design principles enable scalable, declarative automation for modern networks.</p>
+
+<h1 id="transforms-and-layering">Transforms and layering</h1>
+<figure class="technology-diagram">
+	<img src="../TransformLayersSVG.svg" alt="Diagram of layered transforms in StratoWeave">
+</figure>
+<h2 id="declarative-automation-through-transforms">Declarative automation through transforms</h2>
+<p>Automation in StratoWeave is carried out by transforms. A transform owns the
+relevant service or device configuration for the entire lifecycle, and it is
+instantiated from configuration intent. Once instantiated, a transform
+continues to exist for as long as the configuration is present.</p>
+<p>Transforms are declarative, so the application programmer does not need to
+define separate update or delete cases. They are also layered, breaking complex
+macro tasks into smaller, manageable sub-tasks, and reactive, acting on input
+events from northbound configuration or southbound telemetry. In practice,
+declarative configuration management in StratoWeave is realised through
+transforms.</p>
+<h2 id="layered-transforms-for-scalable-automation">Layered transforms for scalable automation</h2>
+<p>Service automation in StratoWeave is implemented in layers. As you move up the
+layers, services become more abstract, which makes complex behavior simpler to
+configure and manage. That same layered structure also improves scalability,
+because end-to-end services that require configuration across many devices can
+be driven from a single order.</p>
+<p>The result is a service definition that stays stable across different devices
+and environments, while the platform handles the complexity needed to realize
+that service lower down in the automation stack.</p>
+<h2 id="multi-stage-transforms-for-complex-logic">Multi-stage transforms for complex logic</h2>
+<p>Multi-stage transforms provide a mechanism for implementing complex,
+conditional logic across multiple configuration steps. Because that logic lives
+inside the transform, the complexity does not need to be exposed at the
+northbound interface.</p>
+<p>That is essential to how StratoWeave stays declarative and scalable. Users
+specify the target state rather than the intermediate steps required to get
+there, while state and complexity can be distributed closer to the managed
+devices where that behavior scales more naturally. It also makes real
+abstraction possible at each automation layer, which in turn makes complex
+automation tasks across diverse device types and network domains much easier to
+configure and manage.</p>
+<h2 id="reactive-transforms-for-closed-loop-automation">Reactive transforms for closed-loop automation</h2>
+<p>StratoWeave is designed to support closed-loop automation driven by telemetry
+and operational state. By making a transform reactive, it can subscribe to
+telemetry events and react to changes in the network as they happen. Any
+transform, at any layer, can be made reactive, so the platform supports a wide
+range of use cases.</p>
+<figure class="technology-diagram">
+	<img src="../reactiveTransform.svg" alt="Diagram of reactive transforms in StratoWeave">
+</figure>
+<p>Each reactive transform can itself expose operational state for higher-layer
+transforms to subscribe to. It becomes natural to abstract and encapsulate
+implementation details at each layer, while still making it possible to drive
+complex closed-loop behavior across the stack and expose the overall network
+state to operators and applications.</p>
+<h1 id="northbound-interfaces">Northbound interfaces</h1>
+<p>StratoWeave is flexible enough to interface with existing OSS/BSS systems while
+also serving as the core orchestration platform for a wider automation
+architecture. As a YANG-native orchestration platform, StratoWeave supports
+both NETCONF and RESTCONF as its northbound interfaces by default.</p>
+<h2 id="tmf-open-apis">TMF Open APIs</h2>
+<p>StratoWeave supports TM Forum Open APIs by mapping its native YANG models
+into TMF633 Service Catalog entries and allowing Service Ordering and Inventory
+through TMF640 and TMF641 interfaces. That allows operators to keep a single
+model-driven source of truth inside StratoWeave while still presenting catalog,
+ordering, and activation interfaces that fit naturally into TMF-based OSS and
+BSS environments.</p>
+<h1 id="southbound-adapters">Southbound adapters</h1>
+<p>The StratoWeave Device Manager provides a framework for building southbound
+adapters to interface with different device types, cloud services, and network
+domains.</p>
+<p>To build a NETCONF/YANG adapter, all you need to do is supply a set of YANG
+modules for the software version you want to support in the system
+specification. During the system generation process, the platform will
+automatically generate the necessary adapter code to interface with those
+devices from the transforms.</p>
+<p>Other adapter types, such as a REST API adapter for a cloud service, or CLI
+adapters for network devices that lack NETCONF support, can be built using a
+generic adapter framework. No matter the adapter type, the StratoWeave platform
+maintains a declarative interface for transform developers to use.</p>
+<h1 id="brownfield-and-migrations">Brownfield and migrations</h1>
+<p>Most networks are brownfields with a topology, devices, and services that have
+been build up over decades. StratoWeave is designed to support onboarding and
+migration in those environments, with a focus on making it easy to get started and
+show value quickly.</p>
+<h2 id="service-discovery">Service discovery</h2>
+<p>In StratoWeave, service discovery means reading an existing brownfield network
+and reconstructing the declarative service intent that would produce the same
+running state through transforms. Instead of treating the live network as an
+opaque starting point, StratoWeave treats the current device and service
+configuration as evidence of which lower-layer and higher-layer services are
+already present. That makes discovery a practical onboarding path for teams
+that want to bring long-lived networks under model-driven automation without
+first rebuilding them from scratch.</p>
+<p>The process is best approached from the bottom up and in an isolated working
+environment. Lower-layer services and device-facing intent are discovered
+first, then higher-level services are reconstructed on top of them, with each
+iteration checked against the original brownfield state to see what is still
+uncovered or modeled incorrectly. If the generated service-driven state differs
+from the real network, StratoWeave can extend the models, transforms, or
+discovery logic and repeat until coverage is good enough to let the platform
+take ownership safely, without forcing risky changes into the production
+network during discovery itself.</p>
+<h2 id="co-existence-and-migration">Co-existence and migration</h2>
+<p>StratoWeave is designed to fully manage network devices, from day zero
+including zero-touch provisioning, but often, real-world networks need to be
+migrated gradually, with a mix of manual and automated processes. StratoWeave
+supports that by allowing you to use the platform for a subset of devices or
+services while continuing to operate the rest of the network manually, through
+stand-alone scripts or other OSS tools.</p>
+<p>StratoWeave's brownfield-friendly design means you can attribute each
+configuration element to a transform, or to another source (either manual or
+another automation system), and then use that attribution to ensure that the
+platform only manages the lifecycle of the configuration it is responsible for.</p>
+<h1 id="quality-and-developer-experience">Quality and developer experience</h1>
+<p>StratoWeave is designed to be a platform that enables service developers to
+build and maintain complex automation systems with confidence by providing a
+world-class type system, testing framework, and development environment.</p>
+<h2 id="yang-native-transform-definitions">YANG-native transform definitions</h2>
+<p>StratoWeave is a YANG-native platform. The interface to each transform is
+defined by a YANG model, and all major Network Operating Systems are now
+configurable over NETCONF/YANG as well. In the generation phase, the platform
+takes the YANG models from the System Specification and generates Acton types
+from them. That allows us to leverage the static type system of the
+<a rel="external" href="https://acton.now">Acton programming language</a> to catch errors at compile
+time.</p>
+<h2 id="testing-and-validation">Testing and validation</h2>
+<p>StratoWeave includes a testing framework that allows developers to write
+complete end-to-end tests for their orchestration logic. By simulating
+the entire system, including the devices and the network, developers can
+validate their transforms and automation logic as part of their development
+workflow, rather than waiting for integration testing or production deployment
+to catch issues.</p>
+<h2 id="developer-tools-and-documentation">Developer tools and documentation</h2>
+<p>StratoWeave and the Acton programming language have a Visual Studio Code
+extension that provides syntax highlighting, code completion, and syntax
+checking for all Acton code through the Acton Language Server. Since all
+YANG models are expressed as Acton types, that means you get code completion
+and static error checking for your YANG-modelled transforms as you write them.</p>
+<h2 id="migrating-from-cli-to-model-driven">Migrating from CLI to model-driven</h2>
+<p>Developers and network engineers moving from CLI-driven workflows to YANG
+model-driven automation can use <a rel="external" href="https://github.com/stratoweave/netclics">netclics</a>
+as a practical bridge. As a web-service, netclics provides a straightforward
+approach to converting CLI configuration snippets into YANG-compliant <code>adata</code>
+code, which you can paste straight into your StratoWeave transforms.</p>
+<h1 id="platform-design-principles">Platform design principles</h1>
+<p>The platform in itself is purely reactive, acting on input events, either
+configuration changes from northbound APIs or subscriptions on streaming
+telemetry from devices.</p>
+<p>We try to "left shift" run time errors to compile / development time so we can
+detect and avoid bugs before committing code, building better and more robust
+automation systems. For example by turning YANG models into types, we can
+utilize the static type system of the programming language compiler to detect
+spelling mistakes or other data errors at compile time.</p>
+<p>The ideas behind StratoWeave has its roots in ideas from functional programming
+combined with some influence from a decade of experience in operating large IP
+networks using automation.</p>
+
+
+        </div>
+
+        
+        
+    </main>
+
+    
+    <footer class="site-footer">
+        <small class="subtext">
+            Copyright © 2026 <a href="https://www.stratoweave.org">StratoWeave Project</a> © 2026 <a href="https://www.linuxfoundation.org/">The Linux Foundation®</a>. All rights reserved.
+        </small>
+    </footer>
+    
+</body>
+<script>
+    function highlightNav(heading) {
+        let pathname = location.pathname;
+        document.querySelectorAll(".toc a").forEach((item) => {
+            item.classList.remove("active");
+        });
+        const activeItem = document.querySelector(".toc a[href$='" + pathname + "#" + heading + "']");
+        if (activeItem) {
+            activeItem.classList.add("active");
+        }
+    }
+
+    let currentHeading = "";
+    window.onscroll = function () {
+        if (!document.querySelector(".toc")) {
+            return;
+        }
+
+        let h = document.querySelectorAll("h1,h2,h3,h4,h5,h6");
+        let elementArr = [];
+
+        h.forEach(item => {
+            if (item.id !== "") {
+                elementArr[item.id] = item.getBoundingClientRect().top;
+            }
+        });
+        elementArr.sort();
+        for (let key in elementArr) {
+            if (!elementArr.hasOwnProperty(key)) {
+                continue;
+            }
+            if (elementArr[key] > 0 && elementArr[key] < 300) {
+                if (currentHeading !== key) {
+                    highlightNav(key);
+                    currentHeading = key;
+                }
+                break;
+            }
+        }
+    }
+</script>
+
+</html>
