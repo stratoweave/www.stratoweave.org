@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>StratoWeave</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a SORESPO learning path.">
+    
+    <link rel="icon" href="https://stratoweave.github.io/www.stratoweave.org/favicon.svg">
+    
+    <style>
+    :root {
+        --stratoweave-navy: #081020;
+        --stratoweave-blue: #2563eb;
+        --stratoweave-cyan: #22d3ee;
+        --stratoweave-violet: #8b5cf6;
+        --stratoweave-fuchsia: #a855f7;
+        --stratoweave-slate: #64748b;
+        --stratoweave-mist: #e2e8f0;
+        --stratoweave-ink-900: #0d1730;
+        --stratoweave-ink-800: #16223f;
+        --stratoweave-ink-700: #233456;
+        --stratoweave-ink-500: #7d8cac;
+        --stratoweave-ink-300: #c7d1e4;
+        --stratoweave-paper: #f8fbff;
+
+        --primary-color: var(--stratoweave-blue);
+        --primary-color-touch: var(--stratoweave-cyan);
+        --primary-text-color: var(--stratoweave-paper);
+        --primary-hero-text-color: var(--stratoweave-paper);
+        --nav-text-color: var(--stratoweave-paper);
+        --primary-link-color: var(--stratoweave-cyan);
+        --secondary-color: var(--stratoweave-navy);
+        --secondary-color-accent: var(--stratoweave-ink-900);
+        --secondary-text-color: #a7b5d1;
+        --toc-highlight-text-color: var(--stratoweave-cyan);
+        --tertiary-color: #050b17;
+        --panel-color: rgba(13, 23, 48, 0.76);
+        --border-color: rgba(226, 232, 240, 0.14);
+        --chrome-color: rgba(8, 16, 32, 0.9);
+        --code-color: rgba(5, 11, 23, 0.92);
+        color-scheme: dark;
+    }
+</style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stratoweave.github.io/www.stratoweave.org/normalize.css">
+    <link rel="stylesheet" href="https://stratoweave.github.io/www.stratoweave.org/juice.css">
+    
+    
+</head>
+
+<body class="site-page">
+    
+<header class="site-header">
+    
+<a class="site-logo" href="https://stratoweave.github.io/www.stratoweave.org">
+    <span class="brand-mark" aria-hidden="true">
+        <img src="https://stratoweave.github.io/www.stratoweave.org/stratoweave-mark.svg" alt="">
+    </span>
+    <span class="site-logo__lockup">
+        <span class="site-logo__name">StratoWeave</span>
+        <span class="site-logo__eyebrow">Orchestration Platform</span>
+    </span>
+</a>
+
+<div class="site-nav-shell">
+    <button
+        class="site-nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav-primary"
+        aria-label="Toggle navigation menu"
+    >
+        <span class="site-nav-toggle__bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <nav id="site-nav-primary" class="site-nav" aria-label="Primary navigation">
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/learn">Learn</a>
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/technology">Technology</a>
+        <a class="nav-item" href="https://stratoweave.github.io/stratoweave.guide/">Documentation</a>
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/partners">Partners</a>
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/governance">Governance</a>
+        <a class="nav-item" href="https://github.com/stratoweave/stratoweave">GitHub</a>
+    </nav>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".site-nav-shell").forEach(function (shell) {
+        const toggle = shell.querySelector(".site-nav-toggle");
+        const nav = shell.querySelector(".site-nav");
+
+        if (!toggle || !nav) {
+            return;
+        }
+
+        const mobileQuery = window.matchMedia("(max-width: 700px)");
+
+        function closeMenu() {
+            shell.classList.remove("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+
+        function syncMenuState() {
+            shell.classList.add("site-nav-shell--ready");
+
+            if (!mobileQuery.matches) {
+                closeMenu();
+            }
+        }
+
+        toggle.addEventListener("click", function () {
+            const isOpen = shell.classList.toggle("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!mobileQuery.matches || shell.contains(event.target)) {
+                return;
+            }
+
+            closeMenu();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+        });
+
+        if (typeof mobileQuery.addEventListener === "function") {
+            mobileQuery.addEventListener("change", syncMenuState);
+        } else {
+            mobileQuery.addListener(syncMenuState);
+        }
+
+        syncMenuState();
+    });
+});
+</script>
+
+</header>
+
+
+    <main class="page-shell">
+        
+        
+        
+        
+        
+        <div class="toc">
+            <div class="toc-sticky">
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/governance/#governance-for-a-durable-open-collaboration">Governance for a durable open collaboration</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/governance/#what-operators-and-partners-can-expect">What operators and partners can expect</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/governance/#what-contributors-can-expect">What contributors can expect</a>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+        
+
+        <div class="content text">
+            
+<div class="heading-text">Governance</div>
+
+<p class="page-intro">Why stakeholders and contributors can trust StratoWeave&#x27;s open governance and help shape the platform.</p>
+
+<h1 id="governance-for-a-durable-open-collaboration">Governance for a durable open collaboration</h1>
+<p>StratoWeave is an open-source platform released under the BSD 3-Clause License,
+with governance designed to support operators, vendors, integrators, and
+individual contributors on equal terms.
+StratoWeave is a <a rel="external" href="https://www.linuxfoundation.org/">Linux Foundation</a>
+project, with a neutral home, transparent decision making, and a clear path for
+the project to grow with the community.</p>
+<h1 id="what-operators-and-partners-can-expect">What operators and partners can expect</h1>
+<p>When you adopt, evaluate, or support StratoWeave, you should expect a project
+that is governed in the open and built to earn trust. That means:</p>
+<ul>
+<li>a vendor-neutral platform with transparent decision making</li>
+<li>project assets and community infrastructure managed for the benefit of the community</li>
+<li>straightforward open-source licensing and contributor terms</li>
+<li>technical direction developed in public, not behind closed doors</li>
+<li>a collaboration model that welcomes participation from across the ecosystem</li>
+</ul>
+<p>Those are not abstract ideals. They are the operating conditions that make a
+network orchestration platform credible for long-term use. They reduce adoption
+risk, increase contributor confidence, and make it easier for organizations to
+invest time, code, integration work, and operational experience into the
+project.</p>
+<h1 id="what-contributors-can-expect">What contributors can expect</h1>
+<p>If you want to contribute to StratoWeave, you should expect a project that is
+worth contributing to.</p>
+<p>That means you can work in the open, see how decisions are made, and help shape
+the technical direction through real participation. It also means your work can
+land in a platform that is intended to serve a broad community, not a narrow
+internal use case.</p>
+<p>We want contributors building reusable models, transforms, adapters, reference
+deployments, operational patterns, documentation, and learning material. We
+want operators sharing real deployment needs. We want ecosystem partners
+bringing integrations and implementation experience. And we want individual
+developers to know that strong technical work can have lasting impact here.</p>
+
+
+        </div>
+
+        
+        
+    </main>
+
+    
+    <footer class="site-footer">
+        <small class="subtext">
+            Copyright © 2026 <a href="https://www.stratoweave.org">StratoWeave Project</a> © 2026 <a href="https://www.linuxfoundation.org/">The Linux Foundation®</a>. All rights reserved.
+        </small>
+    </footer>
+    
+</body>
+<script>
+    function highlightNav(heading) {
+        let pathname = location.pathname;
+        document.querySelectorAll(".toc a").forEach((item) => {
+            item.classList.remove("active");
+        });
+        const activeItem = document.querySelector(".toc a[href$='" + pathname + "#" + heading + "']");
+        if (activeItem) {
+            activeItem.classList.add("active");
+        }
+    }
+
+    let currentHeading = "";
+    window.onscroll = function () {
+        if (!document.querySelector(".toc")) {
+            return;
+        }
+
+        let h = document.querySelectorAll("h1,h2,h3,h4,h5,h6");
+        let elementArr = [];
+
+        h.forEach(item => {
+            if (item.id !== "") {
+                elementArr[item.id] = item.getBoundingClientRect().top;
+            }
+        });
+        elementArr.sort();
+        for (let key in elementArr) {
+            if (!elementArr.hasOwnProperty(key)) {
+                continue;
+            }
+            if (elementArr[key] > 0 && elementArr[key] < 300) {
+                if (currentHeading !== key) {
+                    highlightNav(key);
+                    currentHeading = key;
+                }
+                break;
+            }
+        }
+    }
+</script>
+
+</html>
