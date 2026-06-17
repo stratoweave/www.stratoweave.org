@@ -331,7 +331,7 @@ header {
   position: absolute;
   top: clamp(0.6rem, 1.4vw, 1.1rem);
   right: 0;
-  z-index: 3;
+  z-index: 24;
 }
 
 .hero-copy {
@@ -450,6 +450,8 @@ header {
   gap: 0.65rem;
   max-width: 100%;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-partner:hover {
@@ -642,6 +644,7 @@ header {
   justify-content: center;
   align-items: center;
   gap: 1.35rem;
+  pointer-events: none;
 }
 
 .hero-lottie__orchestrator {
@@ -673,6 +676,7 @@ header {
   justify-items: center;
   gap: 0.65rem;
   transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .hero-lottie__sources span,
