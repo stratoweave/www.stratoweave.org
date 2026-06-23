@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>StratoWeave</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a SORESPO learning path.">
+    
+    <link rel="icon" href="https://stratoweave.github.io/www.stratoweave.org/favicon.svg">
+    
+    <style>
+    :root {
+        --stratoweave-navy: #081020;
+        --stratoweave-blue: #2563eb;
+        --stratoweave-cyan: #22d3ee;
+        --stratoweave-violet: #8b5cf6;
+        --stratoweave-fuchsia: #a855f7;
+        --stratoweave-slate: #64748b;
+        --stratoweave-mist: #e2e8f0;
+        --stratoweave-ink-900: #0d1730;
+        --stratoweave-ink-800: #16223f;
+        --stratoweave-ink-700: #233456;
+        --stratoweave-ink-500: #7d8cac;
+        --stratoweave-ink-300: #c7d1e4;
+        --stratoweave-paper: #f8fbff;
+
+        --primary-color: var(--stratoweave-blue);
+        --primary-color-touch: var(--stratoweave-cyan);
+        --primary-text-color: var(--stratoweave-paper);
+        --primary-hero-text-color: var(--stratoweave-paper);
+        --nav-text-color: var(--stratoweave-paper);
+        --primary-link-color: var(--stratoweave-cyan);
+        --secondary-color: var(--stratoweave-navy);
+        --secondary-color-accent: var(--stratoweave-ink-900);
+        --secondary-text-color: #a7b5d1;
+        --toc-highlight-text-color: var(--stratoweave-cyan);
+        --tertiary-color: #050b17;
+        --panel-color: rgba(13, 23, 48, 0.76);
+        --border-color: rgba(226, 232, 240, 0.14);
+        --chrome-color: rgba(8, 16, 32, 0.9);
+        --code-color: rgba(5, 11, 23, 0.92);
+        color-scheme: dark;
+    }
+</style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stratoweave.github.io/www.stratoweave.org/normalize.css">
+    <link rel="stylesheet" href="https://stratoweave.github.io/www.stratoweave.org/juice.css">
+    
+    
+</head>
+
+<body class="site-page">
+    
+<header class="site-header">
+    
+<a class="site-logo" href="https://stratoweave.github.io/www.stratoweave.org">
+    <span class="brand-mark" aria-hidden="true">
+        <img src="https://stratoweave.github.io/www.stratoweave.org/stratoweave-logo.svg" alt="">
+    </span>
+</a>
+
+<div class="site-nav-shell">
+    <button
+        class="site-nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav-primary"
+        aria-label="Toggle navigation menu"
+    >
+        <span class="site-nav-toggle__bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <nav id="site-nav-primary" class="site-nav" aria-label="Primary navigation">
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/learn">Learn</a>
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/technology">Technology</a>
+        <a class="nav-item" href="https://stratoweave.github.io/stratoweave.guide/">Documentation</a>
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/partners">Partners</a>
+        <a class="nav-item" href="https://stratoweave.github.io/www.stratoweave.org/governance">Governance</a>
+        <a class="nav-item" href="https://github.com/stratoweave/stratoweave">GitHub</a>
+    </nav>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".site-nav-shell").forEach(function (shell) {
+        const toggle = shell.querySelector(".site-nav-toggle");
+        const nav = shell.querySelector(".site-nav");
+
+        if (!toggle || !nav) {
+            return;
+        }
+
+        const mobileQuery = window.matchMedia("(max-width: 700px)");
+
+        function closeMenu() {
+            shell.classList.remove("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+
+        function syncMenuState() {
+            shell.classList.add("site-nav-shell--ready");
+
+            if (!mobileQuery.matches) {
+                closeMenu();
+            }
+        }
+
+        toggle.addEventListener("click", function () {
+            const isOpen = shell.classList.toggle("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!mobileQuery.matches || shell.contains(event.target)) {
+                return;
+            }
+
+            closeMenu();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+        });
+
+        if (typeof mobileQuery.addEventListener === "function") {
+            mobileQuery.addEventListener("change", syncMenuState);
+        } else {
+            mobileQuery.addListener(syncMenuState);
+        }
+
+        syncMenuState();
+    });
+});
+</script>
+
+</header>
+
+
+    <main class="page-shell">
+        
+        
+        
+        
+        
+        <div class="toc">
+            <div class="toc-sticky">
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://stratoweave.github.io/www.stratoweave.org/partners/#implementation-partners">Implementation partners</a>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+        
+
+        <div class="content text">
+            
+<div class="heading-text">Partners</div>
+
+<p class="page-intro">Organizations in the StratoWeave ecosystem.</p>
+
+<h2 id="implementation-partners">Implementation partners</h2>
+<p>The following organizations can help you design, migrate, and operate
+orchestration with StratoWeave.</p>
+<section aria-label="Current partners" style="display: grid; gap: 1rem;">
+<article class="proof-card" style="grid-column: 1 / -1; max-width: 42rem; margin: 0 auto; width: 100%;">
+<a href="https://www.intwine.net" target="_blank" rel="noreferrer" style="display: grid; gap: 0.85rem; color: inherit; text-decoration: none; justify-items: center; text-align: center;">
+<span style="display: inline-flex; align-items: center; justify-content: center; background: #ffffff; border-radius: 1rem; padding: 1.25rem; min-height: 7rem; width: 100%; box-sizing: border-box;">
+<img src="../partners/intwine.png" alt="Intwine logo" style="display: block; max-width: 100%; height: auto; max-height: 4.25rem;">
+</span>
+<strong style="font-size: 1.45rem;">Intwine</strong>
+</a>
+<span>Intwine is the team behind StratoWeave. We help service providers build and maintain intent-based orchestration, without architectural lock-in.</span>
+</article>
+<div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));">
+<article class="proof-card">
+<a href="https://flint.si" target="_blank" rel="noreferrer" style="display: grid; gap: 0.75rem; color: inherit; text-decoration: none;">
+<span style="display: inline-flex; align-items: center; justify-content: center; background: #ffffff; border-radius: 0.875rem; padding: 1rem; min-height: 6rem;">
+<img src="../partners/flint-si.png" alt="Flint SI logo" style="display: block; max-width: 100%; height: auto; max-height: 3.75rem;">
+</span>
+<strong>Flint SI</strong>
+</a>
+</article>
+<article class="proof-card">
+<a href="https://www.netedge.plus" target="_blank" rel="noreferrer" style="display: grid; gap: 0.75rem; color: inherit; text-decoration: none;">
+<span style="display: inline-flex; align-items: center; justify-content: center; background: #ffffff; border-radius: 0.875rem; padding: 1rem; min-height: 6rem;">
+<img src="../partners/netedge.png" alt="NetEdge logo" style="display: block; max-width: 100%; height: auto; max-height: 3.75rem;">
+</span>
+<strong>NetEdge</strong>
+</a>
+</article>
+<article class="proof-card">
+<a href="mailto:k@centor.se" style="display: grid; gap: 0.75rem; color: inherit; text-decoration: none;">
+<span style="display: inline-flex; align-items: center; justify-content: center; background: #ffffff; border-radius: 0.875rem; padding: 1rem; min-height: 6rem; color: #081020; font-weight: 800; font-size: 1.2rem; letter-spacing: 0.18em; text-transform: uppercase;">
+Centor
+</span>
+<strong>Centor</strong>
+</a>
+</article>
+</div>
+</section>
+<p>If you are an integrator or consultancy working with service provider
+customers, and you have expertise in orchestration strategy, migration,
+service modeling, or production support, reach out to the maintainers to
+discuss being listed as a partner.</p>
+
+
+        </div>
+
+        
+        
+    </main>
+
+    
+    <footer class="site-footer">
+        <small class="subtext">
+            Copyright © 2026 <a href="https://www.stratoweave.org">StratoWeave Project</a> © 2026 <a href="https://www.linuxfoundation.org/">The Linux Foundation®</a>. All rights reserved.
+        </small>
+    </footer>
+    
+</body>
+<script>
+    function highlightNav(heading) {
+        let pathname = location.pathname;
+        document.querySelectorAll(".toc a").forEach((item) => {
+            item.classList.remove("active");
+        });
+        const activeItem = document.querySelector(".toc a[href$='" + pathname + "#" + heading + "']");
+        if (activeItem) {
+            activeItem.classList.add("active");
+        }
+    }
+
+    let currentHeading = "";
+    window.onscroll = function () {
+        if (!document.querySelector(".toc")) {
+            return;
+        }
+
+        let h = document.querySelectorAll("h1,h2,h3,h4,h5,h6");
+        let elementArr = [];
+
+        h.forEach(item => {
+            if (item.id !== "") {
+                elementArr[item.id] = item.getBoundingClientRect().top;
+            }
+        });
+        elementArr.sort();
+        for (let key in elementArr) {
+            if (!elementArr.hasOwnProperty(key)) {
+                continue;
+            }
+            if (elementArr[key] > 0 && elementArr[key] < 300) {
+                if (currentHeading !== key) {
+                    highlightNav(key);
+                    currentHeading = key;
+                }
+                break;
+            }
+        }
+    }
+</script>
+
+</html>
