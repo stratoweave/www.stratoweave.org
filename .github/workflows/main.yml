@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@master
       - name: "Set repo-specific site vars"
         run: |
-          echo "SITE_BASE_URL=https://stratoweave.github.io/www.stratoweave.org" >> $GITHUB_ENV
+          echo "SITE_BASE_URL=https://www.stratoweave.org" >> $GITHUB_ENV
       - name: "Set deploy CNAME"
         run: |
           printf '%s\n' "$SITE_DOMAIN" > static/CNAME

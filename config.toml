@@ -1,5 +1,5 @@
 # The URL the site will be built for
-base_url = "https://stratoweave.github.io/www.stratoweave.org" # "https://www.stratoweave.org"
+base_url = "https://www.stratoweave.org"
 title = "StratoWeave"
 description = "Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a SORESPO learning path."
 
