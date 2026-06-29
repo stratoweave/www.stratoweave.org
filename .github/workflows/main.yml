@@ -22,8 +22,13 @@ jobs:
       - name: "Set repo-specific site vars"
         run: |
           echo "SITE_BASE_URL=https://www.stratoweave.org" >> $GITHUB_ENV
+          echo "SITE_DOMAIN=www.stratoweave.org" >> $GITHUB_ENV
       - name: "Set deploy CNAME"
         run: |
+          if [ -z "$SITE_DOMAIN" ]; then
+            echo "SITE_DOMAIN is empty; refusing to deploy without CNAME"
+            exit 1
+          fi
           printf '%s\n' "$SITE_DOMAIN" > static/CNAME
         if: github.ref == 'refs/heads/main'
       - name: 'Build and deploy'
