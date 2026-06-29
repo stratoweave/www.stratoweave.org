@@ -1,0 +1,20 @@
+{% import "_macros.html" as macros %}
+{% extends "base.html" %}
+
+{% block header %}
+<header class="site-header">
+    {{ macros::render_header() }}
+</header>
+{% endblock header %}
+
+{% block page_shell_class -%}
+{% if section.extra and section.extra.full_width | default(value=false) %} page-shell--full-width{% endif %}
+{%- endblock page_shell_class %}
+
+{% block content %}
+<div class="heading-text">{{ section.title }}</div>
+{% if section.description %}
+<p class="page-intro">{{ section.description }}</p>
+{% endif %}
+{{ section.content | safe }}
+{% endblock content %}
