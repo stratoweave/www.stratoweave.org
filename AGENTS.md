@@ -8,7 +8,7 @@
 ## Brand And Style Guide
 
 - StratoWeave's brand concept is an interwoven orchestration fabric: layered paths flowing across domains, technologies, intent, and telemetry.
-- Prefer the existing brand mark at `content/stratoweave-mark.svg` when adding or adjusting logo usage.
+- Prefer the existing logo at `content/stratoweave-logo.svg` when adding or adjusting logo usage.
 - Primary typography is Inter. Keep the visual language clean, modern, and technical rather than decorative or playful.
 - Use the current brand palette as the default source of truth:
   - `#081020` for deep background surfaces
