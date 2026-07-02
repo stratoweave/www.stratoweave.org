@@ -1,8 +1,8 @@
 +++
-title = "Learn StratoWeave"
+title = "StratoWeave Tutorials"
 description = "Start with SORESPO, the reference implementation that shows how StratoWeave works in practice."
 sort_by = "weight"
-template = "learn.html"
+template = "tutorials.html"
 +++
 
 SORESPO, short for SOmewhat REalistic Service Provider Orchestrator, is the

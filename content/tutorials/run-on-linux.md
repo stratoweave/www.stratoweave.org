@@ -669,4 +669,4 @@ notice how your terminal returns as soon as the intent was accepted by SORESPO.
 
 ## What's Next
 Now that you are familiar with running SORESPO and interacting with it,
-continue by learning how to make [changes to the automation code](@/learn/develop-on-linux.md).
+continue by learning how to make [changes to the automation code](@/tutorials/develop-on-linux.md).

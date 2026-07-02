@@ -1,11 +1,11 @@
 +++
-title = "Developing SORESPO on Linux"
-weight = 50
+title = "Developing SORESPO on Windows"
+weight = 70
 description = "Your first steps in modifying the SORESPO codebase and seeing the effects in the lab."
 
 [extra]
 track = "develop"
-platform = "Linux"
+platform = "Windows"
 full_width = true
 +++
 
@@ -15,23 +15,34 @@ This tutorial will guide you through making your first changes to the
 SORESPO automation code and building the application. If you are not yet
 familiar with the basic steps involved in running and interacting with
 SORESPO, you might want to start out with the tutorial on
-[running SORESPO](@/learn/run-on-linux.md) first.
+[running SORESPO](@/tutorials/run-on-windows.md) first.
 
 ## Preparing the Environment
 
-* Install the following prerequisites:
-  * [Docker Engine](https://docs.docker.com/engine/install/)
-  * [Git](https://git-scm.com/downloads/linux)
-  * [Acton](https://acton.guide/install.html) (*Note:* This is an additional prerequite compared to [running SORESPO](@/learn/run-on-linux.md))
-* Install the  `vrf` kernel module, on Ubuntu or Debian this can be done with:
-``` shell
+* First, install the [Windows Subsytem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
+  * During the Windows Subsytem for Linux installation keep the default WSL
+    version, `WSL2`.
+  * Also keep the default Linux distribution, `Ubuntu`.
+* Then, install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+  * *Note*: Install the Windows Subsytem for Linux first!
+* After the installation has completed, start *Docker Desktop*
+  * The CPU and memory resources allocation to Docker Desktop are controlled by
+  the [WSL configuration](https://learn.microsoft.com/en-us/windows/wsl/wsl-config).
+  By default 50% of the overall RAM is allocated to WSL2, you may need to tweak
+  this to allocate at least 8GB of RAM to Docker Desktop.
+* Open your `Ubuntu` (`WSL2`) shell and run:
+```shell
 sudo apt update
-sudo apt install linux-modules-extra-$(uname -r)
+sudo apt install make
 ```
+* Install [Acton](https://acton.guide/install.html) (*Note:* This is an additional prerequite compared to [running SORESPO](@/tutorials/run-on-windows.md))
+  * Follow the instructions for `Debian / Ubuntu` in your `Ubuntu` (`WSL2`) shell
+
+Perform all further instructions in this tutorial from the `Ubuntu` (`WSL2`) shell.
 
 ## Starting the SORESPO Network
-*NOTE*: If you already completed the tutorial on [running SORESPO](@/learn/run-on-linux.md),
-you can skip ahead to the [next step](@/learn/develop-on-linux.md#modifying-the-sorespo-application)!
+*NOTE*: If you already completed the tutorial on [running SORESPO](@/tutorials/run-on-windows.md),
+you can skip ahead to the [next step](@/tutorials/develop-on-windows.md#modifying-the-sorespo-application)!
 
 Clone the project:
 ```shell
@@ -54,7 +65,7 @@ All config files applied
 
 You now have a running lab topology with fully configured containerized
 routers. The current state of the lab is identical to the final step in the
-[tutorial on running SORESPO](@/learn/run-on-linux.md).
+[tutorial on running SORESPO](@/tutorials/run-on-windows.md).
 
 ----
 
@@ -76,13 +87,12 @@ In a new shell navigate to the `sorespo/test/quicklab-srl`
 directory and get the configuration:
 ```shell
 cd sorespo/test/quicklab-srl
-make get-dev-config-ams-core-1 | sed -n '/<interface xmlns="urn:nokia.com:srlinux:chassis:interfaces">/,/<\/interface>/p'
+make get-dev-config-ams-core-1 | sed -n '/<interface xmlns="urn:nokia.com:srlinux:chassis:interfaces">/,/<\/interface>/{H; /<\/interface>/{x; /<name>ethernet-1\/3<\/name>/p;}}'
 ```
-*NOTE*: The `sed` command filters the output down to the interface section.
+*NOTE*: The `sed` command filters the output down to the interface ethernet-1/3 section.
 
-Part of the output is the VRF interface:
+We see the VRF interface configuration for the `ethernet-1/3` interface on the `ams-core-1` router:
 ```xml
-...
 <interface xmlns="urn:nokia.com:srlinux:chassis:interfaces">
     <name>ethernet-1/3</name>
     <admin-state>enable</admin-state>
@@ -106,7 +116,6 @@ Part of the output is the VRF interface:
         </vlan>
     </subinterface>
 </interface>
-...
 ```
 
 Notice how SORESPO filled in a handy interface description for the
@@ -125,9 +134,7 @@ class VrfInterface(base.VrfInterface):
             dev = srl25.root()
 
             # Create the main interface
-            intf = dev.interface.create(main_intf)
-            intf.admin_state = "enable"
-            intf.vlan_tagging = True
+            intf = dev.interface.create(main_intf, admin_state="enable", vlan_tagging=True)
 ```
 
 Modify `sorespo/src/sorespo/rfs.act` to set an interface description on
@@ -141,9 +148,7 @@ class VrfInterface(base.VrfInterface):
             dev = srl25.root()
 
             # Create the main interface
-            intf = dev.interface.create(main_intf)
-            intf.admin_state = "enable"
-            intf.vlan_tagging = True
+            intf = dev.interface.create(main_intf, admin_state="enable", vlan_tagging=True)
 +           intf.description = "VRF Interface for customer connections"
 ```
 
@@ -153,7 +158,7 @@ SORESPO is running.
 
 In the same terminal window trigger a build:
 ```shell
-make -C ../../ build
+make -C ../../ build-linux-x86_64
 ```
 *NOTE*: With `-C ../../` `make` runs the `build` recipe two
 levels up from the current directory, saving us the hassle of moving around in
@@ -168,12 +173,11 @@ make copy run-and-configure
 Wait a few seconds for SORESPO to apply your changes to the routers and
 repeat the steps above to validate your change was successful.
 ```shell
-make get-dev-config-ams-core-1 | sed -n '/<interface xmlns="urn:nokia.com:srlinux:chassis:interfaces">/,/<\/interface>/p'
+make get-dev-config-ams-core-1 | sed -n '/<interface xmlns="urn:nokia.com:srlinux:chassis:interfaces">/,/<\/interface>/{H; /<\/interface>/{x; /<name>ethernet-1\/3<\/name>/p;}}'
 ```
 
 The interface description has been applied to each of the VRF interfaces:
 ```diff
-...
 <interface xmlns="urn:nokia.com:srlinux:chassis:interfaces">
     <name>ethernet-1/3</name>
 +   <description>VRF Interface for customer connections</description>
@@ -198,7 +202,6 @@ The interface description has been applied to each of the VRF interfaces:
         </vlan>
     </subinterface>
 </interface>
-...
 ```
 
 ### Modifying the SORESPO YANG models
@@ -208,7 +211,7 @@ themselves to be able to pass different parameters from layer to layer.
 
 Retrieve the current input to the RFS layer, i.e. `layer2`:
 ```shell
-make get-config2 | sed -n '/<vrf-interface>/,/<\/vrf-interface>/p'
+make get-config2 2>/dev/null | sed -n '/<vrf-interface[[:space:]>]/,/<\/vrf-interface>/p'
 ```
 
 Part of the output will be a configuration instance for the `vrf-interface` on `ams-core-1`:
@@ -299,25 +302,21 @@ following section of the code:
 class L3Vpn(base.L3Vpn):
     def transform(self, i):
 ...
-            vi = rfs.vrf_interface.create(ep.interface)
-            vi.description = "Customer VPN access %s [%s] in VPN %s" % (ep.site, ep.site_network_access, i.name)
-            vi.ipv4_address = ep.provider_ipv4_address
-            vi.ipv4_prefix_length = ep.ipv4_prefix_length
-            vi.vrf = i.name
+            rfs.vrf_interface.create(ep.interface,
+                description="Customer VPN access %s [%s] in VPN %s" % (ep.site, ep.site_network_access, i.name),
+                vrf=i.name,
+                ipv4_address=ep.provider_ipv4_address,
+                ipv4_prefix_length=ep.ipv4_prefix_length)
 ```
 
 Modify `sorespo/src/sorespo/inter.act` to set an MTU on VRF interfaces:
 ```diff
-...
-class L3Vpn(base.L3Vpn):
-    def transform(self, i):
-...
-            vi = rfs.vrf_interface.create(ep.interface)
-            vi.description = "Customer VPN access %s [%s] in VPN %s" % (ep.site, ep.site_network_access, i.name)
-            vi.ipv4_address = ep.provider_ipv4_address
-            vi.ipv4_prefix_length = ep.ipv4_prefix_length
-            vi.vrf = i.name
-+           vi.mtu = 1500
+                 description="Customer VPN access %s [%s] in VPN %s" % (ep.site, ep.site_network_access, i.name),
+                 vrf=i.name,
+                 ipv4_address=ep.provider_ipv4_address,
+-                ipv4_prefix_length=ep.ipv4_prefix_length)
++                ipv4_prefix_length=ep.ipv4_prefix_length,
++                mtu=1500)
 ```
 
 
@@ -333,7 +332,7 @@ make -C ../../ gen
 
 In the same terminal window trigger a build:
 ```shell
-make -C ../../ build
+make -C ../../ build-linux-x86_64
 ```
 
 After the build has completed copy your updated binary into the lab and
@@ -345,7 +344,7 @@ make copy run-and-configure
 Wait a few seconds for SORESPO to start and retrieve the configuration for
 `layer2`.
 ```shell
-make get-config2
+make get-config2 2>/dev/null | sed -n '/<vrf-interface[[:space:]>]/,/<\/vrf-interface>/p'
 ```
 
 Part of the output will be a configuration instance for the `vrf-interface` on

@@ -21,9 +21,14 @@
     </button>
 
     <nav id="site-nav-primary" class="site-nav" aria-label="Primary navigation">
-        <a class="nav-item" href="{{ get_url(path="/learn") }}">Learn</a>
         <a class="nav-item" href="{{ get_url(path="/technology") }}">Technology</a>
-        <a class="nav-item" href="https://stratoweave.github.io/stratoweave.guide/">Documentation</a>
+        <div class="nav-group">
+            <span class="nav-item nav-item--group" tabindex="0">Documentation</span>
+            <div class="nav-subnav">
+                <a class="nav-item nav-item--subnav" href="{{ get_url(path="/tutorials") }}">Tutorials</a>
+                <a class="nav-item nav-item--subnav" href="https://stratoweave.guide">StratoWeave Guide</a>
+            </div>
+        </div>
         <div class="nav-group">
             <a class="nav-item nav-item--group" href="{{ get_url(path="/community") }}">Community</a>
             <div class="nav-subnav">
@@ -31,6 +36,19 @@
             </div>
         </div>
         <a class="nav-item" href="{{ get_url(path="/partners") }}">Partners</a>
+        <a
+            class="nav-item nav-item--icon"
+            href="https://github.com/stratoweave"
+            aria-label="StratoWeave on GitHub"
+            title="StratoWeave on GitHub"
+        >
+            <svg class="nav-icon" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                <path
+                    fill="currentColor"
+                    d="M12 0C5.372 0 0 5.373 0 12c0 5.302 3.438 9.8 8.206 11.387.6.11.82-.26.82-.577v-2.235c-3.338.726-4.042-1.415-4.042-1.415-.546-1.388-1.333-1.758-1.333-1.758-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.238 1.84 1.238 1.07 1.835 2.809 1.304 3.495.997.108-.775.418-1.304.762-1.603-2.665-.303-5.467-1.333-5.467-5.93 0-1.31.468-2.382 1.237-3.222-.124-.303-.536-1.524.117-3.176 0 0 1.008-.323 3.302 1.23A11.52 11.52 0 0 1 12 5.818c1.02.005 2.047.138 3.006.404 2.292-1.554 3.298-1.231 3.298-1.231.656 1.653.244 2.874.12 3.177.771.84 1.236 1.912 1.236 3.222 0 4.609-2.807 5.624-5.48 5.921.43.371.823 1.102.823 2.221v3.292c0 .319.216.694.825.576C20.565 21.798 24 17.302 24 12c0-6.627-5.373-12-12-12z"
+                />
+            </svg>
+        </a>
     </nav>
 </div>
 

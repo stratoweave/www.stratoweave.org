@@ -1,11 +1,11 @@
 +++
-title = "Running SORESPO on Windows"
-weight = 30
-description = "Use WSL2 and Docker Desktop to run the SORESPO quicklab from a Windows machine."
+title = "Running SORESPO on macOS"
+weight = 20
+description = "Run the SORESPO quicklab on macOS with Docker Desktop or Colima and load your first intent configuration."
 
 [extra]
 track = "run"
-platform = "Windows"
+platform = "macOS"
 full_width = true
 +++
 
@@ -22,30 +22,28 @@ This document will take you through starting the virtual network lab based on
 Nokia SR Linux devices and provisioning it with the SORESPO network 
 automation system. 
 
-Thanks to the introduction of the `Windows Subsytem for Linux` and container
-technology, software development and running router labs on Windows
-has become really easy to do.
+With the advent of router vendors shipping ARM64 images of their containerized
+routers, running labs and development environments on macOS with Apple Silicon
+has become really attractive. It should also work on macOS on Intel but you'll
+likely need more CPU cores and memory allocated to Docker than described here.
 
 ## Preparing the Environment
 
-* First, install the [Windows Subsytem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
-  * During the Windows Subsytem for Linux installation keep the default WSL
-    version, `WSL2`.
-  * Also keep the default Linux distribution, `Ubuntu`.
-* Then, install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-  * *Note*: Install the Windows Subsytem for Linux first!
-* After the installation has completed, start *Docker Desktop*
-  * The CPU and memory resources allocation to Docker Desktop are controlled by
-  the [WSL configuration](https://learn.microsoft.com/en-us/windows/wsl/wsl-config).
-  By default 50% of the overall RAM is allocated to WSL2, you may need to tweak
-  this to allocate at least 8GB of RAM to Docker Desktop.
-* Open your `Ubuntu` (`WSL2`) shell and run:
-```shell
-sudo apt update
-sudo apt install make
-```
-
-Perform all further instructions in this tutorial from the `Ubuntu` (`WSL2`) shell.
+* Install the following prerequisites:
+  * [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or
+    [Colima](@/tutorials/colima.md) if you prefer an open-source alternative)
+  * [Git](https://git-scm.com/downloads/mac) and *coreutils* , both of which
+    you can install with [Homebrew](https://brew.sh/):
+  ```shell
+  brew install git coreutils
+  ```
+* After the installation has completed, start your container runtime.
+    * For *Docker Desktop*, open *Settings* and in the *Resources* section make
+        sure you've allocated at least 4 CPU cores and 8GB of RAM to Docker.
+    * Or, start your Colima VM with the appropriate resources:
+      ```shell
+      colima start --cpu 4 --memory 8
+      ```
 
 ## Starting the SORESPO Network
 
@@ -682,4 +680,4 @@ notice how your terminal returns as soon as the intent was accepted by SORESPO.
 
 ## What's Next
 Now that you are familiar with running SORESPO and interacting with it,
-continue by learning how to make [changes to the automation code](@/learn/develop-on-windows.md).
+continue by learning how to make [changes to the automation code](@/tutorials/develop-on-macos.md).

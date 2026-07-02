@@ -195,6 +195,18 @@ header {
   color: var(--primary-text-color);
 }
 
+.nav-item--icon {
+  width: 2.65rem;
+  min-width: 2.65rem;
+  padding: 0;
+  justify-content: center;
+}
+
+.nav-icon {
+  width: 1.18rem;
+  height: 1.18rem;
+}
+
 .nav-group {
   position: relative;
   display: inline-block;
@@ -2128,6 +2140,12 @@ footer a {
     font-size: 0.72rem;
     letter-spacing: 0.12em;
     justify-content: center;
+  }
+
+  .nav-item--icon {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
   }
 
   .nav-item--subnav {
