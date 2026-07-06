@@ -2098,6 +2098,7 @@ footer a {
     background: rgba(8, 16, 32, 0.96);
     box-shadow: 0 24px 52px rgba(0, 0, 0, 0.34);
     backdrop-filter: blur(22px);
+    overflow-x: clip;
   }
 
   .site-nav-shell--ready.site-nav-shell--open .site-nav {
@@ -2105,6 +2106,7 @@ footer a {
   }
 
   .nav-group {
+    display: block;
     width: 100%;
   }
 
@@ -2114,13 +2116,16 @@ footer a {
   }
 
   .nav-subnav {
-    position: static;
+    position: relative;
     display: none;
     top: auto;
     left: auto;
+    right: auto;
+    inset: auto;
     width: 100%;
     min-width: 0;
     margin-top: 0.6rem;
+    margin-left: 0;
     padding: 0;
     border: 0;
     border-radius: 0;
@@ -2130,18 +2135,26 @@ footer a {
     opacity: 1;
     visibility: visible;
     transform: none;
+    -webkit-transform: none;
     transform-origin: initial;
     pointer-events: auto;
     transition: none;
+    justify-items: stretch;
   }
 
   .nav-group[open] .nav-subnav,
   .nav-group:hover .nav-subnav,
   .nav-group:focus-within .nav-subnav {
     display: grid;
+    position: relative !important;
+    top: 0 !important;
     opacity: 1;
     visibility: visible;
-    transform: none;
+    transform: none !important;
+    -webkit-transform: none !important;
+    left: auto !important;
+    right: auto !important;
+    inset: auto !important;
     pointer-events: auto;
     transition: none;
   }
@@ -2166,6 +2179,8 @@ footer a {
     min-height: 2.4rem;
     padding: 0 0.85rem;
     justify-content: center;
+    text-align: center;
+    margin-left: 0;
   }
 
   .site-logo__eyebrow {
