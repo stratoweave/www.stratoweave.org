@@ -13,7 +13,7 @@ orchestration with StratoWeave.
 <article class="proof-card" style="grid-column: 1 / -1; max-width: 42rem; margin: 0 auto; width: 100%;">
 <a href="https://www.intwine.net" target="_blank" rel="noreferrer" style="display: grid; gap: 0.85rem; color: inherit; text-decoration: none; justify-items: center; text-align: center;">
 <span style="display: inline-flex; align-items: center; justify-content: center; background: #ffffff; border-radius: 1rem; padding: 1.25rem; min-height: 7rem; width: 100%; box-sizing: border-box;">
-<img src="../partners/intwine.png" alt="Intwine logo" style="display: block; max-width: 100%; height: auto; max-height: 4.25rem;">
+<img src="../partners/intwine.svg" alt="Intwine logo" style="display: block; max-width: 100%; height: auto; max-height: 4.25rem;">
 </span>
 <strong style="font-size: 1.45rem;">Intwine</strong>
 </a>
