@@ -21,14 +21,9 @@
     </button>
 
     <nav id="site-nav-primary" class="site-nav" aria-label="Primary navigation">
+        <a class="nav-item" href="{{ get_url(path="/tutorials") }}">Get Started</a>
         <a class="nav-item" href="{{ get_url(path="/technology") }}">Technology</a>
-        <div class="nav-group">
-            <span class="nav-item nav-item--group" tabindex="0">Documentation</span>
-            <div class="nav-subnav">
-                <a class="nav-item nav-item--subnav" href="{{ get_url(path="/tutorials") }}">Tutorials</a>
-                <a class="nav-item nav-item--subnav" href="https://stratoweave.guide">StratoWeave Guide</a>
-            </div>
-        </div>
+        <a class="nav-item" href="https://stratoweave.guide">Documentation</a>
         <div class="nav-group">
             <a class="nav-item nav-item--group" href="{{ get_url(path="/community") }}">Community</a>
             <div class="nav-subnav">

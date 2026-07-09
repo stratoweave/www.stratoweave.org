@@ -142,9 +142,10 @@ class VrfInterface(base.VrfInterface):
 ```
 
 After you have saved the file to disk, re-build the SORESPO binary
-to incorporate the change. Press *Ctrl+C* in the terminal window where
-SORESPO is running.
+to incorporate the change.
 
+
+Press *Ctrl+C* in the terminal window where SORESPO is running.
 In the same terminal window trigger a build:
 ```shell
 make -C ../../ build
@@ -155,6 +156,11 @@ the directory structure.
 
 After the build has completed copy your updated binary into the lab and
 re-run and re-configure SORESPO:
+
+*WARNING*: Make sure the earlier SORESPO process has been stopped with *Ctrl+C*
+before starting it again. Otherwise you will end up with competing instances
+trying to manage the same lab.
+
 ```shell
 make copy run-and-configure
 ```
@@ -308,6 +314,11 @@ make -C ../../ build
 
 After the build has completed copy your updated binary into the lab and
 re-run and re-configure SORESPO:
+
+*WARNING*: Make sure the earlier SORESPO process has been stopped with *Ctrl+C*
+before starting it again. Otherwise you will end up with competing instances
+trying to manage the same lab.
+
 ```shell
 make copy run-and-configure
 ```
