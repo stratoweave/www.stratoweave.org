@@ -189,7 +189,7 @@ In a new shell navigate to the `sorespo/test/quicklab-srl`
 directory and get the configuration:
 ```shell
 cd sorespo/test/quicklab-srl
-make get-dev-config-ams-core-1 | sed -n '/<interface xmlns="urn:nokia.com:srlinux:chassis:interfaces">/,/<\/interface>/{H; /<\/interface>/{x; /<name>ethernet-1\/3<\/name>/p;}}'
+make get-dev-config-ams-core-1 | sed -n '/<interface xmlns="urn:nokia.com:srlinux:chassis:interfaces">/,/<\/interface>/{H; /<\/interface>/{x; /<name>ethernet-1\/3<\/name>/p;};}'
 ```
 {% </platform> %}
 
