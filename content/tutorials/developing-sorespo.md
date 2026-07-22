@@ -1,12 +1,18 @@
 +++
-title = "Developing SORESPO on Windows"
-weight = 70
-description = "Your first steps in modifying the SORESPO codebase and seeing the effects in the lab."
+title = "Developing SORESPO"
+weight = 20
+description = "Make your first changes to the SORESPO automation code and see them applied in the lab — on Linux, macOS, Windows (WSL2), or GitHub Codespaces."
+aliases = [
+    "/tutorials/develop-on-linux/",
+    "/tutorials/develop-on-macos/",
+    "/tutorials/develop-on-windows/",
+    "/tutorials/develop-on-codespaces/",
+]
 
 [extra]
 track = "develop"
-platform = "Windows"
 full_width = true
+platform_selector = true
 +++
 
 ## Introduction
@@ -15,10 +21,62 @@ This tutorial will guide you through making your first changes to the
 SORESPO automation code and building the application. If you are not yet
 familiar with the basic steps involved in running and interacting with
 SORESPO, you might want to start out with the tutorial on
-[running SORESPO](@/tutorials/run-on-windows.md) first.
+[running SORESPO](@/tutorials/running-sorespo.md) first.
+
+{% platform(only="codespaces") %}
+GitHub Codespaces is a VM managed by GitHub that runs the Dev Container (part
+of this project) and Visual Studio Code that is made available in your browser
+or as a Remote environment you connect to from your local VS Code.
+
+To start your codespace you will need a free GitHub account. Your GitHub
+account includes a free monthly quota of compute hours. You will need to run a
+machine with 4 CPU cores and 16 GB of RAM to be able to start the "Nokia SR
+Linux" lab used throughout this tutorial. With the free *core hours* GitHub
+provides (120 at the time of writing) you will be able to run the lab 30 hours
+per month.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?devcontainer_path=.devcontainer%2Fdocker-in-docker%2Fdevcontainer.json&hide_repo_select=true&repo=872963408&skip_quickstart=true&machine=standardLinux32gb)
+
+Setting up a fresh VM will take a couple of minutes. After is it done you have
+access to VS Code running in Dev Container with all the tools and source code
+available in your browser.
+{% end %}
 
 ## Preparing the Environment
 
+{% platform(only="linux") %}
+* Install the following prerequisites:
+  * [Docker Engine](https://docs.docker.com/engine/install/)
+  * [Git](https://git-scm.com/downloads/linux)
+  * [Acton](https://acton.guide/install.html) (*Note:* This is an additional prerequite compared to [running SORESPO](@/tutorials/running-sorespo.md))
+* Install the  `vrf` kernel module, on Ubuntu or Debian this can be done with:
+``` shell
+sudo apt update
+sudo apt install linux-modules-extra-$(uname -r)
+```
+{% end %}
+
+{% platform(only="macos") %}
+* Install the following prerequisites:
+  * [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or
+    [Colima](@/tutorials/colima.md) for an open-source alternative)
+  * [Git](https://git-scm.com/downloads/mac), *coreutils* , and
+    [Acton](https://acton.guide/install.html), all of which
+    you can install with [Homebrew](https://brew.sh/):
+    * *Note:* Acton is an additional prerequisite compared to [running SORESPO](@/tutorials/running-sorespo.md)
+  ```shell
+  brew install git coreutils actonlang/acton/acton
+  ```
+* After the installation has completed, start your container runtime.
+    * For *Docker Desktop*, open *Settings* and in the *Resources* section make
+        sure you've allocated at least 4 CPU cores and 8GB of RAM to Docker.
+    * Or, start your Colima VM with the appropriate resources:
+      ```shell
+      colima start --cpu 4 --memory 8
+      ```
+{% end %}
+
+{% platform(only="windows") %}
 * First, install the [Windows Subsytem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
   * During the Windows Subsytem for Linux installation keep the default WSL
     version, `WSL2`.
@@ -35,15 +93,24 @@ SORESPO, you might want to start out with the tutorial on
 sudo apt update
 sudo apt install make
 ```
-* Install [Acton](https://acton.guide/install.html) (*Note:* This is an additional prerequite compared to [running SORESPO](@/tutorials/run-on-windows.md))
+* Install [Acton](https://acton.guide/install.html) (*Note:* This is an additional prerequite compared to [running SORESPO](@/tutorials/running-sorespo.md))
   * Follow the instructions for `Debian / Ubuntu` in your `Ubuntu` (`WSL2`) shell
 
 Perform all further instructions in this tutorial from the `Ubuntu` (`WSL2`) shell.
+{% end %}
+
+{% platform(only="codespaces") %}
+GitHub Codespaces needs no local installation. Click the **Open in GitHub
+Codespaces** button above to launch a ready-to-use environment with all the
+tools and source code, then continue below.
+{% end %}
 
 ## Starting the SORESPO Network
-*NOTE*: If you already completed the tutorial on [running SORESPO](@/tutorials/run-on-windows.md),
-you can skip ahead to the [next step](@/tutorials/develop-on-windows.md#modifying-the-sorespo-application)!
 
+*NOTE*: If you already completed the tutorial on [running SORESPO](@/tutorials/running-sorespo.md),
+you can skip ahead to the [next step](@/tutorials/developing-sorespo.md#modifying-the-sorespo-application)!
+
+{% platform(only="linux macos windows") %}
 Clone the project:
 ```shell
 git clone https://github.com/stratoweave/sorespo.git
@@ -62,19 +129,48 @@ StratoWeave/sorespo running..
 All config files applied
 ...
 ```
+{% end %}
+
+{% platform(only="codespaces") %}
+Go into the `/workspaces/sorespo/test/quicklab-srl` directory and start the
+development tutorial:
+```shell
+cd test/quicklab-srl
+make dev-tutorial
+...
+... # Containerlab starts the SR Linux lab, this may take a few minutes ...
+...
+StratoWeave/sorespo running..
+...
+All config files applied
+...
+```
+{% end %}
 
 You now have a running lab topology with fully configured containerized
 routers. The current state of the lab is identical to the final step in the
-[tutorial on running SORESPO](@/tutorials/run-on-windows.md).
+[tutorial on running SORESPO](@/tutorials/running-sorespo.md).
 
 ----
 
+{% platform(only="linux macos windows") %}
 *Notes*:
 * The SORESPO process runs interactively in this shell window. When you
   kill it with *Ctrl+C*, SORESPO itself will stop, but the lab and all the
   routers will continue to run.
 * **Open a second shell** to continue with the tutorial.
 * The lab can be shut down with `make stop`.
+{% end %}
+
+{% platform(only="codespaces") %}
+*Notes*:
+* The SORESPO process runs interactively in this Terminal window. When you
+  kill it with *Ctrl+C*, SORESPO itself will stop, but the lab and all the
+  routers will continue to run.
+* **Open a second Terminal** to continue with the tutorial.
+Click the *+* button in the top right of the VS Code Terminal window to do so.
+* The lab can be shut down with `make stop`.
+{% end %}
 
 ## Modifying the SORESPO application
 
@@ -83,12 +179,25 @@ modify the output configuration and optionally modifying the models.
 
 Retrieve the current configuration on the `ams-core-1` router, by connecting to
 the router directly over NETCONF.
+
+{% platform(only="linux macos windows") %}
 In a new shell navigate to the `sorespo/test/quicklab-srl`
 directory and get the configuration:
 ```shell
 cd sorespo/test/quicklab-srl
 make get-dev-config-ams-core-1 | sed -n '/<interface xmlns="urn:nokia.com:srlinux:chassis:interfaces">/,/<\/interface>/{H; /<\/interface>/{x; /<name>ethernet-1\/3<\/name>/p;}}'
 ```
+{% end %}
+
+{% platform(only="codespaces") %}
+In a new Terminal navigate to the `/workspaces/sorespo/test/quicklab-srl`
+directory and get the configuration:
+```shell
+cd test/quicklab-srl
+make get-dev-config-ams-core-1 | sed -n '/<interface xmlns="urn:nokia.com:srlinux:chassis:interfaces">/,/<\/interface>/{H; /<\/interface>/{x; /<name>ethernet-1\/3<\/name>/p;}}'
+```
+{% end %}
+
 *NOTE*: The `sed` command filters the output down to the interface ethernet-1/3 section.
 
 We see the VRF interface configuration for the `ethernet-1/3` interface on the `ams-core-1` router:
@@ -153,13 +262,35 @@ class VrfInterface(base.VrfInterface):
 ```
 
 After you have saved the file to disk, re-build the SORESPO binary
-to incorporate the change. Press *Ctrl+C* in the terminal window where
-SORESPO is running.
+to incorporate the change.
 
+
+Press *Ctrl+C* in the terminal window where SORESPO is running.
 In the same terminal window trigger a build:
+
+{% platform(only="linux codespaces") %}
+```shell
+make -C ../../ build
+```
+{% end %}
+
+{% platform(only="windows") %}
 ```shell
 make -C ../../ build-linux-x86_64
 ```
+{% end %}
+
+{% platform(only="macos") %}
+* If you are running macOS on Apple Silicon use:
+```shell
+make -C ../../ build-linux-aarch64
+```
+* If you are running macOS on Intel use:
+```shell
+make -C ../../ build-linux-x86_64
+```
+{% end %}
+
 *NOTE*: With `-C ../../` `make` runs the `build` recipe two
 levels up from the current directory, saving us the hassle of moving around in
 the directory structure.
@@ -267,24 +398,6 @@ list vrf-interface {
 Modify the YANG module to add in the `mtu` leaf:
 ```diff
 ...
-list vrf-interface {
-    key "name";
-    sw:rfs-transform sorespo.rfs.VrfInterface;
-    leaf name {
-        type string;
-    }
-    leaf description {
-        type string;
-    }
-    leaf vrf {
-        type string;
-        description
-            "VRF name";
-        mandatory true;
-    }
-    leaf ipv4-address {
-        type inet:ipv4-address;
-    }
     leaf ipv4-prefix-length {
         type uint8 {
             range "1..31";
@@ -336,9 +449,29 @@ make -C ../../ gen
 ```
 
 In the same terminal window trigger a build:
+
+{% platform(only="linux codespaces") %}
+```shell
+make -C ../../ build
+```
+{% end %}
+
+{% platform(only="windows") %}
 ```shell
 make -C ../../ build-linux-x86_64
 ```
+{% end %}
+
+{% platform(only="macos") %}
+* If you are running macOS on Apple Silicon use:
+```shell
+make -C ../../ build-linux-aarch64
+```
+* If you are running macOS on Intel use:
+```shell
+make -C ../../ build-linux-x86_64
+```
+{% end %}
 
 After the build has completed copy your updated binary into the lab and
 re-run and re-configure SORESPO:

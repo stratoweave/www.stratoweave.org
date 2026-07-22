@@ -1,6 +1,45 @@
 {% import "_macros.html" as macros %}
 {% extends "base.html" %}
 
+{% block head %}
+{% if page.extra and page.extra.platform_selector %}
+<script>
+// Apply the reader's platform choice before first paint (no flash of content).
+(function () {
+  var d = document.documentElement;
+  d.classList.remove('no-js');
+  var p = 'linux';
+  try { p = localStorage.getItem('sw-platform') || p; } catch (e) {}
+  d.setAttribute('data-pf', p);
+})();
+document.addEventListener('DOMContentLoaded', function () {
+  var d = document.documentElement;
+  var btns = document.querySelectorAll('.pf-picker__btn');
+  function sync(p) {
+    d.setAttribute('data-pf', p);
+    btns.forEach(function (b) {
+      var on = b.getAttribute('data-pf') === p;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var p = b.getAttribute('data-pf');
+      try { localStorage.setItem('sw-platform', p); } catch (e) {}
+      sync(p);
+    });
+  });
+  // Keep the choice in sync across other open tabs.
+  window.addEventListener('storage', function (e) {
+    if (e.key === 'sw-platform' && e.newValue) sync(e.newValue);
+  });
+  sync(d.getAttribute('data-pf') || 'linux');
+});
+</script>
+{% endif %}
+{% endblock head %}
+
 {% block header %}
 <header class="site-header">
     {{ macros::render_header() }}
@@ -15,6 +54,15 @@
 <div class="heading-text">{{ page.title }}</div>
 {% if page.description %}
 <p class="page-intro">{{ page.description }}</p>
+{% endif %}
+{% if page.extra and page.extra.platform_selector %}
+<div class="pf-picker" role="group" aria-label="Choose your platform">
+    <span class="pf-picker__label">Platform:</span>
+    <button type="button" class="pf-picker__btn" data-pf="linux">Linux</button>
+    <button type="button" class="pf-picker__btn" data-pf="macos">macOS</button>
+    <button type="button" class="pf-picker__btn" data-pf="windows">Windows</button>
+    <button type="button" class="pf-picker__btn" data-pf="codespaces">GitHub Codespaces</button>
+</div>
 {% endif %}
 {{ page.content | safe }}
 {% endblock content %}
