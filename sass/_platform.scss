@@ -1,0 +1,99 @@
+// Platform selector + per-platform content blocks
+// The selected platform is stored as `data-pf` on <html> (set by an inline
+// script in the <head> before first paint, so there is no flash of content).
+
+// Platform-specific content is hidden by default and revealed only for the
+// currently selected platform. A .pf-block may list several platforms in a
+// space-separated data-pf (e.g. "linux macos windows"), matched with ~=.
+.pf-block {
+  display: none;
+}
+
+html[data-pf="linux"]      .pf-block[data-pf~="linux"],
+html[data-pf="macos"]      .pf-block[data-pf~="macos"],
+html[data-pf="windows"]    .pf-block[data-pf~="windows"],
+html[data-pf="codespaces"] .pf-block[data-pf~="codespaces"] {
+  display: block;
+}
+
+.pf-block > :first-child {
+  margin-top: 0;
+}
+
+// When JavaScript is unavailable, reveal every platform block so no reader is
+// left without setup instructions. Each block is labelled with its platform(s).
+.no-js .pf-block {
+  display: block;
+  border-left: 2px solid var(--border-color);
+  padding-left: 1rem;
+  margin: 1rem 0;
+}
+
+.no-js .pf-block::before {
+  content: "Platform: " attr(data-pf);
+  display: block;
+  text-transform: capitalize;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--primary-color-touch);
+  margin-bottom: 0.35rem;
+}
+
+// The picker itself
+.pf-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 2rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at top right, rgba(34, 211, 238, 0.08), transparent 16rem),
+    var(--panel-color);
+}
+
+.pf-picker__label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--secondary-text-color);
+  margin-right: 0.35rem;
+}
+
+.pf-picker__btn {
+  appearance: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--primary-text-color);
+  padding: 0.4rem 0.9rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--border-color);
+  background: rgba(226, 232, 240, 0.04);
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.pf-picker__btn:hover {
+  border-color: var(--primary-color-touch);
+  color: var(--primary-color-touch);
+}
+
+.pf-picker__btn.is-active {
+  border-color: var(--primary-color-touch);
+  color: var(--stratoweave-navy);
+  background: var(--primary-color-touch);
+  font-weight: 600;
+}
+
+.pf-picker__btn:focus-visible {
+  outline: 2px solid var(--primary-color-touch);
+  outline-offset: 2px;
+}
+
+// Before the picker is wired up (or with JS off) keep the buttons usable-looking
+.no-js .pf-picker {
+  display: none;
+}

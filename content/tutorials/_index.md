@@ -10,4 +10,6 @@ primary on-ramp for learning StratoWeave. It is a complete sample
 implementation of a StratoWeave-based network automation system, not a toy example.
 
 Use the guides below to start a working lab, load declarative intent, inspect the
-layered outputs, and then modify the transforms yourself.
+layered outputs, and then modify the transforms yourself. Each guide is
+platform-aware — choose Linux, macOS, Windows (WSL2), or GitHub Codespaces at the
+top of the page to see the setup and commands tailored to your environment.

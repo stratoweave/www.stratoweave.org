@@ -1,12 +1,18 @@
 +++
-title = "Running SORESPO on macOS"
-weight = 20
-description = "Run the SORESPO quicklab on macOS with Docker Desktop or Colima and load your first intent configuration."
+title = "Running SORESPO"
+weight = 10
+description = "Run the Nokia SR Linux quicklab, load intent, and inspect a working StratoWeave system — on Linux, macOS, Windows (WSL2), or GitHub Codespaces."
+aliases = [
+    "/tutorials/run-on-linux/",
+    "/tutorials/run-on-macos/",
+    "/tutorials/run-on-windows/",
+    "/tutorials/run-on-codespaces/",
+]
 
 [extra]
 track = "run"
-platform = "macOS"
 full_width = true
+platform_selector = true
 +++
 
 ## Introduction
@@ -22,13 +28,55 @@ This document will take you through starting the virtual network lab based on
 Nokia SR Linux devices and provisioning it with the SORESPO network 
 automation system. 
 
+{% platform(only="linux") %}
+You will need a Linux host with 4 CPU cores and 8 GB of RAM available to be
+able to start the "Nokia SR Linux" lab used throughout this tutorial.
+CPU virtualization (KVM extensions) is **NOT** required. The tutorial was
+written and validated for Ubuntu / Debian but should work on any modern Linux
+distribution.
+{% end %}
+
+{% platform(only="macos") %}
 With the advent of router vendors shipping ARM64 images of their containerized
 routers, running labs and development environments on macOS with Apple Silicon
 has become really attractive. It should also work on macOS on Intel but you'll
 likely need more CPU cores and memory allocated to Docker than described here.
+{% end %}
+
+{% platform(only="windows") %}
+Thanks to the introduction of the `Windows Subsytem for Linux` and container
+technology, software development and running router labs on Windows
+has become really easy to do.
+{% end %}
+
+{% platform(only="codespaces") %}
+GitHub Codespaces is a VM managed by GitHub that runs the Dev Container (part
+of this project) and Visual Studio Code that is made available in your browser
+or as a Remote environment you connect to from your local VS Code.
+
+To start your codespace you will need a free GitHub account. Your GitHub
+account includes a free monthly quota of compute hours. You will need to run a
+machine with 4 CPU cores and 16 GB of RAM to be able to start the "Nokia SR
+Linux" lab used throughout this tutorial. With the free *core hours* GitHub
+provides (120 at the time of writing) you will be able to run the lab 30 hours
+per month.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?devcontainer_path=.devcontainer%2Fdocker-in-docker%2Fdevcontainer.json&hide_repo_select=true&repo=872963408&skip_quickstart=true&machine=standardLinux32gb)
+
+Setting up a fresh VM will take a couple of minutes. After is it done you have
+access to VS Code running in a Dev Container with all the tools and source code
+available in your browser.
+{% end %}
 
 ## Preparing the Environment
 
+{% platform(only="linux") %}
+* Install the following prerequisites:
+  * [Docker Engine](https://docs.docker.com/engine/install/)
+  * [Git](https://git-scm.com/downloads/linux)
+{% end %}
+
+{% platform(only="macos") %}
 * Install the following prerequisites:
   * [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or
     [Colima](@/tutorials/colima.md) if you prefer an open-source alternative)
@@ -44,9 +92,38 @@ likely need more CPU cores and memory allocated to Docker than described here.
       ```shell
       colima start --cpu 4 --memory 8
       ```
+{% end %}
+
+{% platform(only="windows") %}
+* First, install the [Windows Subsytem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
+  * During the Windows Subsytem for Linux installation keep the default WSL
+    version, `WSL2`.
+  * Also keep the default Linux distribution, `Ubuntu`.
+* Then, install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+  * *Note*: Install the Windows Subsytem for Linux first!
+* After the installation has completed, start *Docker Desktop*
+  * The CPU and memory resources allocation to Docker Desktop are controlled by
+  the [WSL configuration](https://learn.microsoft.com/en-us/windows/wsl/wsl-config).
+  By default 50% of the overall RAM is allocated to WSL2, you may need to tweak
+  this to allocate at least 8GB of RAM to Docker Desktop.
+* Open your `Ubuntu` (`WSL2`) shell and run:
+```shell
+sudo apt update
+sudo apt install make
+```
+
+Perform all further instructions in this tutorial from the `Ubuntu` (`WSL2`) shell.
+{% end %}
+
+{% platform(only="codespaces") %}
+GitHub Codespaces needs no local installation. Click the **Open in GitHub
+Codespaces** button above to launch a ready-to-use environment with all the
+tools and source code, then continue below.
+{% end %}
 
 ## Starting the SORESPO Network
 
+{% platform(only="linux macos windows") %}
 Clone the project:
 ```shell
 git clone https://github.com/stratoweave/sorespo.git
@@ -65,6 +142,26 @@ StratoWeave/sorespo running..
 This will start the entire SR Linux network lab and run the SORESPO system in
 the foreground in this shell window. It will show log output from SORESPO as
 it is working. **Open a second shell** to continue with the tutorial.
+{% end %}
+
+{% platform(only="codespaces") %}
+Go into the `/workspaces/sorespo/test/quicklab-srl` directory and start the tutorial:
+```shell
+cd test/quicklab-srl
+make tutorial
+...
+... # Containerlab starts the SR Linux lab, this may take a few minutes ...
+...
+StratoWeave/sorespo running..
+```
+*NOTE*: Accept any browser pop-up that may appear the first time you try to
+paste text into the in-browser VS Code.
+
+This will start the entire SR Linux network lab and run the SORESPO system in
+the foreground in this shell window. It will show log output from SORESPO as
+it is working. **Open a second Terminal** to continue with the tutorial.
+Click the *+* button in the top right of the VS Code Terminal window to do so.
+{% end %}
 
 *Note*: The lab can be shut down with `make stop`
 
@@ -75,6 +172,7 @@ configuration loaded.
 
 ## Loading intent configuration into SORESPO
 
+{% platform(only="linux macos windows") %}
 `tutorial-netinfra.xml` describes the intent for the network infrastructure,
 including the list of core routers and backbone links between them. In a new
 shell, navigate to the `sorespo/test/quicklab-srl`
@@ -83,6 +181,18 @@ directory and load the configuration intent:
 cd sorespo/test/quicklab-srl
 make send-config-wait FILE="tutorial-netinfra.xml" 
 ```
+{% end %}
+
+{% platform(only="codespaces") %}
+`tutorial-netinfra.xml` describes the intent for the network infrastructure,
+including the list of core routers and backbone links between them. In a new
+Terminal navigate to the `/workspaces/sorespo/test/quicklab-srl`
+directory and load the configuration intent:
+```shell
+cd test/quicklab-srl
+make send-config-wait FILE="tutorial-netinfra.xml" 
+```
+{% end %}
 
 `tutorial-l3vpn-svc.xml`  describes the intent for the customer's L3VPN service.
 Load the configuration intent to create a customer VPN across all three
@@ -542,10 +652,19 @@ each of the core router devices. The XML namespaces
 
 ## Adding a new Core Router to the Topology
 
+{% platform(only="linux macos windows") %}
 In order to add a new router to the network, including provisioning the
 backbone links and iBGP peering, all we need to do is send in the
 configuration for that router. The configuration is defined in
 `test/quicklab-srl/netinfra-add-lju.xml`:
+{% end %}
+
+{% platform(only="codespaces") %}
+In order to add a new router to the network, including provisioning the
+backbone links and iBGP peering, all we need to do is send in the
+configuration for that router. The configuration is defined in
+`/workspaces/sorespo/test/quicklab-srl/netinfra-add-lju.xml`:
+{% end %}
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -680,4 +799,4 @@ notice how your terminal returns as soon as the intent was accepted by SORESPO.
 
 ## What's Next
 Now that you are familiar with running SORESPO and interacting with it,
-continue by learning how to make [changes to the automation code](@/tutorials/develop-on-macos.md).
+continue by learning how to make [changes to the automation code](@/tutorials/developing-sorespo.md).
