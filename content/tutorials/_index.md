@@ -13,3 +13,7 @@ Use the guides below to start a working lab, load declarative intent, inspect th
 layered outputs, and then modify the transforms yourself. Each guide is
 platform-aware — choose Linux, macOS, Windows (WSL2), or GitHub Codespaces at the
 top of the page to see the setup and commands tailored to your environment.
+
+You can also get a feel for the system before starting a lab: the web UI
+guide opens a fully interactive in-browser demo with sample data — no
+installation required.

@@ -1,0 +1,39 @@
+/* Launch panel for the interactive web UI demo (see shortcodes/demo_cta.html). */
+
+.demo-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem 1.15rem;
+  margin: 1.5rem 0 2rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at top right, rgba(34, 211, 238, 0.08), transparent 16rem),
+    var(--panel-color);
+}
+
+.demo-cta__note {
+  color: var(--secondary-text-color);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Inside tutorial prose, `.content a` (underline + link color) outranks the
+   .button classes; re-assert the button treatment for the CTA. */
+.content .demo-cta a.button {
+  text-decoration: none;
+}
+
+.content .demo-cta a.button-primary {
+  color: #04101f;
+}
+
+@media screen and (max-width: 700px) {
+  .demo-cta {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+}
