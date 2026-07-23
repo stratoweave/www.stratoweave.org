@@ -3,6 +3,9 @@
 ## Build And Validate
 
 - Use `zola build` as the default validation command for site changes.
+- `static/demo/` is generated output (the sorespo webui demo, staged by
+  `scripts/update-webui-demo.sh` locally and built by CI on deploy). It is
+  gitignored — never hand-edit or commit it.
 - When editing the homepage hero, validate both build success and the rendered visual result.
 
 ## Brand And Style Guide

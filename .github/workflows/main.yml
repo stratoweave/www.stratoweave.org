@@ -31,6 +31,19 @@ jobs:
           fi
           printf '%s\n' "$SITE_DOMAIN" > static/CNAME
         if: github.ref == 'refs/heads/main'
+      # The interactive webui demo (served at /demo/webui/) is built fresh
+      # from the sorespo repo on every deploy; static/demo/ is gitignored.
+      # Pin `ref` to a tag/SHA if sorespo main ever needs decoupling.
+      - name: 'Checkout sorespo (webui demo source)'
+        uses: actions/checkout@v4
+        with:
+          repository: stratoweave/sorespo
+          ref: main
+          path: sorespo-src
+      - name: 'Set up bun'
+        uses: oven-sh/setup-bun@v2
+      - name: 'Build webui demo into static/'
+        run: SORESPO_DIR="$GITHUB_WORKSPACE/sorespo-src" ./scripts/update-webui-demo.sh
       - name: 'Build and deploy'
         uses: shalzz/zola-deploy-action@master
         env:
