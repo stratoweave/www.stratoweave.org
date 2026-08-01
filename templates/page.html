@@ -14,7 +14,7 @@
 })();
 document.addEventListener('DOMContentLoaded', function () {
   var d = document.documentElement;
-  var btns = document.querySelectorAll('.pf-picker__btn');
+  var btns = document.querySelectorAll('.pf-picker__btn[data-pf]');
   function sync(p) {
     d.setAttribute('data-pf', p);
     btns.forEach(function (b) {
@@ -35,6 +35,41 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.key === 'sw-platform' && e.newValue) sync(e.newValue);
   });
   sync(d.getAttribute('data-pf') || 'linux');
+});
+</script>
+{% endif %}
+{% if page.extra and page.extra.tutorial_mode_selector %}
+<script>
+// Apply the reader's tutorial mode before first paint.
+(function () {
+  var d = document.documentElement;
+  d.classList.remove('no-js');
+  var mode = 'webui';
+  try { mode = localStorage.getItem('sw-tutorial-mode') || mode; } catch (e) {}
+  d.setAttribute('data-tutorial-mode', mode);
+})();
+document.addEventListener('DOMContentLoaded', function () {
+  var d = document.documentElement;
+  var btns = document.querySelectorAll('.tutorial-mode-picker__btn');
+  function sync(mode) {
+    d.setAttribute('data-tutorial-mode', mode);
+    btns.forEach(function (button) {
+      var on = button.getAttribute('data-tutorial-mode') === mode;
+      button.classList.toggle('is-active', on);
+      button.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  btns.forEach(function (button) {
+    button.addEventListener('click', function () {
+      var mode = button.getAttribute('data-tutorial-mode');
+      try { localStorage.setItem('sw-tutorial-mode', mode); } catch (e) {}
+      sync(mode);
+    });
+  });
+  window.addEventListener('storage', function (event) {
+    if (event.key === 'sw-tutorial-mode' && event.newValue) sync(event.newValue);
+  });
+  sync(d.getAttribute('data-tutorial-mode') || 'webui');
 });
 </script>
 {% endif %}
@@ -62,6 +97,13 @@ document.addEventListener('DOMContentLoaded', function () {
     <button type="button" class="pf-picker__btn" data-pf="macos">macOS</button>
     <button type="button" class="pf-picker__btn" data-pf="windows">Windows</button>
     <button type="button" class="pf-picker__btn" data-pf="codespaces">GitHub Codespaces</button>
+</div>
+{% endif %}
+{% if page.extra and page.extra.tutorial_mode_selector %}
+<div class="pf-picker tutorial-mode-picker" role="group" aria-label="Choose your tutorial mode">
+  <span class="pf-picker__label">Tutorial mode:</span>
+  <button type="button" class="pf-picker__btn tutorial-mode-picker__btn" data-tutorial-mode="webui">Web UI</button>
+  <button type="button" class="pf-picker__btn tutorial-mode-picker__btn" data-tutorial-mode="terminal">Terminal only</button>
 </div>
 {% endif %}
 {{ page.content | safe }}

@@ -1,7 +1,7 @@
 +++
 title = "Running SORESPO"
-weight = 10
-description = "Run the Nokia SR Linux quicklab, load intent, and inspect a working StratoWeave system — on Linux, macOS, Windows (WSL2), or GitHub Codespaces."
+weight = 15
+description = "Next: launch a live Nokia SR Linux lab, then follow the Web UI path or use the equivalent terminal commands."
 aliases = [
     "/tutorials/run-on-linux/",
     "/tutorials/run-on-macos/",
@@ -13,20 +13,22 @@ aliases = [
 track = "run"
 full_width = true
 platform_selector = true
+tutorial_mode_selector = true
 +++
 
 ## Introduction
 
-SORESPO is a network automation system based on the StratoWeave platform that
-support configuring an IP network with L3VPN network services and manage the
-full life cycle of the network, including core network infrastructure 
-configuration. As part of the SORESPO git repository, there are a number of
-*test environments*, offering virtual network topologies, based on 
-containerized routers, for testing, development and demoing.
+SORESPO is a network automation system built on StratoWeave. It configures an
+IP network and L3VPN services and manages their full lifecycle, including the
+core network infrastructure.
 
-This document will take you through starting the virtual network lab based on
-Nokia SR Linux devices and provisioning it with the SORESPO network 
-automation system. 
+If you have not used SORESPO before, start with the zero-install
+[Web UI tour](@/tutorials/exploring-the-webui.md). This tutorial takes the next
+step: one command starts the Containerlab environment, including the Nokia SR
+Linux network and Web UI, then runs SORESPO in the `sweave` container. From
+there, choose the default Web UI path or follow the same tutorial entirely
+through Make targets in a terminal. Both paths use the same environment and
+produce the same result.
 
 {% platform(only="linux") %}
 You will need a Linux host with 4 CPU cores and 8 GB of RAM available to be
@@ -121,7 +123,7 @@ Codespaces** button above to launch a ready-to-use environment with all the
 tools and source code, then continue below.
 {% end %}
 
-## Starting the SORESPO Network
+## Starting the Tutorial Environment
 
 {% platform(only="linux macos windows") %}
 Clone the project:
@@ -136,12 +138,13 @@ make tutorial
 ...
 ... # Containerlab starts the SR Linux lab, this may take a few minutes ...
 ...
-StratoWeave/sorespo running..
+SORESPO Web UI: http://localhost:3000
+...
+SWeave: stratoweave.app.StartupBootstrap[-201]: StratoWeave running..
 ```
 
-This will start the entire SR Linux network lab and run the SORESPO system in
-the foreground in this shell window. It will show log output from SORESPO as
-it is working. **Open a second shell** to continue with the tutorial.
+SORESPO runs in the foreground and writes its log output to this shell. Open a
+second shell to continue with the tutorial.
 {% end %}
 
 {% platform(only="codespaces") %}
@@ -152,54 +155,120 @@ make tutorial
 ...
 ... # Containerlab starts the SR Linux lab, this may take a few minutes ...
 ...
-StratoWeave/sorespo running..
+SORESPO Web UI: http://localhost:3000
+...
+SWeave: stratoweave.app.StartupBootstrap[-201]: StratoWeave running..
 ```
-*NOTE*: Accept any browser pop-up that may appear the first time you try to
-paste text into the in-browser VS Code.
 
-This will start the entire SR Linux network lab and run the SORESPO system in
-the foreground in this shell window. It will show log output from SORESPO as
-it is working. **Open a second Terminal** to continue with the tutorial.
-Click the *+* button in the top right of the VS Code Terminal window to do so.
+SORESPO runs in the foreground and writes its log output to this Terminal.
+Open a second Terminal to continue with the tutorial. Select the *+* button in
+the top right of the VS Code Terminal window to do so.
 {% end %}
 
-*Note*: The lab can be shut down with `make stop`
+The first image download can take several minutes. Later starts reuse the
+downloaded router and Web UI images. If port `3000` is already occupied, stop
+the other process or choose another port with `WEBUI_PORT=3100 make tutorial`.
+
+When you finish, stop SORESPO with *Ctrl+C*, then shut down the complete
+Containerlab environment from this directory with `make stop`.
 
 At this point, your containerized routers are running with only management
 access configured, allowing SORESPO to connect and push configuration. The
 SORESPO system is also running but has no network or service intent
 configuration loaded.
 
-## Loading intent configuration into SORESPO
+The tutorial mode selector changes the instructions shown below, not the
+environment. Both modes use the same SORESPO process, so you can switch
+between them at any point.
 
-{% platform(only="linux macos windows") %}
-`tutorial-netinfra.xml` describes the intent for the network infrastructure,
-including the list of core routers and backbone links between them. In a new
-shell, navigate to the `sorespo/test/quicklab-srl`
-directory and load the configuration intent:
-```shell
-cd sorespo/test/quicklab-srl
-make send-config-wait FILE="tutorial-netinfra.xml" 
-```
+## Loading the Initial Intent
+
+The environment starts empty. First load the core routers and backbone links
+from `tutorial-netinfra.xml`, then load the L3VPN and its customer sites from
+`tutorial-l3vpn-svc.xml`.
+
+{% tutorial_mode(only="webui", platform="linux macos windows") %}
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 {% end %}
 
-{% platform(only="codespaces") %}
-`tutorial-netinfra.xml` describes the intent for the network infrastructure,
-including the list of core routers and backbone links between them. In a new
-Terminal navigate to the `/workspaces/sorespo/test/quicklab-srl`
-directory and load the configuration intent:
-```shell
-cd test/quicklab-srl
-make send-config-wait FILE="tutorial-netinfra.xml" 
-```
+{% tutorial_mode(only="webui", platform="codespaces") %}
+Open the **Ports** panel, find port `3000`, and select its forwarded address.
+Keep the port visibility private.
 {% end %}
 
-`tutorial-l3vpn-svc.xml`  describes the intent for the customer's L3VPN service.
-Load the configuration intent to create a customer VPN across all three
-core routers, and the access links to the customer's sites:
+{% tutorial_mode(only="webui") %}
+
+The Dashboard initially has no topology because the orchestrator is empty.
+Use **Apply Config** in the navigation to bootstrap it:
+
+1. Open `tutorial-netinfra.xml` from the `test/quicklab-srl` directory in your
+   editor and copy its full contents.
+2. In **Apply CFS Config**, select **XML**, paste the payload into the editor,
+   and select **Apply**. Confirm the operation when prompted.
+3. Wait for the accepted status, then return to the Dashboard. The core
+   routers and backbone links now appear as SORESPO renders and applies their
+   device configuration.
+4. Repeat the process with `tutorial-l3vpn-svc.xml`. This adds the customer
+   L3VPN service and its three sites.
+
+On a local desktop you can drag either XML file directly onto the Apply CFS
+Config editor instead of copying it. The filename lets the UI select XML
+automatically.
+{% end %}
+
+{% tutorial_mode(only="terminal") %}
+
+In the second shell or Terminal, stay in the `test/quicklab-srl` directory.
+This mode is useful when the Web UI is not reachable, such as in a remote
+environment without port forwarding. The Web UI remains part of the
+Containerlab environment; the terminal workflow simply does not use it.
+
+Apply the same two files with the synchronous RESTCONF Make target:
+
 ```shell
-make send-config-wait FILE="tutorial-l3vpn-svc.xml" 
+make send-config-wait FILE="tutorial-netinfra.xml"
+make send-config-wait FILE="tutorial-l3vpn-svc.xml"
 ```
+
+Each command returns after SORESPO has processed the intent and applied the
+resulting device configuration.
+{% end %}
+
+## Inspecting the Live System
+
+{% tutorial_mode(only="webui") %}
+
+The Web UI is now connected to real SORESPO state rather than the simulated
+data from the first tutorial:
+
+* Open **Devices** and select a core router to compare its target and running
+  configuration and inspect its configuration log.
+* Open **Config Queue** to see whether any rendered changes are still waiting
+  for a device. Changes move into each device's log after they are applied.
+* Open **Layers** and move from CFS through Intermediate and RFS to Device.
+  These are the live outputs of the declarative transforms described below.
+* Open **Services** to inspect or edit the routers, backbone links, VPN, and
+  customer sites through guided forms rather than raw payloads.
+{% end %}
+
+{% tutorial_mode(only="terminal") %}
+
+Retrieve the complete customer-facing state as JSON:
+
+```shell
+make get-config-restconf-json
+```
+
+Inspect the intended, running, and pending configuration for one router:
+
+```shell
+make get-target-ams-core-1
+make get-running-ams-core-1
+make get-diff-ams-core-1
+```
+
+The corresponding layer-specific commands are introduced in the next section.
+{% end %}
 
 The resulting network lab has three core SR Linux routers, each with an attached
 customer edge device running FRRouting. This diagram shows the topology:
@@ -244,9 +313,23 @@ customer edge device running FRRouting. This diagram shows the topology:
  +-------------------+                                                               
 ```
 
+## Verifying the Network
 
-To test the above topology, you can log directly into a core router and run a
-few commands.
+{% tutorial_mode(only="webui") %}
+
+On the Dashboard, confirm that all three core routers and their customer sites
+are visible. Open **Devices**, select `AMS-CORE-1`, and check that its running
+and target configurations agree and that its configuration log contains the
+recent changes.
+{% end %}
+
+Run the automated customer-connectivity test:
+
+```shell
+make test-ping
+```
+
+You can also inspect the routing state directly. Log into a core router:
 
 Log in to the `ams-core-1` router:
 ```
@@ -299,8 +382,16 @@ The SORESPO system implements a RESTCONF northbound interface, which is
 model-driven by StratoWeave based on the top-level CFS YANG model of the SORESPO
 system.
 
-For many common queries and tasks, `make` targets are implemented to send the
-relevant RESTCONF requests. 
+{% tutorial_mode(only="webui") %}
+Use the **Layers** page to move through these outputs.
+{% end %}
+
+{% tutorial_mode(only="terminal") %}
+The `get-config0` through `get-config3` Make targets send the equivalent
+RESTCONF requests.
+{% end %}
+
+The XML excerpts below are shared by both modes.
 
 
 ### Configuration at Layer 0 - Customer Facing Service (CFS)
@@ -309,7 +400,14 @@ The Customer Facing Service (top-level) YANG model defines SORESPO's northbound
 interface for users and/or BSS/OSS platforms. The YANG modules for `layer0` are
 located in `sorespo/spec/yang/cfs`.
 
-Retrieve the top-level (CFS) configuration (`layer0`) from SORESPO:
+{% tutorial_mode(only="webui") %}
+
+Open **Layers**, select **CFS**, and choose XML as the display format.
+{% end %}
+
+{% tutorial_mode(only="terminal") %}
+
+Retrieve the top-level CFS configuration (`layer0`) from SORESPO:
 
 ```shell
 make get-config0
@@ -320,6 +418,7 @@ you prefer JSON format, use:
 ```shell
 make get-config-json0
 ```
+{% end %}
 
 The resulting output has two top-level containers, `<netinfra>` (the first
  configuration file you loaded), which describes the configuration of the
@@ -448,11 +547,19 @@ the implemented YANG modules are less abstracted than at `layer0`. Additional
 parameters are calculated by the service automation. The YANG modules for `layer1` are
 located in `sorespo/spec/yang/inter`.
 
-The `layer1` configuration can be retrieved with the following command:
+{% tutorial_mode(only="webui") %}
+
+On **Layers**, select **Intermediate** and keep XML as the display format.
+{% end %}
+
+{% tutorial_mode(only="terminal") %}
+
+Retrieve the `layer1` configuration:
 
 ```shell
 make get-config1
 ```
+{% end %}
 
 This excerpt from the output shows the intermediate layer configuration for the
 `AMS-CORE-1` router. The IPv4 and IPv6 addressing for the loopback interface
@@ -558,10 +665,18 @@ At this layer, there is an instance of `<device>` container per managed device
 and a corresponding `<rfs>` container defining the devices SORESPO is
 managing and the RFS services that SORESPO defines.
 
+{% tutorial_mode(only="webui") %}
+
+On **Layers**, select **RFS** and inspect the per-device services.
+{% end %}
+
+{% tutorial_mode(only="terminal") %}
+
 Retrieve the configuration for `layer2`:
 ```shell
 make get-config2
 ```
+{% end %}
 
 Which gives the following output:
 ```xml
@@ -631,7 +746,7 @@ Which gives the following output:
 ```
 
 
-#### Configuration at Layer 3 - The Device Layer
+### Configuration at Layer 3 - The Device Layer
 
 The vendor proprietary device YANG models are located on this layer. The YANG
 modules are organized in directories by device and software version:
@@ -640,30 +755,39 @@ modules are organized in directories by device and software version:
 * For Jupiper JUNOS: `JuniperCRPD_24_4R1_9`
 * For Nokia SR-Linux: `NokiaSRLinux_25_3_2`
 
-Retrieve the configuration for `layer2`:
+{% tutorial_mode(only="webui") %}
+
+On **Layers**, select **Device**. You can also open **Devices**, choose a core
+router, and inspect its fully rendered target configuration.
+{% end %}
+
+{% tutorial_mode(only="terminal") %}
+
+Retrieve the configuration for `layer3`:
 ```
 make get-config3
 ```
+{% end %}
 
 The output is several hundred lines of XML defining the full configuration of
 each of the core router devices. The XML namespaces
 ( `xmlns="urn:nokia.com:srlinux:`) indicate that these are the vendor models.
 
 
-## Adding a new Core Router to the Topology
+## Adding a New Core Router to the Topology
 
 {% platform(only="linux macos windows") %}
 In order to add a new router to the network, including provisioning the
 backbone links and iBGP peering, all we need to do is send in the
 configuration for that router. The configuration is defined in
-`test/quicklab-srl/netinfra-add-lju.xml`:
+`test/quicklab-srl/tutorial-add-lju.xml`:
 {% end %}
 
 {% platform(only="codespaces") %}
 In order to add a new router to the network, including provisioning the
 backbone links and iBGP peering, all we need to do is send in the
 configuration for that router. The configuration is defined in
-`/workspaces/sorespo/test/quicklab-srl/netinfra-add-lju.xml`:
+`/workspaces/sorespo/test/quicklab-srl/tutorial-add-lju.xml`:
 {% end %}
 
 ```xml
@@ -692,13 +816,34 @@ configuration for that router. The configuration is defined in
 </data>
 ```
 
-Send this configuration to SORESPO:
+### Applying the Router Intent
+
+{% tutorial_mode(only="webui") %}
+
+Open **Apply Config**, select XML, and drop `tutorial-add-lju.xml` onto the
+editor (or paste its contents). Select **Apply** and confirm the operation.
+Return to the Dashboard and watch `LJU-CORE-1` and its two backbone links
+appear. Open **Devices** and select `LJU-CORE-1` to inspect its rendered and
+running configuration.
+{% end %}
+
+{% tutorial_mode(only="terminal") %}
+
+Send the same configuration to SORESPO:
+
 ```shell
 make send-config-wait FILE="tutorial-add-lju.xml"
 ```
 
-The topology now has four core routers.
-Log in to the new router:
+Confirm that layer 0 now contains four routers:
+
+```shell
+make get-config0
+```
+{% end %}
+
+Optionally, log in to the new router:
+
 ```shell
 make cli-lju-core-1
 ```
@@ -737,11 +882,21 @@ The new LJU-CORE-1 router has been configured and the necessary
 configuration, iBGP neighbors, on all the other routers was automatically
 added as per the updated intent (4 routers) as well.
 
-Connect a customer site to the new router:
+### Connecting a Customer Site
+
+{% tutorial_mode(only="webui") %}
+
+Use **Apply Config** again with `tutorial-add-cust-4.xml`. Return to the
+Dashboard and confirm that the fourth customer site is attached to
+`LJU-CORE-1`. The new site is also available under **Services**.
+{% end %}
+
+{% tutorial_mode(only="terminal") %}
 
 ```shell
 make send-config-wait FILE="tutorial-add-cust-4.xml"
 ```
+{% end %}
 
 The resulting topology is as follows:
 
@@ -785,18 +940,37 @@ The resulting topology is as follows:
  +-------------------+                                                                       +-------------------+
 ```
 
-Test the connectivity between all of the customer's routers with this command:
+### Verifying the Expanded Topology
+
+{% tutorial_mode(only="webui") %}
+
+Confirm that all four routers and customer sites appear on the Dashboard.
+Check **Config Queue** for outstanding changes, then open `LJU-CORE-1` under
+**Devices** and confirm that its target and running configurations agree.
+
+The Web UI submits Apply Config requests asynchronously, so you can follow
+their progress in **Config Queue** and each device's configuration log.
+{% end %}
+
+Test connectivity between all customer routers:
+
 ```shell
 make test-ping
 ```
 *NOTE*: It may take up to a minute for the customer and provider routers to establish a BGP session and exchange routes.
 
-Throughout this tutorial you have used the `send-config-wait` target to apply
-intent configuration. This synchronous method waits for StratoWeave to apply the
-configuration to the device(s) before it returns. Usually, asynchronous
-operations are preferred. Try using the `send-config-async` target instead and
-notice how your terminal returns as soon as the intent was accepted by SORESPO.
+{% tutorial_mode(only="terminal") %}
+
+The `send-config-wait` target waits for StratoWeave to process the configuration
+before returning. To use asynchronous submission from the terminal, run
+`make send-config-async FILE="<file>.xml"` and observe that the command returns
+as soon as SORESPO accepts the intent.
+{% end %}
 
 ## What's Next
-Now that you are familiar with running SORESPO and interacting with it,
-continue by learning how to make [changes to the automation code](@/tutorials/developing-sorespo.md).
+
+You have run SORESPO against a live network and followed its intent through
+every automation layer. The final step is to change those transforms, build
+SORESPO yourself, and see your code update the network.
+
+{{ tutorial_cta(href="/tutorials/developing-sorespo/", label="Develop SORESPO", note="Install the Acton toolchain, modify an RFS transform and YANG model, then deploy your own build in the same lab.") }}

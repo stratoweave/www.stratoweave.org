@@ -18,32 +18,18 @@
         {{ section.content | safe }}
     </div>
 
-    <section class="learn-group learn-group--list" aria-labelledby="learn-run-title">
-        <h2 id="learn-run-title">Run SORESPO</h2>
-        <p>See what StratoWeave and SORESPO can do by learning how to run and interact with SORESPO — including an instant, in-browser tour of the web UI:</p>
-        <ul class="learn-link-list">
+    <section class="learn-group learn-group--list" aria-labelledby="learn-path-title">
+        <h2 id="learn-path-title">From browser to source</h2>
+        <p>Each step builds on the last while adding only the tools needed for the next level:</p>
+        <ol class="learn-link-list">
             {% for page in section.pages %}
-            {% if page.extra and page.extra.track == "run" %}
+            {% if page.extra and (page.extra.track == "run" or page.extra.track == "develop") %}
             <li>
                 <a href="{{ page.permalink | safe }}">{{ page.title }}</a>{% if page.description %} — {{ page.description }}{% endif %}
             </li>
             {% endif %}
             {% endfor %}
-        </ul>
-    </section>
-
-    <section class="learn-group learn-group--list" aria-labelledby="learn-develop-title">
-        <h2 id="learn-develop-title">Develop With SORESPO</h2>
-        <p>Then continue by learning how to make code changes and build your own SORESPO image:</p>
-        <ul class="learn-link-list">
-            {% for page in section.pages %}
-            {% if page.extra and page.extra.track == "develop" %}
-            <li>
-                <a href="{{ page.permalink | safe }}">{{ page.title }}</a>{% if page.description %} — {{ page.description }}{% endif %}
-            </li>
-            {% endif %}
-            {% endfor %}
-        </ul>
+        </ol>
     </section>
 </div>
 {% endblock content %}

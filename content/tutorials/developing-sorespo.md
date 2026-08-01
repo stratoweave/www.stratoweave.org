@@ -1,7 +1,7 @@
 +++
 title = "Developing SORESPO"
 weight = 20
-description = "Make your first changes to the SORESPO automation code and see them applied in the lab — on Linux, macOS, Windows (WSL2), or GitHub Codespaces."
+description = "Finally: install Acton, change the SORESPO automation code, and apply your build in the lab."
 aliases = [
     "/tutorials/develop-on-linux/",
     "/tutorials/develop-on-macos/",
@@ -17,11 +17,12 @@ platform_selector = true
 
 ## Introduction
 
-This tutorial will guide you through making your first changes to the
-SORESPO automation code and building the application. If you are not yet
-familiar with the basic steps involved in running and interacting with
-SORESPO, you might want to start out with the tutorial on
-[running SORESPO](@/tutorials/running-sorespo.md) first.
+This tutorial guides you through making your first changes to the SORESPO
+automation code and building the application. It builds on the
+[browser Web UI tour](@/tutorials/exploring-the-webui.md) and the tutorial on
+[running SORESPO](@/tutorials/running-sorespo.md). Complete
+those first if you are not yet familiar with applying intent and inspecting
+SORESPO's automation layers.
 
 {% platform(only="codespaces") %}
 GitHub Codespaces is a VM managed by GitHub that runs the Dev Container (part
@@ -48,7 +49,7 @@ available in your browser.
 * Install the following prerequisites:
   * [Docker Engine](https://docs.docker.com/engine/install/)
   * [Git](https://git-scm.com/downloads/linux)
-  * [Acton](https://acton.guide/install.html) (*Note:* This is an additional prerequite compared to [running SORESPO](@/tutorials/running-sorespo.md))
+    * [Acton](https://acton.guide/install.html) (*Note:* This is an additional prerequisite compared to [running SORESPO](@/tutorials/running-sorespo.md))
 * Install the  `vrf` kernel module, on Ubuntu or Debian this can be done with:
 ``` shell
 sudo apt update
@@ -93,7 +94,7 @@ sudo apt install linux-modules-extra-$(uname -r)
 sudo apt update
 sudo apt install make
 ```
-* Install [Acton](https://acton.guide/install.html) (*Note:* This is an additional prerequite compared to [running SORESPO](@/tutorials/running-sorespo.md))
+* Install [Acton](https://acton.guide/install.html) (*Note:* This is an additional prerequisite compared to [running SORESPO](@/tutorials/running-sorespo.md))
   * Follow the instructions for `Debian / Ubuntu` in your `Ubuntu` (`WSL2`) shell
 
 Perform all further instructions in this tutorial from the `Ubuntu` (`WSL2`) shell.
@@ -107,8 +108,10 @@ tools and source code, then continue below.
 
 ## Starting the SORESPO Network
 
-*NOTE*: If you already completed the tutorial on [running SORESPO](@/tutorials/running-sorespo.md),
-you can skip ahead to the [next step](@/tutorials/developing-sorespo.md#modifying-the-sorespo-application)!
+If you completed [running SORESPO](@/tutorials/running-sorespo.md) and its
+Containerlab environment is still active, keep it running and skip ahead to
+[modifying the SORESPO application](#modifying-the-sorespo-application). The
+same environment is used for tutorials and development.
 
 {% platform(only="linux macos windows") %}
 Clone the project:
@@ -149,7 +152,8 @@ All config files applied
 
 You now have a running lab topology with fully configured containerized
 routers. The current state of the lab is identical to the final step in the
-[tutorial on running SORESPO](@/tutorials/running-sorespo.md).
+[tutorial on running SORESPO](@/tutorials/running-sorespo.md). SORESPO runs
+interactively so you can stop, rebuild, and replace it as you make changes.
 
 ----
 
@@ -511,6 +515,9 @@ from the CFS intent all the way down to the device configuration. But the
 development process from here on out is always the same.
 
 ## What's Next
-Now that you are familiar with running and developing for SORESPO, continue
-to explore the [other labs](https://github.com/stratoweave/sorespo/blob/main/test/README.md) we have available, including
-more router vendors etc..
+
+You have completed the path from exploring SORESPO in a browser to changing
+its automation code. Continue experimenting with the other SORESPO labs and
+apply the same workflow to more network operating systems and scenarios.
+
+{{ tutorial_cta(href="https://github.com/stratoweave/sorespo/blob/main/test/README.md", label="Explore More SORESPO Labs", note="Choose from additional Containerlab environments, router vendors, and test scenarios in the SORESPO repository.") }}

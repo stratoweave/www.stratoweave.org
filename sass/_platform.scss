@@ -97,3 +97,44 @@ html[data-pf="codespaces"] .pf-block[data-pf~="codespaces"] {
 .no-js .pf-picker {
   display: none;
 }
+
+// Tutorial-mode content uses the same picker treatment as platform selection,
+// but keeps an independent choice so both selectors can be combined.
+.tutorial-mode-block {
+  display: none;
+}
+
+html[data-tutorial-mode="webui"] .tutorial-mode-block[data-tutorial-mode="webui"]:not([data-pf]),
+html[data-tutorial-mode="terminal"] .tutorial-mode-block[data-tutorial-mode="terminal"]:not([data-pf]),
+html[data-tutorial-mode="webui"][data-pf="linux"] .tutorial-mode-block[data-tutorial-mode="webui"][data-pf~="linux"],
+html[data-tutorial-mode="webui"][data-pf="macos"] .tutorial-mode-block[data-tutorial-mode="webui"][data-pf~="macos"],
+html[data-tutorial-mode="webui"][data-pf="windows"] .tutorial-mode-block[data-tutorial-mode="webui"][data-pf~="windows"],
+html[data-tutorial-mode="webui"][data-pf="codespaces"] .tutorial-mode-block[data-tutorial-mode="webui"][data-pf~="codespaces"],
+html[data-tutorial-mode="terminal"][data-pf="linux"] .tutorial-mode-block[data-tutorial-mode="terminal"][data-pf~="linux"],
+html[data-tutorial-mode="terminal"][data-pf="macos"] .tutorial-mode-block[data-tutorial-mode="terminal"][data-pf~="macos"],
+html[data-tutorial-mode="terminal"][data-pf="windows"] .tutorial-mode-block[data-tutorial-mode="terminal"][data-pf~="windows"],
+html[data-tutorial-mode="terminal"][data-pf="codespaces"] .tutorial-mode-block[data-tutorial-mode="terminal"][data-pf~="codespaces"] {
+  display: block;
+}
+
+.tutorial-mode-block > :first-child {
+  margin-top: 0;
+}
+
+.no-js .tutorial-mode-block {
+  display: block;
+  border-left: 2px solid var(--border-color);
+  padding-left: 1rem;
+  margin: 1rem 0;
+}
+
+.no-js .tutorial-mode-block::before {
+  content: "Tutorial mode: " attr(data-tutorial-mode);
+  display: block;
+  text-transform: capitalize;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--primary-color-touch);
+  margin-bottom: 0.35rem;
+}
