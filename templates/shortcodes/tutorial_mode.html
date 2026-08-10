@@ -1,0 +1,4 @@
+{% set selected_platform = platform | default(value="") %}
+<div class="tutorial-mode-block" data-tutorial-mode="{{ only }}"{% if selected_platform %} data-pf="{{ selected_platform }}"{% endif %}>
+{{ body | markdown | safe }}
+</div>

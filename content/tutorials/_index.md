@@ -1,19 +1,19 @@
 +++
 title = "StratoWeave Tutorials"
-description = "Start with SORESPO, the reference implementation that shows how StratoWeave works in practice."
+description = "Explore SORESPO in your browser, run it against a live virtual network, and then change the automation code."
 sort_by = "weight"
 template = "tutorials.html"
 +++
 
 SORESPO, short for SOmewhat REalistic Service Provider Orchestrator, is the
-primary on-ramp for learning StratoWeave. It is a complete sample
-implementation of a StratoWeave-based network automation system, not a toy example.
+primary on-ramp for learning StratoWeave. It is a complete reference
+implementation of a StratoWeave-based network automation system.
 
-Use the guides below to start a working lab, load declarative intent, inspect the
-layered outputs, and then modify the transforms yourself. Each guide is
-platform-aware — choose Linux, macOS, Windows (WSL2), or GitHub Codespaces at the
-top of the page to see the setup and commands tailored to your environment.
+Follow the guides in order, from lowest to highest effort. Start with the
+interactive Web UI demo, which needs no installation. Next, run the same UI
+against a live containerized Nokia SR Linux network. Finally, install the
+development toolchain and modify the transforms yourself.
 
-You can also get a feel for the system before starting a lab: the web UI
-guide opens a fully interactive in-browser demo with sample data — no
-installation required.
+The live and development guides are platform-aware. Choose Linux, macOS,
+Windows (WSL2), or GitHub Codespaces at the top of those pages to see the
+setup tailored to your environment.

@@ -1,7 +1,7 @@
 +++
 title = "Exploring the SORESPO Web UI"
-weight = 15
-description = "Take a zero-install, in-browser tour of the SORESPO web UI — topology dashboard, devices, config queue, layers, and service editing on sample data."
+weight = 10
+description = "Start here: take a zero-install browser tour of the topology, devices, config queue, layers, and service editors."
 
 [extra]
 track = "run"
@@ -75,12 +75,11 @@ into the device's configuration log.
 ## Applying Config
 
 <a href="/demo/webui/#/configure" target="_blank" rel="noopener">Open Apply Config</a>
-— the UI equivalent of the `make send-config-wait` step from the
-[running SORESPO](@/tutorials/running-sorespo.md) tutorial: paste (or drop) a
-JSON or XML payload and apply it to the orchestrator's customer-facing
-service state through `/restconf/data`. This is how you bootstrap an empty
-system or apply bulk changes; in the demo, applying a payload enqueues the
-resulting per-device changes.
+— paste (or drop) a JSON or XML payload and apply it to the orchestrator's
+customer-facing service state through `/restconf/data`. This is how you
+bootstrap an empty system or apply bulk changes. In the demo, applying a
+payload enqueues the resulting per-device changes; in the next tutorial, you
+will use the same page against a live SORESPO lab.
 
 ## Configuration Layers
 
@@ -132,12 +131,8 @@ the demo bar, or open the demo with the tour forced on:
 
 ## What's Next
 
-{{ demo_cta(label="Revisit the interactive demo") }}
+You have explored SORESPO with simulated data. Next, connect the same Web UI
+to a live SORESPO system and use it to configure a containerized Nokia SR Linux
+network.
 
-The demo is the real web UI running on simulated data — the natural next
-step is pointing it at a real system. Follow
-[running SORESPO](@/tutorials/running-sorespo.md) to start the containerized
-Nokia SR Linux lab, then launch the same UI against it with
-`make -C test/quicklab-srl start WEBUI=true`. From there,
-[developing SORESPO](@/tutorials/developing-sorespo.md) shows how to change
-the automation code itself.
+{{ tutorial_cta(href="/tutorials/running-sorespo/", label="Run SORESPO with the Web UI", note="Start the complete Containerlab environment, apply real intent, and verify the resulting network.") }}
