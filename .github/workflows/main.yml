@@ -18,7 +18,7 @@ jobs:
           echo "PAGES_BRANCH=gh-pages" >> $GITHUB_ENV
         if: github.ref == 'refs/heads/main'
       - name: 'Checkout'
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
       - name: "Set repo-specific site vars"
         run: |
           echo "SITE_BASE_URL=https://www.stratoweave.org" >> $GITHUB_ENV
@@ -45,7 +45,7 @@ jobs:
       - name: 'Build webui demo into static/'
         run: SORESPO_DIR="$GITHUB_WORKSPACE/sorespo-src" ./scripts/update-webui-demo.sh
       - name: 'Build and deploy'
-        uses: shalzz/zola-deploy-action@master
+        uses: shalzz/zola-deploy-action@v0.23.2
         env:
           BUILD_DIR: .
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
