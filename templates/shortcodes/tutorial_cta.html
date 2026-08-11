@@ -1,6 +1,8 @@
+{% component tutorial_cta(href: string, label: string, note: string) %}
 <div class="demo-cta">
     <a class="button button-primary" href="{{ href | safe }}">
         {{ label }}
     </a>
     <span class="demo-cta__note">{{ note }}</span>
 </div>
+{% endcomponent tutorial_cta %}

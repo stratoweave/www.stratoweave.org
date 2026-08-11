@@ -1,6 +1,8 @@
+{% component demo_cta(href: string = "/demo/webui/", label: string = "Launch the interactive demo", note: string = "Runs in your browser on sample data - nothing to install. Includes a guided tour.") %}
 <div class="demo-cta">
     <a class="button button-primary" href="{{ href | default(value="/demo/webui/") | safe }}" target="_blank" rel="noopener">
         {{ label | default(value="Launch the interactive demo") }}
     </a>
     <span class="demo-cta__note">{{ note | default(value="Runs in your browser on sample data — nothing to install. Includes a guided tour.") }}</span>
 </div>
+{% endcomponent demo_cta %}

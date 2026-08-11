@@ -22,7 +22,7 @@ four-router Nokia SR Linux topology used by the
 in your browser. Nothing you do in it touches a real network, and the
 built-in guided tour walks you through every page.
 
-{{ demo_cta() }}
+{{<demo_cta />}}
 
 *Note*: the demo starts a short guided tour on your first visit. You can
 restart it (or reset the sample data) at any time from the demo bar at the
@@ -135,4 +135,4 @@ You have explored SORESPO with simulated data. Next, connect the same Web UI
 to a live SORESPO system and use it to configure a containerized Nokia SR Linux
 network.
 
-{{ tutorial_cta(href="/tutorials/running-sorespo/", label="Run SORESPO with the Web UI", note="Start the complete Containerlab environment, apply real intent, and verify the resulting network.") }}
+{{<tutorial_cta href="/tutorials/running-sorespo/" label="Run SORESPO with the Web UI" note="Start the complete Containerlab environment, apply real intent, and verify the resulting network."/>}}

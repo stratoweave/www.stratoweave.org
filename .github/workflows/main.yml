@@ -45,7 +45,7 @@ jobs:
       - name: 'Build webui demo into static/'
         run: SORESPO_DIR="$GITHUB_WORKSPACE/sorespo-src" ./scripts/update-webui-demo.sh
       - name: 'Build and deploy'
-        uses: shalzz/zola-deploy-action@v0.23.2
+        uses: shalzz/zola-deploy-action@v0.23.1
         env:
           BUILD_DIR: .
           TOKEN: ${{ secrets.GITHUB_TOKEN }}

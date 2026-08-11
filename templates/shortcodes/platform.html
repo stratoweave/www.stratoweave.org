@@ -1,3 +1,5 @@
+{% component platform(only: string) %}
 <div class="pf-block" data-pf="{{ only | replace(from=",", to=" ") }}">
 {{ body | markdown | safe }}
 </div>
+{% endcomponent platform %}

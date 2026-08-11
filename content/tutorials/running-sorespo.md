@@ -30,28 +30,28 @@ there, choose the default Web UI path or follow the same tutorial entirely
 through Make targets in a terminal. Both paths use the same environment and
 produce the same result.
 
-{% platform(only="linux") %}
+{% <platform only="linux"> %}
 You will need a Linux host with 4 CPU cores and 8 GB of RAM available to be
 able to start the "Nokia SR Linux" lab used throughout this tutorial.
 CPU virtualization (KVM extensions) is **NOT** required. The tutorial was
 written and validated for Ubuntu / Debian but should work on any modern Linux
 distribution.
-{% end %}
+{% </platform> %}
 
-{% platform(only="macos") %}
+{% <platform only="macos"> %}
 With the advent of router vendors shipping ARM64 images of their containerized
 routers, running labs and development environments on macOS with Apple Silicon
 has become really attractive. It should also work on macOS on Intel but you'll
 likely need more CPU cores and memory allocated to Docker than described here.
-{% end %}
+{% </platform> %}
 
-{% platform(only="windows") %}
+{% <platform only="windows"> %}
 Thanks to the introduction of the `Windows Subsytem for Linux` and container
 technology, software development and running router labs on Windows
 has become really easy to do.
-{% end %}
+{% </platform> %}
 
-{% platform(only="codespaces") %}
+{% <platform only="codespaces"> %}
 GitHub Codespaces is a VM managed by GitHub that runs the Dev Container (part
 of this project) and Visual Studio Code that is made available in your browser
 or as a Remote environment you connect to from your local VS Code.
@@ -68,17 +68,17 @@ per month.
 Setting up a fresh VM will take a couple of minutes. After is it done you have
 access to VS Code running in a Dev Container with all the tools and source code
 available in your browser.
-{% end %}
+{% </platform> %}
 
 ## Preparing the Environment
 
-{% platform(only="linux") %}
+{% <platform only="linux"> %}
 * Install the following prerequisites:
   * [Docker Engine](https://docs.docker.com/engine/install/)
   * [Git](https://git-scm.com/downloads/linux)
-{% end %}
+{% </platform> %}
 
-{% platform(only="macos") %}
+{% <platform only="macos"> %}
 * Install the following prerequisites:
   * [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or
     [Colima](@/tutorials/colima.md) if you prefer an open-source alternative)
@@ -94,9 +94,9 @@ available in your browser.
       ```shell
       colima start --cpu 4 --memory 8
       ```
-{% end %}
+{% </platform> %}
 
-{% platform(only="windows") %}
+{% <platform only="windows"> %}
 * First, install the [Windows Subsytem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
   * During the Windows Subsytem for Linux installation keep the default WSL
     version, `WSL2`.
@@ -115,17 +115,17 @@ sudo apt install make
 ```
 
 Perform all further instructions in this tutorial from the `Ubuntu` (`WSL2`) shell.
-{% end %}
+{% </platform> %}
 
-{% platform(only="codespaces") %}
+{% <platform only="codespaces"> %}
 GitHub Codespaces needs no local installation. Click the **Open in GitHub
 Codespaces** button above to launch a ready-to-use environment with all the
 tools and source code, then continue below.
-{% end %}
+{% </platform> %}
 
 ## Starting the Tutorial Environment
 
-{% platform(only="linux macos windows") %}
+{% <platform only="linux macos windows"> %}
 Clone the project:
 ```shell
 git clone https://github.com/stratoweave/sorespo.git
@@ -145,9 +145,9 @@ SWeave: stratoweave.app.StartupBootstrap[-201]: StratoWeave running..
 
 SORESPO runs in the foreground and writes its log output to this shell. Open a
 second shell to continue with the tutorial.
-{% end %}
+{% </platform> %}
 
-{% platform(only="codespaces") %}
+{% <platform only="codespaces"> %}
 Go into the `/workspaces/sorespo/test/quicklab-srl` directory and start the tutorial:
 ```shell
 cd test/quicklab-srl
@@ -163,7 +163,7 @@ SWeave: stratoweave.app.StartupBootstrap[-201]: StratoWeave running..
 SORESPO runs in the foreground and writes its log output to this Terminal.
 Open a second Terminal to continue with the tutorial. Select the *+* button in
 the top right of the VS Code Terminal window to do so.
-{% end %}
+{% </platform> %}
 
 The first image download can take several minutes. Later starts reuse the
 downloaded router and Web UI images. If port `3000` is already occupied, stop
@@ -187,16 +187,16 @@ The environment starts empty. First load the core routers and backbone links
 from `tutorial-netinfra.xml`, then load the L3VPN and its customer sites from
 `tutorial-l3vpn-svc.xml`.
 
-{% tutorial_mode(only="webui", platform="linux macos windows") %}
+{% <tutorial_mode only="webui" platform="linux macos windows"> %}
 Open [http://localhost:3000](http://localhost:3000) in your browser.
-{% end %}
+{% </tutorial_mode> %}
 
-{% tutorial_mode(only="webui", platform="codespaces") %}
+{% <tutorial_mode only="webui" platform="codespaces"> %}
 Open the **Ports** panel, find port `3000`, and select its forwarded address.
 Keep the port visibility private.
-{% end %}
+{% </tutorial_mode> %}
 
-{% tutorial_mode(only="webui") %}
+{% <tutorial_mode only="webui"> %}
 
 The Dashboard initially has no topology because the orchestrator is empty.
 Use **Apply Config** in the navigation to bootstrap it:
@@ -214,9 +214,9 @@ Use **Apply Config** in the navigation to bootstrap it:
 On a local desktop you can drag either XML file directly onto the Apply CFS
 Config editor instead of copying it. The filename lets the UI select XML
 automatically.
-{% end %}
+{% </tutorial_mode> %}
 
-{% tutorial_mode(only="terminal") %}
+{% <tutorial_mode only="terminal"> %}
 
 In the second shell or Terminal, stay in the `test/quicklab-srl` directory.
 This mode is useful when the Web UI is not reachable, such as in a remote
@@ -232,11 +232,11 @@ make send-config-wait FILE="tutorial-l3vpn-svc.xml"
 
 Each command returns after SORESPO has processed the intent and applied the
 resulting device configuration.
-{% end %}
+{% </tutorial_mode> %}
 
 ## Inspecting the Live System
 
-{% tutorial_mode(only="webui") %}
+{% <tutorial_mode only="webui"> %}
 
 The Web UI is now connected to real SORESPO state rather than the simulated
 data from the first tutorial:
@@ -249,9 +249,9 @@ data from the first tutorial:
   These are the live outputs of the declarative transforms described below.
 * Open **Services** to inspect or edit the routers, backbone links, VPN, and
   customer sites through guided forms rather than raw payloads.
-{% end %}
+{% </tutorial_mode> %}
 
-{% tutorial_mode(only="terminal") %}
+{% <tutorial_mode only="terminal"> %}
 
 Retrieve the complete customer-facing state as JSON:
 
@@ -268,7 +268,7 @@ make get-diff-ams-core-1
 ```
 
 The corresponding layer-specific commands are introduced in the next section.
-{% end %}
+{% </tutorial_mode> %}
 
 The resulting network lab has three core SR Linux routers, each with an attached
 customer edge device running FRRouting. This diagram shows the topology:
@@ -315,13 +315,13 @@ customer edge device running FRRouting. This diagram shows the topology:
 
 ## Verifying the Network
 
-{% tutorial_mode(only="webui") %}
+{% <tutorial_mode only="webui"> %}
 
 On the Dashboard, confirm that all three core routers and their customer sites
 are visible. Open **Devices**, select `AMS-CORE-1`, and check that its running
 and target configurations agree and that its configuration log contains the
 recent changes.
-{% end %}
+{% </tutorial_mode> %}
 
 Run the automated customer-connectivity test:
 
@@ -382,14 +382,14 @@ The SORESPO system implements a RESTCONF northbound interface, which is
 model-driven by StratoWeave based on the top-level CFS YANG model of the SORESPO
 system.
 
-{% tutorial_mode(only="webui") %}
+{% <tutorial_mode only="webui"> %}
 Use the **Layers** page to move through these outputs.
-{% end %}
+{% </tutorial_mode> %}
 
-{% tutorial_mode(only="terminal") %}
+{% <tutorial_mode only="terminal"> %}
 The `get-config0` through `get-config3` Make targets send the equivalent
 RESTCONF requests.
-{% end %}
+{% </tutorial_mode> %}
 
 The XML excerpts below are shared by both modes.
 
@@ -400,12 +400,12 @@ The Customer Facing Service (top-level) YANG model defines SORESPO's northbound
 interface for users and/or BSS/OSS platforms. The YANG modules for `layer0` are
 located in `sorespo/spec/yang/cfs`.
 
-{% tutorial_mode(only="webui") %}
+{% <tutorial_mode only="webui"> %}
 
 Open **Layers**, select **CFS**, and choose XML as the display format.
-{% end %}
+{% </tutorial_mode> %}
 
-{% tutorial_mode(only="terminal") %}
+{% <tutorial_mode only="terminal"> %}
 
 Retrieve the top-level CFS configuration (`layer0`) from SORESPO:
 
@@ -418,7 +418,7 @@ you prefer JSON format, use:
 ```shell
 make get-config-json0
 ```
-{% end %}
+{% </tutorial_mode> %}
 
 The resulting output has two top-level containers, `<netinfra>` (the first
  configuration file you loaded), which describes the configuration of the
@@ -547,19 +547,19 @@ the implemented YANG modules are less abstracted than at `layer0`. Additional
 parameters are calculated by the service automation. The YANG modules for `layer1` are
 located in `sorespo/spec/yang/inter`.
 
-{% tutorial_mode(only="webui") %}
+{% <tutorial_mode only="webui"> %}
 
 On **Layers**, select **Intermediate** and keep XML as the display format.
-{% end %}
+{% </tutorial_mode> %}
 
-{% tutorial_mode(only="terminal") %}
+{% <tutorial_mode only="terminal"> %}
 
 Retrieve the `layer1` configuration:
 
 ```shell
 make get-config1
 ```
-{% end %}
+{% </tutorial_mode> %}
 
 This excerpt from the output shows the intermediate layer configuration for the
 `AMS-CORE-1` router. The IPv4 and IPv6 addressing for the loopback interface
@@ -665,18 +665,18 @@ At this layer, there is an instance of `<device>` container per managed device
 and a corresponding `<rfs>` container defining the devices SORESPO is
 managing and the RFS services that SORESPO defines.
 
-{% tutorial_mode(only="webui") %}
+{% <tutorial_mode only="webui"> %}
 
 On **Layers**, select **RFS** and inspect the per-device services.
-{% end %}
+{% </tutorial_mode> %}
 
-{% tutorial_mode(only="terminal") %}
+{% <tutorial_mode only="terminal"> %}
 
 Retrieve the configuration for `layer2`:
 ```shell
 make get-config2
 ```
-{% end %}
+{% </tutorial_mode> %}
 
 Which gives the following output:
 ```xml
@@ -755,19 +755,19 @@ modules are organized in directories by device and software version:
 * For Jupiper JUNOS: `JuniperCRPD_24_4R1_9`
 * For Nokia SR-Linux: `NokiaSRLinux_25_3_2`
 
-{% tutorial_mode(only="webui") %}
+{% <tutorial_mode only="webui"> %}
 
 On **Layers**, select **Device**. You can also open **Devices**, choose a core
 router, and inspect its fully rendered target configuration.
-{% end %}
+{% </tutorial_mode> %}
 
-{% tutorial_mode(only="terminal") %}
+{% <tutorial_mode only="terminal"> %}
 
 Retrieve the configuration for `layer3`:
 ```
 make get-config3
 ```
-{% end %}
+{% </tutorial_mode> %}
 
 The output is several hundred lines of XML defining the full configuration of
 each of the core router devices. The XML namespaces
@@ -776,19 +776,19 @@ each of the core router devices. The XML namespaces
 
 ## Adding a New Core Router to the Topology
 
-{% platform(only="linux macos windows") %}
+{% <platform only="linux macos windows"> %}
 In order to add a new router to the network, including provisioning the
 backbone links and iBGP peering, all we need to do is send in the
 configuration for that router. The configuration is defined in
 `test/quicklab-srl/tutorial-add-lju.xml`:
-{% end %}
+{% </platform> %}
 
-{% platform(only="codespaces") %}
+{% <platform only="codespaces"> %}
 In order to add a new router to the network, including provisioning the
 backbone links and iBGP peering, all we need to do is send in the
 configuration for that router. The configuration is defined in
 `/workspaces/sorespo/test/quicklab-srl/tutorial-add-lju.xml`:
-{% end %}
+{% </platform> %}
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -818,16 +818,16 @@ configuration for that router. The configuration is defined in
 
 ### Applying the Router Intent
 
-{% tutorial_mode(only="webui") %}
+{% <tutorial_mode only="webui"> %}
 
 Open **Apply Config**, select XML, and drop `tutorial-add-lju.xml` onto the
 editor (or paste its contents). Select **Apply** and confirm the operation.
 Return to the Dashboard and watch `LJU-CORE-1` and its two backbone links
 appear. Open **Devices** and select `LJU-CORE-1` to inspect its rendered and
 running configuration.
-{% end %}
+{% </tutorial_mode> %}
 
-{% tutorial_mode(only="terminal") %}
+{% <tutorial_mode only="terminal"> %}
 
 Send the same configuration to SORESPO:
 
@@ -840,7 +840,7 @@ Confirm that layer 0 now contains four routers:
 ```shell
 make get-config0
 ```
-{% end %}
+{% </tutorial_mode> %}
 
 Optionally, log in to the new router:
 
@@ -884,19 +884,19 @@ added as per the updated intent (4 routers) as well.
 
 ### Connecting a Customer Site
 
-{% tutorial_mode(only="webui") %}
+{% <tutorial_mode only="webui"> %}
 
 Use **Apply Config** again with `tutorial-add-cust-4.xml`. Return to the
 Dashboard and confirm that the fourth customer site is attached to
 `LJU-CORE-1`. The new site is also available under **Services**.
-{% end %}
+{% </tutorial_mode> %}
 
-{% tutorial_mode(only="terminal") %}
+{% <tutorial_mode only="terminal"> %}
 
 ```shell
 make send-config-wait FILE="tutorial-add-cust-4.xml"
 ```
-{% end %}
+{% </tutorial_mode> %}
 
 The resulting topology is as follows:
 
@@ -942,7 +942,7 @@ The resulting topology is as follows:
 
 ### Verifying the Expanded Topology
 
-{% tutorial_mode(only="webui") %}
+{% <tutorial_mode only="webui"> %}
 
 Confirm that all four routers and customer sites appear on the Dashboard.
 Check **Config Queue** for outstanding changes, then open `LJU-CORE-1` under
@@ -950,7 +950,7 @@ Check **Config Queue** for outstanding changes, then open `LJU-CORE-1` under
 
 The Web UI submits Apply Config requests asynchronously, so you can follow
 their progress in **Config Queue** and each device's configuration log.
-{% end %}
+{% </tutorial_mode> %}
 
 Test connectivity between all customer routers:
 
@@ -959,13 +959,13 @@ make test-ping
 ```
 *NOTE*: It may take up to a minute for the customer and provider routers to establish a BGP session and exchange routes.
 
-{% tutorial_mode(only="terminal") %}
+{% <tutorial_mode only="terminal"> %}
 
 The `send-config-wait` target waits for StratoWeave to process the configuration
 before returning. To use asynchronous submission from the terminal, run
 `make send-config-async FILE="<file>.xml"` and observe that the command returns
 as soon as SORESPO accepts the intent.
-{% end %}
+{% </tutorial_mode> %}
 
 ## What's Next
 
@@ -973,4 +973,4 @@ You have run SORESPO against a live network and followed its intent through
 every automation layer. The final step is to change those transforms, build
 SORESPO yourself, and see your code update the network.
 
-{{ tutorial_cta(href="/tutorials/developing-sorespo/", label="Develop SORESPO", note="Install the Acton toolchain, modify an RFS transform and YANG model, then deploy your own build in the same lab.") }}
+{{<tutorial_cta href="/tutorials/developing-sorespo/" label="Develop SORESPO" note="Install the Acton toolchain, modify an RFS transform and YANG model, then deploy your own build in the same lab."/>}}

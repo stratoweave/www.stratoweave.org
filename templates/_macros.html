@@ -1,4 +1,4 @@
-{% macro render_header() %}
+{% component render_header() %}
 <a class="site-logo" href="{{ get_url(path="/") }}">
     <span class="brand-mark" aria-hidden="true">
         <img src="{{ get_url(path="stratoweave-logo.svg") }}" alt="">
@@ -107,4 +107,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-{% endmacro render_header %}
+{% endcomponent render_header %}

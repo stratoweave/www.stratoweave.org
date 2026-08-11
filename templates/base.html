@@ -1,4 +1,3 @@
-{% import "_macros.html" as macros %}
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 
@@ -24,15 +23,15 @@
     {% block header %}
 
     <header class="site-header">
-        {{ macros::render_header() }}
+        {{<render_header />}}
     </header>
     {% endblock header %}
 
     <main class="page-shell{% block page_shell_class %}{% endblock page_shell_class %}">
         {% block toc %}
-        {% if section.toc %}
+        {% if section and section.toc %}
         {% set toc = section.toc %}
-        {% elif page.toc %}
+        {% elif page and page.toc %}
         {% set toc = page.toc %}
         {% endif %}
         {% if toc %}
