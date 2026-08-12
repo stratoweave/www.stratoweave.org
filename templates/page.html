@@ -8,6 +8,23 @@
   var d = document.documentElement;
   d.classList.remove('no-js');
   var p = 'linux';
+  try {
+    // Auto-detect platform from the browser where possible.
+    var detected = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent || '';
+    detected = String(detected).toLowerCase();
+    if (/iphone|ipad|ipod|mac|darwin/.test(detected)) {
+      p = 'macos';
+    } else if (/win/.test(detected)) {
+      p = 'windows';
+    } else if (/linux|x11/.test(detected)) {
+      p = 'linux';
+    }
+    // Prefer codespaces when the page is running in known preview hosts or UA hints
+    var host = (location && location.hostname) || '';
+    if (host.indexOf('githubpreview.dev') !== -1 || host.indexOf('github.dev') !== -1 || navigator.userAgent.indexOf('Codespaces') !== -1) {
+      p = 'codespaces';
+    }
+  } catch (e) {}
   try { p = localStorage.getItem('sw-platform') || p; } catch (e) {}
   d.setAttribute('data-pf', p);
 })();
