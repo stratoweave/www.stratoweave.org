@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8">
+    <title>StratoWeave</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a SORESPO learning path.">
+    
+    <link rel="icon" href="https://www.stratoweave.org/favicon.svg">
+    
+    <style>
+    :root {
+        --stratoweave-navy: #081020;
+        --stratoweave-blue: #2563eb;
+        --stratoweave-cyan: #22d3ee;
+        --stratoweave-violet: #8b5cf6;
+        --stratoweave-fuchsia: #a855f7;
+        --stratoweave-slate: #64748b;
+        --stratoweave-mist: #e2e8f0;
+        --stratoweave-ink-900: #0d1730;
+        --stratoweave-ink-800: #16223f;
+        --stratoweave-ink-700: #233456;
+        --stratoweave-ink-500: #7d8cac;
+        --stratoweave-ink-300: #c7d1e4;
+        --stratoweave-paper: #f8fbff;
+
+        --primary-color: var(--stratoweave-blue);
+        --primary-color-touch: var(--stratoweave-cyan);
+        --primary-text-color: var(--stratoweave-paper);
+        --primary-hero-text-color: var(--stratoweave-paper);
+        --nav-text-color: var(--stratoweave-paper);
+        --primary-link-color: var(--stratoweave-cyan);
+        --secondary-color: var(--stratoweave-navy);
+        --secondary-color-accent: var(--stratoweave-ink-900);
+        --secondary-text-color: #a7b5d1;
+        --toc-highlight-text-color: var(--stratoweave-cyan);
+        --tertiary-color: #050b17;
+        --panel-color: rgba(13, 23, 48, 0.76);
+        --border-color: rgba(226, 232, 240, 0.14);
+        --chrome-color: rgba(8, 16, 32, 0.9);
+        --code-color: rgba(5, 11, 23, 0.92);
+        color-scheme: dark;
+    }
+</style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.stratoweave.org/normalize.css">
+    <link rel="stylesheet" href="https://www.stratoweave.org/juice.css">
+    
+
+
+
+</head>
+
+<body class="site-page">
+    
+<header class="site-header">
+  
+<a class="site-logo" href="https://www.stratoweave.org">
+    <span class="brand-mark" aria-hidden="true">
+        <img src="https://www.stratoweave.org/stratoweave-logo.svg" alt="">
+    </span>
+</a>
+
+<div class="site-nav-shell">
+    <button
+        class="site-nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav-primary"
+        aria-label="Toggle navigation menu"
+    >
+        <span class="site-nav-toggle__bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <nav id="site-nav-primary" class="site-nav" aria-label="Primary navigation">
+        <a class="nav-item" href="https://www.stratoweave.org/tutorials">Get Started</a>
+        <a class="nav-item" href="https://www.stratoweave.org/technology">Technology</a>
+        <a class="nav-item" href="https://stratoweave.guide" target="_blank" rel="noopener noreferrer">Documentation</a>
+        <div class="nav-group">
+            <a class="nav-item nav-item--group" href="https://www.stratoweave.org/community">Community</a>
+            <div class="nav-subnav">
+                <a class="nav-item nav-item--subnav" href="https://www.stratoweave.org/governance">Governance</a>
+            </div>
+        </div>
+        <a class="nav-item" href="https://www.stratoweave.org/partners">Partners</a>
+        <a
+            class="nav-item nav-item--icon"
+            href="https://github.com/stratoweave"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="StratoWeave on GitHub"
+            title="StratoWeave on GitHub"
+        >
+            <svg class="nav-icon" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                <path
+                    fill="currentColor"
+                    d="M12 0C5.372 0 0 5.373 0 12c0 5.302 3.438 9.8 8.206 11.387.6.11.82-.26.82-.577v-2.235c-3.338.726-4.042-1.415-4.042-1.415-.546-1.388-1.333-1.758-1.333-1.758-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.238 1.84 1.238 1.07 1.835 2.809 1.304 3.495.997.108-.775.418-1.304.762-1.603-2.665-.303-5.467-1.333-5.467-5.93 0-1.31.468-2.382 1.237-3.222-.124-.303-.536-1.524.117-3.176 0 0 1.008-.323 3.302 1.23A11.52 11.52 0 0 1 12 5.818c1.02.005 2.047.138 3.006.404 2.292-1.554 3.298-1.231 3.298-1.231.656 1.653.244 2.874.12 3.177.771.84 1.236 1.912 1.236 3.222 0 4.609-2.807 5.624-5.48 5.921.43.371.823 1.102.823 2.221v3.292c0 .319.216.694.825.576C20.565 21.798 24 17.302 24 12c0-6.627-5.373-12-12-12z"
+                />
+            </svg>
+        </a>
+    </nav>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".site-nav-shell").forEach(function (shell) {
+        const toggle = shell.querySelector(".site-nav-toggle");
+        const nav = shell.querySelector(".site-nav");
+
+        if (!toggle || !nav) {
+            return;
+        }
+
+        const mobileQuery = window.matchMedia("(max-width: 700px)");
+
+        function closeMenu() {
+            shell.classList.remove("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+
+        function syncMenuState() {
+            shell.classList.add("site-nav-shell--ready");
+
+            if (!mobileQuery.matches) {
+                closeMenu();
+            }
+        }
+
+        toggle.addEventListener("click", function () {
+            const isOpen = shell.classList.toggle("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!mobileQuery.matches || shell.contains(event.target)) {
+                return;
+            }
+
+            closeMenu();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+        });
+
+        if (typeof mobileQuery.addEventListener === "function") {
+            mobileQuery.addEventListener("change", syncMenuState);
+        } else {
+            mobileQuery.addListener(syncMenuState);
+        }
+
+        syncMenuState();
+    });
+});
+</script>
+
+</header>
+
+
+    <main class="page-shell">
+        
+        
+        
+        
+        
+        <div class="toc">
+            <div class="toc-sticky">
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/exploring-the-webui/#introduction">Introduction</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/exploring-the-webui/#the-dashboard">The Dashboard</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/exploring-the-webui/#devices">Devices</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/exploring-the-webui/#the-config-queue">The Config Queue</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/exploring-the-webui/#applying-config">Applying Config</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/exploring-the-webui/#configuration-layers">Configuration Layers</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/exploring-the-webui/#service-modules">Service Modules</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/exploring-the-webui/#global-settings">Global Settings</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/exploring-the-webui/#taking-the-guided-tour">Taking the Guided Tour</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/exploring-the-webui/#what-s-next">What&#39;s Next</a>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+        
+
+        <div class="content text">
+            
+<div class="heading-text">Exploring the SORESPO Web UI</div>
+
+<p class="page-intro">Start here: take a zero-install browser tour of the topology, devices, config queue, layers, and service editors.</p>
+
+
+
+<h2 id="introduction">Introduction</h2>
+<p>SORESPO ships with a web UI: a frontend to a running SORESPO system that
+talks to its RESTCONF northbound interface. It shows the network topology
+live, lets you inspect every device and every configuration layer, and lets
+you create and edit services through guided forms instead of hand-written
+payloads.</p>
+<p>You don't need to install anything to try it. The interactive demo below is
+the real web UI, statically built with realistic sample data — the same
+four-router Nokia SR Linux topology used by the
+<a href="https://www.stratoweave.org/tutorials/running-sorespo/">running SORESPO</a> tutorial — running entirely
+in your browser. Nothing you do in it touches a real network, and the
+built-in guided tour walks you through every page.</p>
+<div class="demo-cta">
+    <a class="button button-primary" href="/demo/webui/" target="_blank" rel="noopener">
+        Launch the interactive demo
+    </a>
+    <span class="demo-cta__note">Runs in your browser on sample data - nothing to install. Includes a guided tour.</span>
+</div>
+<p><em>Note</em>: the demo starts a short guided tour on your first visit. You can
+restart it (or reset the sample data) at any time from the demo bar at the
+bottom of the screen.</p>
+<p>The sections below describe each area of the UI and link straight to the
+matching page in the demo, so you can read and click along.</p>
+<h2 id="the-dashboard">The Dashboard</h2>
+<p><a href="/demo/webui/#/" target="_blank" rel="noopener">Open the Dashboard</a>
+— the landing page draws the network topology straight from the <code>netinfra</code>
+service model: the four core routers (<code>AMS</code>, <code>FRA</code>, <code>STO</code>, and <code>LJU</code>), the
+backbone links between them with live traffic counters, and the customer
+sites attached to each router. The map refreshes every few seconds; below it,
+a device table summarizes queue depth, pending approvals, and config status,
+and service cards jump straight into the service editors.</p>
+<p>Everything on the map is clickable: routers open their device page, links
+open the backbone-link editor, and site cards open the L3VPN site editor.</p>
+<h2 id="devices">Devices</h2>
+<p><a href="/demo/webui/#/devices" target="_blank" rel="noopener">Open Devices</a>
+— the inventory of routers SORESPO manages. Each device page shows its
+metadata, addresses, feature flags, the YANG modules it advertises over
+NETCONF, and two further views:</p>
+<ul>
+<li><strong>Configuration</strong> — the device's <em>running</em> and <em>target</em> configuration in
+JSON, XML, GData, or AData form. When changes are waiting for approval the
+two differ; that difference is exactly what the config queue holds.</li>
+<li><strong>Configuration Log</strong> — the history of every config push to the device,
+with its diff, polled live.</li>
+</ul>
+<p>Try <a href="/demo/webui/#/devices/AMS-CORE-1" target="_blank" rel="noopener">AMS-CORE-1</a>
+in the demo: it is configured to require manual approval and has changes
+waiting in its queue.</p>
+<h2 id="the-config-queue">The Config Queue</h2>
+<p><a href="/demo/webui/#/operations/config-queue" target="_blank" rel="noopener">Open the Config Queue</a>
+— when a device requires approval (or is unreachable), rendered configuration
+changes wait in a per-device queue instead of being pushed immediately. This
+page shows all queues across the network: review each change as an XML,
+JSON, AData, or GData diff, then <em>Approve &amp; Apply</em> or <em>Reject</em> it.</p>
+<p>In the demo, approve one of the pending AMS-CORE-1 changes and watch it move
+into the device's configuration log.</p>
+<h2 id="applying-config">Applying Config</h2>
+<p><a href="/demo/webui/#/configure" target="_blank" rel="noopener">Open Apply Config</a>
+— paste (or drop) a JSON or XML payload and apply it to the orchestrator's
+customer-facing service state through <code>/restconf/data</code>. This is how you
+bootstrap an empty system or apply bulk changes. In the demo, applying a
+payload enqueues the resulting per-device changes; in the next tutorial, you
+will use the same page against a live SORESPO lab.</p>
+<h2 id="configuration-layers">Configuration Layers</h2>
+<p><a href="/demo/webui/#/layers" target="_blank" rel="noopener">Open Layers</a>
+— SORESPO transforms configuration through four declarative layers, the same
+ones you inspected with <code>make get-config0</code> through <code>get-config3</code> in the lab
+tutorial: <strong>CFS</strong> (customer-facing intent) → <strong>Intermediate</strong> → <strong>RFS</strong>
+(resource-facing services) → <strong>Device</strong> (fully rendered per-device config).
+This page renders any layer in XML, JSON, or AData, so you can watch intent
+become device configuration step by step.</p>
+<h2 id="service-modules">Service Modules</h2>
+<p><a href="/demo/webui/#/services" target="_blank" rel="noopener">Open Services</a>
+— guided editors for the service models: <em>Netinfra Router</em>, <em>Netinfra
+Backbone Link</em>, <em>L3VPN VPN Service</em>, and <em>L3VPN Site</em>. Each editor offers
+local validation, a live RESTCONF payload preview, and a diff against the
+saved entry; saving writes straight to RESTCONF and the resulting device
+changes appear in the config queue.</p>
+<p>For the full experience, recreate the lab tutorial's "add a router" exercise
+in the browser: create a new
+<a href="/demo/webui/#/services/netinfra-router/new" target="_blank" rel="noopener">Netinfra Router</a>,
+save it, and watch it appear on the dashboard topology — then check the
+config queue for its rendered base configuration. Existing entries can also
+be cloned as a starting point, e.g. a new
+<a href="/demo/webui/#/services/l3vpn-site" target="_blank" rel="noopener">L3VPN site</a>
+from one of <code>SITE-1</code> through <code>SITE-6</code>.</p>
+<h2 id="global-settings">Global Settings</h2>
+<p><a href="/demo/webui/#/global-settings" target="_blank" rel="noopener">Open Global Settings</a>
+— network-wide settings from <code>netinfra:netinfra/global-settings</code>, such as the
+iBGP authentication key. Change it in the demo and save: one edit queues a
+configuration change for every router at once — a compact illustration of
+intent fanning out across the network.</p>
+<h2 id="taking-the-guided-tour">Taking the Guided Tour</h2>
+<p>The demo includes a step-by-step tour of everything above: spotlight
+popups explain each page, and <em>Next</em>/<em>Back</em> move you through the UI. It
+starts automatically on your first visit; afterwards you can restart it from
+the demo bar, or open the demo with the tour forced on:</p>
+<p><a href="/demo/webui/?tour=1#/" target="_blank" rel="noopener">Launch the demo with the guided tour</a></p>
+<p><em>Note</em>: the demo keeps its data in memory. Reloading the page — or the
+<em>Reset data</em> button in the demo bar — restores the initial sample network.</p>
+<h2 id="what-s-next">What's Next</h2>
+<p>You have explored SORESPO with simulated data. Next, connect the same Web UI
+to a live SORESPO system and use it to configure a containerized Nokia SR Linux
+network.</p>
+<div class="demo-cta">
+    <a class="button button-primary" href="/tutorials/running-sorespo/">
+        Run SORESPO with the Web UI
+    </a>
+    <span class="demo-cta__note">Start the complete Containerlab environment, apply real intent, and verify the resulting network.</span>
+</div>
+
+
+        </div>
+
+        
+        
+    </main>
+
+    
+    <footer class="site-footer">
+        <small class="subtext">
+            Copyright © 2026 <a href="https://www.stratoweave.org">StratoWeave Project</a> © 2026 <a href="https://www.linuxfoundation.org/">The Linux Foundation®</a>. All rights reserved.
+        </small>
+    </footer>
+    
+</body>
+<script>
+    function highlightNav(heading) {
+        let pathname = location.pathname;
+        document.querySelectorAll(".toc a").forEach((item) => {
+            item.classList.remove("active");
+        });
+        const activeItem = document.querySelector(".toc a[href$='" + pathname + "#" + heading + "']");
+        if (activeItem) {
+            activeItem.classList.add("active");
+        }
+    }
+
+    let currentHeading = "";
+    window.onscroll = function () {
+        if (!document.querySelector(".toc")) {
+            return;
+        }
+
+        let h = document.querySelectorAll("h1,h2,h3,h4,h5,h6");
+        let elementArr = [];
+
+        h.forEach(item => {
+            if (item.id !== "") {
+                elementArr[item.id] = item.getBoundingClientRect().top;
+            }
+        });
+        elementArr.sort();
+        for (let key in elementArr) {
+            if (!elementArr.hasOwnProperty(key)) {
+                continue;
+            }
+            if (elementArr[key] > 0 && elementArr[key] < 300) {
+                if (currentHeading !== key) {
+                    highlightNav(key);
+                    currentHeading = key;
+                }
+                break;
+            }
+        }
+    }
+</script>
+
+<script>
+// Inject copy buttons into fenced code blocks and handle clipboard copying
+(function () {
+    if (typeof navigator === 'undefined' || !navigator.clipboard) return;
+    function addCopyButtons() {
+        document.querySelectorAll('pre > code').forEach(function (code) {
+            var pre = code.parentNode;
+            if (!pre || pre.querySelector('.code-copy-btn')) return;
+            pre.classList.add('has-copy');
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'code-copy-btn';
+            btn.setAttribute('aria-label', 'Copy code');
+            btn.textContent = 'Copy';
+            btn.addEventListener('click', function () {
+                var text = code.innerText;
+                navigator.clipboard.writeText(text).then(function () {
+                    btn.textContent = 'Copied';
+                    setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+                }).catch(function () {
+                    /* ignore */
+                });
+            });
+            pre.appendChild(btn);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', addCopyButtons);
+    } else {
+        addCopyButtons();
+    }
+})();
+</script>
+
+</html>

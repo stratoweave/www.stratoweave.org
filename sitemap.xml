@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://www.stratoweave.org/</loc>
+    </url>
+    <url>
+        <loc>https://www.stratoweave.org/community/</loc>
+    </url>
+    <url>
+        <loc>https://www.stratoweave.org/governance/</loc>
+    </url>
+    <url>
+        <loc>https://www.stratoweave.org/partners/</loc>
+    </url>
+    <url>
+        <loc>https://www.stratoweave.org/technology/</loc>
+    </url>
+    <url>
+        <loc>https://www.stratoweave.org/tutorials/</loc>
+    </url>
+    <url>
+        <loc>https://www.stratoweave.org/tutorials/colima/</loc>
+    </url>
+    <url>
+        <loc>https://www.stratoweave.org/tutorials/developing-sorespo/</loc>
+    </url>
+    <url>
+        <loc>https://www.stratoweave.org/tutorials/exploring-the-webui/</loc>
+    </url>
+    <url>
+        <loc>https://www.stratoweave.org/tutorials/running-sorespo/</loc>
+    </url>
+</urlset>
