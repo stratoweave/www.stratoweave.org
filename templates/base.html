@@ -115,4 +115,39 @@
     }
 </script>
 
+<script>
+// Inject copy buttons into fenced code blocks and handle clipboard copying
+(function () {
+    if (typeof navigator === 'undefined' || !navigator.clipboard) return;
+    function addCopyButtons() {
+        document.querySelectorAll('pre > code').forEach(function (code) {
+            var pre = code.parentNode;
+            if (!pre || pre.querySelector('.code-copy-btn')) return;
+            pre.classList.add('has-copy');
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'code-copy-btn';
+            btn.setAttribute('aria-label', 'Copy code');
+            btn.textContent = 'Copy';
+            btn.addEventListener('click', function () {
+                var text = code.innerText;
+                navigator.clipboard.writeText(text).then(function () {
+                    btn.textContent = 'Copied';
+                    setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+                }).catch(function () {
+                    /* ignore */
+                });
+            });
+            pre.appendChild(btn);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', addCopyButtons);
+    } else {
+        addCopyButtons();
+    }
+})();
+</script>
+
 </html>
