@@ -323,14 +323,6 @@ and target configurations agree and that its configuration log contains the
 recent changes.
 {% </tutorial_mode> %}
 
-Run the automated customer-connectivity test:
-
-```shell
-make test-ping
-```
-
-You can also inspect the routing state directly. Log into a core router:
-
 Log in to the `ams-core-1` router:
 ```
 make cli-ams-core-1
