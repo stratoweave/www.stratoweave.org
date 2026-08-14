@@ -189,7 +189,7 @@ In a new shell navigate to the `sorespo/test/quicklab-srl`
 directory and get the configuration:
 ```shell
 cd sorespo/test/quicklab-srl
-make get-dev-config-ams-core-1 | sed -n '/<interface xmlns="urn:nokia.com:srlinux:chassis:interfaces">/,/<\/interface>/{H; /<\/interface>/{x; /<name>ethernet-1\/3<\/name>/p;}}'
+make get-dev-config-ams-core-1 | sed -n '/<interface xmlns="urn:nokia.com:srlinux:chassis:interfaces">/,/<\/interface>/{H; /<\/interface>/{x; /<name>ethernet-1\/3<\/name>/p;};}'
 ```
 {% </platform> %}
 
@@ -517,6 +517,358 @@ Part of the output will be a configuration instance for the `vrf-interface` on
 Transform. We would expect the MTU to be passed down from higher layers, e.g.
 from the CFS intent all the way down to the device configuration. But the
 development process from here on out is always the same.
+
+### Propagating Configuration Values with SORESPO transforms
+
+Now that we know how to modify transform code and how to modify SORESPO YANG models,
+let's focus on how to integrate both together to modify a configuration from the 
+service model to the device.
+
+In this section, we show how can we build the necessary transform code to 
+propagate the `mtu` values from the L3 service model to the device.
+
+The MTU values are already present in the `ietf-l3vpn-svc.yang` module and their
+values can be found in the `svc-mtu` leaf from `sorespo/test/quicklab-srl/l3vpn-svc.xml`:
+
+```xml
+<site-network-accesses>
+    <site-network-access>
+        <site-network-access-id>SNA-1-1</site-network-access-id>
+        <location-reference>MAIN</location-reference>
+        <service>
+            <svc-input-bandwidth>1000000000</svc-input-bandwidth>
+            <svc-output-bandwidth>1000000000</svc-output-bandwidth>
+            <svc-mtu>9000</svc-mtu>
+        </service>
+...
+```
+
+To propagate this value down to the device we need to extend the `inter` layer to allow
+StratoWeave to pass this value.
+
+Open `sorespo/spec/yang/inter/l3vpn-inter.yang` and add a new `endpoint-mtu` leaf to the `endpoint` list:
+
+```diff
+    list endpoint {
+        key "device interface";
+
+        leaf device {
+          type string;
+        }
+        leaf interface {
+          type string;
+        }
++       leaf endpoint-mtu {
++         type uint16;
++         units bytes;
++       }
+        leaf site {
+          type string;
+          mandatory true;
+        }
+        leaf site-network-access {
+          type string;
+          mandatory true;
+        }
+        leaf provider-ipv4-address {
+          type string;
+          mandatory true;
+        }
+        leaf customer-ipv4-address {
+          type string;
+        }
+        leaf ipv4-prefix-length {
+          type uint8 {
+            range "0..32";
+          }
+          mandatory true;
+        }
+        container bgp {
+          presence "BGP enabled";
+          leaf as-number {
+            type uint32;
+            mandatory true;
+          }
+          leaf authentication-key {
+            type string;
+          }
+        }
+    }
+```
+
+After changing the YANG module, we need to re-generate the codebase for SORESPO:
+
+```shell
+make -C ../../ gen
+```
+
+Now, open `sorespo/src/sorespo/cfs.act` to propagate the value from the cfs layer to the inter layer:
+
+```diff
+class L3VpnSite(base.L3VpnSite):
+    def transform(self, i):
+        print("CFS L3VPN Site transform running %s" % (i.site_id))
+        o = base.o_root()
+        for sna in i.site_network_accesses.site_network_access:
+            vpn_id = sna.vpn_attachment.vpn_id
+            bearer_ref = sna.bearer.bearer_reference
++           link_params = sna.service
+            if bearer_ref is not None:
+                parts = bearer_ref.split(",")
+                device = parts[0]
+                interface = parts[1]
+            else:
+                device, interface = None, None
+            provider_ipv4_address = sna.ip_connection.ipv4.addresses.provider_address
+            customer_ipv4_address = sna.ip_connection.ipv4.addresses.customer_address
+            ipv4_len = sna.ip_connection.ipv4.addresses.prefix_length
++           service_mtu = link_params.svc_mtu
+            if vpn_id is not None and device is not None and interface is not None and provider_ipv4_address is not None and ipv4_len is not None:
+                o_vpn = o.l3vpns.l3vpn.create(vpn_id)
+                o_ep = o_vpn.endpoint.create(device, interface,
+                    site=i.site_id,
+                    site_network_access=sna.site_network_access_id,
+                    provider_ipv4_address=provider_ipv4_address,
+                    customer_ipv4_address=customer_ipv4_address,
+                    ipv4_prefix_length=ipv4_len,
+-                   endpoint_mtu=1500)
++                   endpoint_mtu=service_mtu)
+```
+
+Similarly, we need to do the same on the `inter` tranform code to propagate the value down to the `rfs` layer.
+
+Open `sorespo/src/sorespo/inter.act` and propagate the `mtu` value down to the `rfs` layer:
+
+```diff
+class L3Vpn(base.L3Vpn):
+    def transform(self, i):
+        print("Intermediate L3VPN transform running %s" % (i.name))
+        o = base.o_root()
+
+        for ep in i.endpoint:
+            rfs = o.rfs.create(ep.device)
+
+            # Get VRF id from vpn-id: acme-65501 -> 65501
+            rfs.vrf.create(i.name, description=i.description, id=u64(i.name.split("-")[1]))
+
+            rfs.vrf_interface.create(ep.interface,
+                description="Customer VPN access %s [%s] in VPN %s" % (ep.site, ep.site_network_access, i.name),
+                vrf=i.name,
+                ipv4_address=ep.provider_ipv4_address,
+-               ipv4_prefix_length=ep.ipv4_prefix_length)
++               ipv4_prefix_length=ep.ipv4_prefix_length,
++               mtu=ep.endpoint_mtu)
+```
+
+Now that we have the `mtu` from the service layer, we can propagate them to the device-specific models.
+
+By default, not all device XPaths are enabled on SORESPO. Thus, we need to enable the `ip-mtu` leaf from the SRLinux device model.
+
+**Note**: *In the future, such activation will not be necessary, and all device XPaths will be compiled by default.*
+
+Open `sorespo/spec/src/sorespo_gen.act` and add the `ip-mtu` leaf:
+
+```diff
+    def transform_filter_srl(dt):
+        # Keep only the SRL configuration nodes that sorespo's RFS transforms
+        # actively write to.
+        paths = [
+    "/srl_nokia-system:system/name/host-name",
+    "/srl_nokia-if:interface/name",
+    "/srl_nokia-if:interface/description",
+    "/srl_nokia-if:interface/admin-state",
+    "/srl_nokia-if:interface/oper-state",
+    "/srl_nokia-if:interface/statistics",
+    "/srl_nokia-if:interface/statistics/in-unicast-packets",
+    "/srl_nokia-if:interface/vlan-tagging",
+    "/srl_nokia-if:interface/subinterface/index",
+    "/srl_nokia-if:interface/subinterface/description",
+    "/srl_nokia-if:interface/subinterface/admin-state",
++   "/srl_nokia-if:interface/subinterface/ip-mtu",
+    "/srl_nokia-if:interface/subinterface/ipv4/admin-state",
+...
+```
+
+Re-generate the SORESPO codebase:
+
+```shell
+make -C ../../ gen
+```
+
+Now we can modify the `rfs` transform to propagate the value to the device.
+Open `sorespo/src/sorespo/rfs.act` and modify the tranform from the `VrfInterface`.
+The objective is, when creating the vrf on the device, add the mtu values coming from the inter layer.
+As our lab `quicklab-srl` uses SRLinux as their edge routers, we modify the tranform for this device.
+
+```diff
+
+class VrfInterface(base.VrfInterface):
+    def transform(self, i, di):
+        if "Cisco-IOS-XR-um-hostname-cfg" in di.modules:
+        ...
+        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules or "junos-conf-root" in di.modules:
+        ...
+        elif "srl_nokia-system" in di.modules:
+            dev = srl25.root()
+
+            # Create the main interface
+            intf = dev.interface.create(main_intf, admin_state="enable", vlan_tagging=True)
+            intf.description = "Alex added this in {i.name}"
+
+            # Create the subinterface
+-           subif = intf.subinterface.create(u64(vlan_id), description=i.description, admin_state="enable")
++           subif = intf.subinterface.create(u64(vlan_id), description=i.description, admin_state="enable", ip_mtu=i.mtu)
+            subif.vlan.encap.create_single_tagged().vlan_id = int(vlan_id)
+
+            # Configure IPv4 address if present
+            ipv4_address = i.ipv4_address
+            if ipv4_address is not None:
+                subif.ipv4.admin_state = "enable"
+                subif.ipv4.address.create("%s/%s" % (ipv4_address, str(i.ipv4_prefix_length)))
+
+            # Add interface to the correct network-instance (VRF)
+            ni = dev.network_instance.create(i.vrf)
+            ni.interface.create("%s.%s" % (main_intf, vlan_id))
+
+            return dev
+```
+
+Now, we can trigger a build:
+
+{% <platform only="linux codespaces"> %}
+```shell
+make -C ../../ build
+```
+{% </platform> %}
+
+{% <platform only="windows"> %}
+```shell
+make -C ../../ build-linux-x86_64
+```
+{% </platform> %}
+
+{% <platform only="macos"> %}
+* If you are running macOS on Apple Silicon use:
+```shell
+make -C ../../ build-linux-aarch64
+```
+* If you are running macOS on Intel use:
+```shell
+make -C ../../ build-linux-x86_64
+```
+{% </platform> %}
+
+With the current code, if we modify the `mtu` values from the L3 service layer, we will observe its propagation to the device.
+Open `sorespo/test/quicklab-srl/l3vpn-svc.xml` and modify the `svc-mtu` value:
+
+```diff
+<site-network-accesses>
+    <site-network-access>
+        <site-network-access-id>SNA-1-1</site-network-access-id>
+        <location-reference>MAIN</location-reference>
+        <service>
+            <svc-input-bandwidth>1000000000</svc-input-bandwidth>
+            <svc-output-bandwidth>1000000000</svc-output-bandwidth>
+-           <svc-mtu>9000</svc-mtu>
++           <svc-mtu>8730</svc-mtu>
+        </service>
+...
+```
+
+
+Copy your updated binary into the lab and re-run to re-configure SORESPO:
+
+*WARNING*: Make sure the earlier SORESPO process has been stopped with *Ctrl+C*
+before starting it again. Otherwise you will end up with competing instances
+trying to manage the same lab.
+
+```shell
+make copy run-and-configure
+```
+
+Now, if we get `rfs` configuration, we can observe that the mtu is propagated:
+
+```shell
+make get-config2 2>/dev/null | sed -n '/<vrf-interface[[:space:]>]/,/<\/vrf-interface>/p'
+```
+
+The output will show a new leaf `mtu` with the value that we configured from the service layer.
+
+```shell
+  <vrf-interface xmlns="http://example.com/sorespo-rfs">
+    <name>ethernet-1/3.100</name>
+    <description>Customer VPN access SITE-1 [SNA-1-1] in VPN acme-65501</description>
+    <vrf>acme-65501</vrf>
+    <ipv4-address>10.201.1.1</ipv4-address>
+    <ipv4-prefix-length>30</ipv4-prefix-length>
+    <mtu>8730</mtu>
+  </vrf-interface>
+```
+
+Similarly, if we get the configuration from the device, we will observe that the mtu is configured accordingly.
+Get the configuration of the device with:
+
+```shell
+make get-dev-config-ams-core-1
+```
+
+If we filter out the interface we modified we can find the mtu modified.
+Do the following to filter the interface:
+```shell
+make get-dev-config-ams-core-1 2>/dev/null | awk '/<interface>/{b=$0 ORS;f=0;next} {b=b$0 ORS} /<name>ethernet-1\/3<\/name>/{f=1} /<\/interface>/{if(f && b ~ /<config>/) printf "%s",b}'
+```
+
+This will output the interface:
+
+```xml
+<interface>
+    <name>ethernet-1/3</name>
+    <config>
+        <name>ethernet-1/3</name>
+        <type xmlns:iana-if-type="urn:ietf:params:xml:ns:yang:iana-if-type">iana-if-type:ethernetCsmacd</type>
+        <enabled>true</enabled>
+    </config>
+    <subinterfaces>
+        <subinterface>
+            <index>100</index>
+            <config>
+                <index>100</index>
+                <description>Customer VPN access SITE-1 [SNA-1-1] in VPN acme-65501</description>
+                <enabled>true</enabled>
+            </config>
+            <ipv4 xmlns="http://openconfig.net/yang/interfaces/ip">
+                <addresses>
+                    <address>
+                        <ip>10.201.1.1</ip>
+                        <config>
+                            <ip>10.201.1.1</ip>
+                            <prefix-length>30</prefix-length>
+                        </config>
+                    </address>
+                </addresses>
+                <config>
+                    <enabled>true</enabled>
+                    <mtu>8730</mtu>
+                </config>
+            </ipv4>
+            <ipv6 xmlns="http://openconfig.net/yang/interfaces/ip">
+                <config>
+                    <mtu>8730</mtu>
+                </config>
+            </ipv6>
+            <vlan xmlns="http://openconfig.net/yang/vlan">
+                <match>
+                    <single-tagged>
+                        <config>
+                            <vlan-id>100</vlan-id>
+                        </config>
+                    </single-tagged>
+                </match>
+            </vlan>
+        </subinterface>
+    </subinterfaces>
+</interface>
+```
 
 ## What's Next
 
