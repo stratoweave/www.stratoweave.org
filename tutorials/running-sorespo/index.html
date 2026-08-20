@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8">
+    <title>StratoWeave</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a SORESPO learning path.">
+    
+    <link rel="icon" href="https://www.stratoweave.org/favicon.svg">
+    
+    <style>
+    :root {
+        --stratoweave-navy: #081020;
+        --stratoweave-blue: #2563eb;
+        --stratoweave-cyan: #22d3ee;
+        --stratoweave-violet: #8b5cf6;
+        --stratoweave-fuchsia: #a855f7;
+        --stratoweave-slate: #64748b;
+        --stratoweave-mist: #e2e8f0;
+        --stratoweave-ink-900: #0d1730;
+        --stratoweave-ink-800: #16223f;
+        --stratoweave-ink-700: #233456;
+        --stratoweave-ink-500: #7d8cac;
+        --stratoweave-ink-300: #c7d1e4;
+        --stratoweave-paper: #f8fbff;
+
+        --primary-color: var(--stratoweave-blue);
+        --primary-color-touch: var(--stratoweave-cyan);
+        --primary-text-color: var(--stratoweave-paper);
+        --primary-hero-text-color: var(--stratoweave-paper);
+        --nav-text-color: var(--stratoweave-paper);
+        --primary-link-color: var(--stratoweave-cyan);
+        --secondary-color: var(--stratoweave-navy);
+        --secondary-color-accent: var(--stratoweave-ink-900);
+        --secondary-text-color: #a7b5d1;
+        --toc-highlight-text-color: var(--stratoweave-cyan);
+        --tertiary-color: #050b17;
+        --panel-color: rgba(13, 23, 48, 0.76);
+        --border-color: rgba(226, 232, 240, 0.14);
+        --chrome-color: rgba(8, 16, 32, 0.9);
+        --code-color: rgba(5, 11, 23, 0.92);
+        color-scheme: dark;
+    }
+</style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.stratoweave.org/normalize.css">
+    <link rel="stylesheet" href="https://www.stratoweave.org/juice.css">
+    
+
+<script>
+// Apply the reader's platform choice before first paint (no flash of content).
+(function () {
+  var d = document.documentElement;
+  d.classList.remove('no-js');
+  var p = 'linux';
+  try {
+    // Auto-detect platform from the browser where possible.
+    var detected = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent || '';
+    detected = String(detected).toLowerCase();
+    if (/iphone|ipad|ipod|mac|darwin/.test(detected)) {
+      p = 'macos';
+    } else if (/win/.test(detected)) {
+      p = 'windows';
+    } else if (/linux|x11/.test(detected)) {
+      p = 'linux';
+    }
+    // Prefer codespaces when the page is running in known preview hosts or UA hints
+    var host = (location && location.hostname) || '';
+    if (host.indexOf('githubpreview.dev') !== -1 || host.indexOf('github.dev') !== -1 || navigator.userAgent.indexOf('Codespaces') !== -1) {
+      p = 'codespaces';
+    }
+  } catch (e) {}
+  try { p = localStorage.getItem('sw-platform') || p; } catch (e) {}
+  d.setAttribute('data-pf', p);
+})();
+document.addEventListener('DOMContentLoaded', function () {
+  var d = document.documentElement;
+  var btns = document.querySelectorAll('.pf-picker__btn[data-pf]');
+  function sync(p) {
+    d.setAttribute('data-pf', p);
+    btns.forEach(function (b) {
+      var on = b.getAttribute('data-pf') === p;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var p = b.getAttribute('data-pf');
+      try { localStorage.setItem('sw-platform', p); } catch (e) {}
+      sync(p);
+    });
+  });
+  // Keep the choice in sync across other open tabs.
+  window.addEventListener('storage', function (e) {
+    if (e.key === 'sw-platform' && e.newValue) sync(e.newValue);
+  });
+  sync(d.getAttribute('data-pf') || 'linux');
+});
+</script>
+
+
+<script>
+// Apply the reader's tutorial mode before first paint.
+(function () {
+  var d = document.documentElement;
+  d.classList.remove('no-js');
+  var mode = 'webui';
+  try { mode = localStorage.getItem('sw-tutorial-mode') || mode; } catch (e) {}
+  d.setAttribute('data-tutorial-mode', mode);
+})();
+document.addEventListener('DOMContentLoaded', function () {
+  var d = document.documentElement;
+  var btns = document.querySelectorAll('.tutorial-mode-picker__btn');
+  function sync(mode) {
+    d.setAttribute('data-tutorial-mode', mode);
+    btns.forEach(function (button) {
+      var on = button.getAttribute('data-tutorial-mode') === mode;
+      button.classList.toggle('is-active', on);
+      button.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  btns.forEach(function (button) {
+    button.addEventListener('click', function () {
+      var mode = button.getAttribute('data-tutorial-mode');
+      try { localStorage.setItem('sw-tutorial-mode', mode); } catch (e) {}
+      sync(mode);
+    });
+  });
+  window.addEventListener('storage', function (event) {
+    if (event.key === 'sw-tutorial-mode' && event.newValue) sync(event.newValue);
+  });
+  sync(d.getAttribute('data-tutorial-mode') || 'webui');
+});
+</script>
+
+
+</head>
+
+<body class="site-page">
+    
+<header class="site-header">
+  
+<a class="site-logo" href="https://www.stratoweave.org">
+    <span class="brand-mark" aria-hidden="true">
+        <img src="https://www.stratoweave.org/stratoweave-logo.svg" alt="">
+    </span>
+</a>
+
+<div class="site-nav-shell">
+    <button
+        class="site-nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav-primary"
+        aria-label="Toggle navigation menu"
+    >
+        <span class="site-nav-toggle__bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <nav id="site-nav-primary" class="site-nav" aria-label="Primary navigation">
+        <a class="nav-item" href="https://www.stratoweave.org/tutorials">Get Started</a>
+        <a class="nav-item" href="https://www.stratoweave.org/technology">Technology</a>
+        <a class="nav-item" href="https://stratoweave.guide" target="_blank" rel="noopener noreferrer">Documentation</a>
+        <div class="nav-group">
+            <a class="nav-item nav-item--group" href="https://www.stratoweave.org/community">Community</a>
+            <div class="nav-subnav">
+                <a class="nav-item nav-item--subnav" href="https://www.stratoweave.org/governance">Governance</a>
+            </div>
+        </div>
+        <a class="nav-item" href="https://www.stratoweave.org/partners">Partners</a>
+        <a
+            class="nav-item nav-item--icon"
+            href="https://github.com/stratoweave"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="StratoWeave on GitHub"
+            title="StratoWeave on GitHub"
+        >
+            <svg class="nav-icon" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                <path
+                    fill="currentColor"
+                    d="M12 0C5.372 0 0 5.373 0 12c0 5.302 3.438 9.8 8.206 11.387.6.11.82-.26.82-.577v-2.235c-3.338.726-4.042-1.415-4.042-1.415-.546-1.388-1.333-1.758-1.333-1.758-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.238 1.84 1.238 1.07 1.835 2.809 1.304 3.495.997.108-.775.418-1.304.762-1.603-2.665-.303-5.467-1.333-5.467-5.93 0-1.31.468-2.382 1.237-3.222-.124-.303-.536-1.524.117-3.176 0 0 1.008-.323 3.302 1.23A11.52 11.52 0 0 1 12 5.818c1.02.005 2.047.138 3.006.404 2.292-1.554 3.298-1.231 3.298-1.231.656 1.653.244 2.874.12 3.177.771.84 1.236 1.912 1.236 3.222 0 4.609-2.807 5.624-5.48 5.921.43.371.823 1.102.823 2.221v3.292c0 .319.216.694.825.576C20.565 21.798 24 17.302 24 12c0-6.627-5.373-12-12-12z"
+                />
+            </svg>
+        </a>
+    </nav>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".site-nav-shell").forEach(function (shell) {
+        const toggle = shell.querySelector(".site-nav-toggle");
+        const nav = shell.querySelector(".site-nav");
+
+        if (!toggle || !nav) {
+            return;
+        }
+
+        const mobileQuery = window.matchMedia("(max-width: 700px)");
+
+        function closeMenu() {
+            shell.classList.remove("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+
+        function syncMenuState() {
+            shell.classList.add("site-nav-shell--ready");
+
+            if (!mobileQuery.matches) {
+                closeMenu();
+            }
+        }
+
+        toggle.addEventListener("click", function () {
+            const isOpen = shell.classList.toggle("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!mobileQuery.matches || shell.contains(event.target)) {
+                return;
+            }
+
+            closeMenu();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+        });
+
+        if (typeof mobileQuery.addEventListener === "function") {
+            mobileQuery.addEventListener("change", syncMenuState);
+        } else {
+            mobileQuery.addListener(syncMenuState);
+        }
+
+        syncMenuState();
+    });
+});
+</script>
+
+</header>
+
+
+    <main class="page-shell page-shell--full-width">
+        
+        
+        
+        
+        
+        <div class="toc">
+            <div class="toc-sticky">
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#introduction">Introduction</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#preparing-the-environment">Preparing the Environment</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#starting-the-tutorial-environment">Starting the Tutorial Environment</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#loading-the-initial-intent">Loading the Initial Intent</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#inspecting-the-live-system">Inspecting the Live System</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#verifying-the-network">Verifying the Network</a>
+                </div>
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#service-automation-layering-in-sorespo">Service Automation Layering In SORESPO</a>
+                </div>
+                
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#configuration-at-layer-0-customer-facing-service-cfs"><small>- Configuration at Layer 0 - Customer Facing Service (CFS)</small></a>
+                </div>
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#configuration-at-layer-1-intermediate"><small>- Configuration at Layer 1 - Intermediate</small></a>
+                </div>
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#configuration-at-layer-2-resource-facing-service-rfs"><small>- Configuration at Layer 2 - Resource Facing Service (RFS)</small></a>
+                </div>
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#configuration-at-layer-3-the-device-layer"><small>- Configuration at Layer 3 - The Device Layer</small></a>
+                </div>
+                
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#adding-a-new-core-router-to-the-topology">Adding a New Core Router to the Topology</a>
+                </div>
+                
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#applying-the-router-intent"><small>- Applying the Router Intent</small></a>
+                </div>
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#connecting-a-customer-site"><small>- Connecting a Customer Site</small></a>
+                </div>
+                
+                <div class="toc-item-child">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#verifying-the-expanded-topology"><small>- Verifying the Expanded Topology</small></a>
+                </div>
+                
+                
+                
+                <div class="toc-item">
+                    <a class="subtext" href="https://www.stratoweave.org/tutorials/running-sorespo/#what-s-next">What&#39;s Next</a>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+        
+
+        <div class="content text">
+            
+<div class="heading-text">Running SORESPO</div>
+
+<p class="page-intro">Next: launch a live Nokia SR Linux lab, then follow the Web UI path or use the equivalent terminal commands.</p>
+
+
+<div class="pf-picker" role="group" aria-label="Choose your platform">
+    <span class="pf-picker__label">Platform:</span>
+    <button type="button" class="pf-picker__btn" data-pf="linux">Linux</button>
+    <button type="button" class="pf-picker__btn" data-pf="macos">macOS</button>
+    <button type="button" class="pf-picker__btn" data-pf="windows">Windows</button>
+    <button type="button" class="pf-picker__btn" data-pf="codespaces">GitHub Codespaces</button>
+</div>
+
+
+<div class="pf-picker tutorial-mode-picker" role="group" aria-label="Choose your tutorial mode">
+  <span class="pf-picker__label">Tutorial mode:</span>
+  <button type="button" class="pf-picker__btn tutorial-mode-picker__btn" data-tutorial-mode="webui">Web UI</button>
+  <button type="button" class="pf-picker__btn tutorial-mode-picker__btn" data-tutorial-mode="terminal">Terminal only</button>
+</div>
+
+<h2 id="introduction">Introduction</h2>
+<p>SORESPO is a network automation system built on StratoWeave. It configures an
+IP network and L3VPN services and manages their full lifecycle, including the
+core network infrastructure.</p>
+<p>If you have not used SORESPO before, start with the zero-install
+<a href="https://www.stratoweave.org/tutorials/exploring-the-webui/">Web UI tour</a>. This tutorial takes the next
+step: one command starts the Containerlab environment, including the Nokia SR
+Linux network and Web UI, then runs SORESPO in the <code>sweave</code> container. From
+there, choose the default Web UI path or follow the same tutorial entirely
+through Make targets in a terminal. Both paths use the same environment and
+produce the same result.</p>
+<div class="pf-block" data-pf="linux">
+<p>You will need a Linux host with 4 CPU cores and 8 GB of RAM available to be
+able to start the "Nokia SR Linux" lab used throughout this tutorial.
+CPU virtualization (KVM extensions) is <strong>NOT</strong> required. The tutorial was
+written and validated for Ubuntu / Debian but should work on any modern Linux
+distribution.</p>
+</div>
+<div class="pf-block" data-pf="macos">
+<p>With the advent of router vendors shipping ARM64 images of their containerized
+routers, running labs and development environments on macOS with Apple Silicon
+has become really attractive. It should also work on macOS on Intel but you'll
+likely need more CPU cores and memory allocated to Docker than described here.</p>
+</div>
+<div class="pf-block" data-pf="windows">
+<p>Thanks to the introduction of the <code>Windows Subsytem for Linux</code> and container
+technology, software development and running router labs on Windows
+has become really easy to do.</p>
+</div>
+<div class="pf-block" data-pf="codespaces">
+<p>GitHub Codespaces is a VM managed by GitHub that runs the Dev Container (part
+of this project) and Visual Studio Code that is made available in your browser
+or as a Remote environment you connect to from your local VS Code.</p>
+<p>To start your codespace you will need a free GitHub account. Your GitHub
+account includes a free monthly quota of compute hours. You will need to run a
+machine with 4 CPU cores and 16 GB of RAM to be able to start the "Nokia SR
+Linux" lab used throughout this tutorial. With the free <em>core hours</em> GitHub
+provides (120 at the time of writing) you will be able to run the lab 30 hours
+per month.</p>
+<p><a rel="external" href="https://github.com/codespaces/new?devcontainer_path=.devcontainer%2Fdocker-in-docker%2Fdevcontainer.json&amp;hide_repo_select=true&amp;repo=872963408&amp;skip_quickstart=true&amp;machine=standardLinux32gb"><img src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces" /></a></p>
+<p>Setting up a fresh VM will take a couple of minutes. After is it done you have
+access to VS Code running in a Dev Container with all the tools and source code
+available in your browser.</p>
+</div>
+<h2 id="preparing-the-environment">Preparing the Environment</h2>
+<div class="pf-block" data-pf="linux">
+<ul>
+<li>Install the following prerequisites:
+<ul>
+<li><a rel="external" href="https://docs.docker.com/engine/install/">Docker Engine</a></li>
+<li><a rel="external" href="https://git-scm.com/downloads/linux">Git</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="pf-block" data-pf="macos">
+<ul>
+<li>Install the following prerequisites:
+<ul>
+<li><a rel="external" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a> (or
+<a href="https://www.stratoweave.org/tutorials/colima/">Colima</a> if you prefer an open-source alternative)</li>
+<li><a rel="external" href="https://git-scm.com/downloads/mac">Git</a> and <em>coreutils</em> , both of which
+you can install with <a rel="external" href="https://brew.sh/">Homebrew</a>:</li>
+</ul>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">brew</span><span style="color: light-dark(#032F62, #9ECBFF);"> install</span><span style="color: light-dark(#032F62, #9ECBFF);"> git</span><span style="color: light-dark(#032F62, #9ECBFF);"> coreutils</span></span></code></pre></li>
+<li>After the installation has completed, start your container runtime.
+<ul>
+<li>For <em>Docker Desktop</em>, open <em>Settings</em> and in the <em>Resources</em> section make
+sure you've allocated at least 4 CPU cores and 8GB of RAM to Docker.</li>
+<li>Or, start your Colima VM with the appropriate resources:<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">colima</span><span style="color: light-dark(#032F62, #9ECBFF);"> start</span><span style="color: light-dark(#005CC5, #79B8FF);"> -</span><span style="color: light-dark(#005CC5, #79B8FF);">-cpu</span><span style="color: light-dark(#005CC5, #79B8FF);"> 4</span><span style="color: light-dark(#005CC5, #79B8FF);"> -</span><span style="color: light-dark(#005CC5, #79B8FF);">-memory</span><span style="color: light-dark(#005CC5, #79B8FF);"> 8</span></span></code></pre></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="pf-block" data-pf="windows">
+<ul>
+<li>First, install the <a rel="external" href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows Subsytem for Linux</a>
+<ul>
+<li>During the Windows Subsytem for Linux installation keep the default WSL
+version, <code>WSL2</code>.</li>
+<li>Also keep the default Linux distribution, <code>Ubuntu</code>.</li>
+</ul>
+</li>
+<li>Then, install <a rel="external" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a>
+<ul>
+<li><em>Note</em>: Install the Windows Subsytem for Linux first!</li>
+</ul>
+</li>
+<li>After the installation has completed, start <em>Docker Desktop</em>
+<ul>
+<li>The CPU and memory resources allocation to Docker Desktop are controlled by
+the <a rel="external" href="https://learn.microsoft.com/en-us/windows/wsl/wsl-config">WSL configuration</a>.
+By default 50% of the overall RAM is allocated to WSL2, you may need to tweak
+this to allocate at least 8GB of RAM to Docker Desktop.</li>
+</ul>
+</li>
+<li>Open your <code>Ubuntu</code> (<code>WSL2</code>) shell and run:</li>
+</ul>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">sudo</span><span style="color: light-dark(#032F62, #9ECBFF);"> apt</span><span style="color: light-dark(#032F62, #9ECBFF);"> update</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">sudo</span><span style="color: light-dark(#032F62, #9ECBFF);"> apt</span><span style="color: light-dark(#032F62, #9ECBFF);"> install</span><span style="color: light-dark(#032F62, #9ECBFF);"> make</span></span></code></pre>
+<p>Perform all further instructions in this tutorial from the <code>Ubuntu</code> (<code>WSL2</code>) shell.</p>
+</div>
+<div class="pf-block" data-pf="codespaces">
+<p>GitHub Codespaces needs no local installation. Click the <strong>Open in GitHub
+Codespaces</strong> button above to launch a ready-to-use environment with all the
+tools and source code, then continue below.</p>
+</div>
+<h2 id="starting-the-tutorial-environment">Starting the Tutorial Environment</h2>
+<div class="pf-block" data-pf="linux macos windows">
+<p>Clone the project:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">git</span><span style="color: light-dark(#032F62, #9ECBFF);"> clone</span><span style="color: light-dark(#032F62, #9ECBFF);"> https://github.com/stratoweave/sorespo.git</span></span></code></pre>
+<p>Go into the <code>sorespo/test/quicklab-srl</code> directory and start the tutorial:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">cd</span><span style="color: light-dark(#032F62, #9ECBFF);"> sorespo/test/quicklab-srl</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> tutorial</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#6A737D, #6A737D);"> #</span><span style="color: light-dark(#6A737D, #6A737D);"> Containerlab starts the SR Linux lab, this may take a few minutes ...</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">SORESPO</span><span style="color: light-dark(#032F62, #9ECBFF);"> Web</span><span style="color: light-dark(#032F62, #9ECBFF);"> UI:</span><span style="color: light-dark(#032F62, #9ECBFF);"> http://localhost:3000</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">SWeave:</span><span style="color: light-dark(#032F62, #9ECBFF);"> stratoweave.app.StartupBootstrap[-201]:</span><span style="color: light-dark(#032F62, #9ECBFF);"> StratoWeave</span><span style="color: light-dark(#032F62, #9ECBFF);"> running..</span></span></code></pre>
+<p>SORESPO runs in the foreground and writes its log output to this shell. Open a
+second shell to continue with the tutorial.</p>
+</div>
+<div class="pf-block" data-pf="codespaces">
+<p>Go into the <code>/workspaces/sorespo/test/quicklab-srl</code> directory and start the tutorial:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">cd</span><span style="color: light-dark(#032F62, #9ECBFF);"> test/quicklab-srl</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> tutorial</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#6A737D, #6A737D);"> #</span><span style="color: light-dark(#6A737D, #6A737D);"> Containerlab starts the SR Linux lab, this may take a few minutes ...</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">SORESPO</span><span style="color: light-dark(#032F62, #9ECBFF);"> Web</span><span style="color: light-dark(#032F62, #9ECBFF);"> UI:</span><span style="color: light-dark(#032F62, #9ECBFF);"> http://localhost:3000</span></span>
+<span class="giallo-l"><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span><span style="color: light-dark(#005CC5, #79B8FF);">.</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">SWeave:</span><span style="color: light-dark(#032F62, #9ECBFF);"> stratoweave.app.StartupBootstrap[-201]:</span><span style="color: light-dark(#032F62, #9ECBFF);"> StratoWeave</span><span style="color: light-dark(#032F62, #9ECBFF);"> running..</span></span></code></pre>
+<p>SORESPO runs in the foreground and writes its log output to this Terminal.
+Open a second Terminal to continue with the tutorial. Select the <em>+</em> button in
+the top right of the VS Code Terminal window to do so.</p>
+</div>
+<p>The first image download can take several minutes. Later starts reuse the
+downloaded router and Web UI images. If port <code>3000</code> is already occupied, stop
+the other process or choose another port with <code>WEBUI_PORT=3100 make tutorial</code>.</p>
+<p>When you finish, stop SORESPO with <em>Ctrl+C</em>, then shut down the complete
+Containerlab environment from this directory with <code>make stop</code>.</p>
+<p>At this point, your containerized routers are running with only management
+access configured, allowing SORESPO to connect and push configuration. The
+SORESPO system is also running but has no network or service intent
+configuration loaded.</p>
+<p>The tutorial mode selector changes the instructions shown below, not the
+environment. Both modes use the same SORESPO process, so you can switch
+between them at any point.</p>
+<h2 id="loading-the-initial-intent">Loading the Initial Intent</h2>
+<p>The environment starts empty. First load the core routers and backbone links
+from <code>tutorial-netinfra.xml</code>, then load the L3VPN and its customer sites from
+<code>tutorial-l3vpn-svc.xml</code>.</p>
+<div class="tutorial-mode-block" data-tutorial-mode="webui" data-pf="linux macos windows">
+<p>Open <a rel="external" href="http://localhost:3000">http://localhost:3000</a> in your browser.</p>
+</div>
+<div class="tutorial-mode-block" data-tutorial-mode="webui" data-pf="codespaces">
+<p>Open the <strong>Ports</strong> panel, find port <code>3000</code>, and select its forwarded address.
+Keep the port visibility private.</p>
+</div>
+<div class="tutorial-mode-block" data-tutorial-mode="webui">
+<p>The Dashboard initially has no topology because the orchestrator is empty.
+Use <strong>Apply Config</strong> in the navigation to bootstrap it:</p>
+<ol>
+<li>Open <code>tutorial-netinfra.xml</code> from the <code>test/quicklab-srl</code> directory in your
+editor and copy its full contents.</li>
+<li>In <strong>Apply CFS Config</strong>, select <strong>XML</strong>, paste the payload into the editor,
+and select <strong>Apply</strong>. Confirm the operation when prompted.</li>
+<li>Wait for the accepted status, then return to the Dashboard. The core
+routers and backbone links now appear as SORESPO renders and applies their
+device configuration.</li>
+<li>Repeat the process with <code>tutorial-l3vpn-svc.xml</code>. This adds the customer
+L3VPN service and its three sites.</li>
+</ol>
+<p>On a local desktop you can drag either XML file directly onto the Apply CFS
+Config editor instead of copying it. The filename lets the UI select XML
+automatically.</p>
+</div>
+<div class="tutorial-mode-block" data-tutorial-mode="terminal">
+<p>In the second shell or Terminal, stay in the <code>test/quicklab-srl</code> directory.
+This mode is useful when the Web UI is not reachable, such as in a remote
+environment without port forwarding. The Web UI remains part of the
+Containerlab environment; the terminal workflow simply does not use it.</p>
+<p>Apply the same two files with the synchronous RESTCONF Make target:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> send-config-wait</span><span style="color: light-dark(#032F62, #9ECBFF);"> FILE=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">tutorial-netinfra.xml</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> send-config-wait</span><span style="color: light-dark(#032F62, #9ECBFF);"> FILE=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">tutorial-l3vpn-svc.xml</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span></span></code></pre>
+<p>Each command returns after SORESPO has processed the intent and applied the
+resulting device configuration.</p>
+</div>
+<h2 id="inspecting-the-live-system">Inspecting the Live System</h2>
+<div class="tutorial-mode-block" data-tutorial-mode="webui">
+<p>The Web UI is now connected to real SORESPO state rather than the simulated
+data from the first tutorial:</p>
+<ul>
+<li>Open <strong>Devices</strong> and select a core router to compare its target and running
+configuration and inspect its configuration log.</li>
+<li>Open <strong>Config Queue</strong> to see whether any rendered changes are still waiting
+for a device. Changes move into each device's log after they are applied.</li>
+<li>Open <strong>Layers</strong> and move from CFS through Intermediate and RFS to Device.
+These are the live outputs of the declarative transforms described below.</li>
+<li>Open <strong>Services</strong> to inspect or edit the routers, backbone links, VPN, and
+customer sites through guided forms rather than raw payloads.</li>
+</ul>
+</div>
+<div class="tutorial-mode-block" data-tutorial-mode="terminal">
+<p>Retrieve the complete customer-facing state as JSON:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-config-restconf-json</span></span></code></pre>
+<p>Inspect the intended, running, and pending configuration for one router:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-target-ams-core-1</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-running-ams-core-1</span></span>
+<span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-diff-ams-core-1</span></span></code></pre>
+<p>The corresponding layer-specific commands are introduced in the next section.</p>
+</div>
+<p>The resulting network lab has three core SR Linux routers, each with an attached
+customer edge device running FRRouting. This diagram shows the topology:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="plain"><span class="giallo-l"><span>+-------------------+                                                                     +-------------------+   </span></span>
+<span class="giallo-l"><span>|    cust-1-frr     |                                                                     |    cust-3-frr     |   </span></span>
+<span class="giallo-l"><span>|    10.200.1.1     |                                                                     |    10.200.1.3     |   </span></span>
+<span class="giallo-l"><span>|    (FRRouting)    |                                                                     |    (FRRouting)    |   </span></span>
+<span class="giallo-l"><span>+----+--------------+                                                                     +--+----------------+   </span></span>
+<span class="giallo-l"><span>     |eth1                                                                                   |eth1       </span></span>
+<span class="giallo-l"><span>     |                                                                                       |                    </span></span>
+<span class="giallo-l"><span>     +-------------------+                                                                   |                    </span></span>
+<span class="giallo-l"><span>                         |                                                                   |                    </span></span>
+<span class="giallo-l"><span>                         |ethernet1/3.100                                                    |                    </span></span>
+<span class="giallo-l"><span>                      +--+----------------+                          +-------------------+   |                    </span></span>
+<span class="giallo-l"><span>                      |    ams-core-1     |ethernet1/2               |    sto-core-1     |   |                    </span></span>
+<span class="giallo-l"><span>                      |     10.0.0.1      +--------------------------+     10.0.0.3      +---+                    </span></span>
+<span class="giallo-l"><span>                      |  (Nokia SR Linux) |               ethernet1/1|  (Nokia SR Linux) |ethernet1/4.100                </span></span>
+<span class="giallo-l"><span>                      +--+----------------+                          +--+--------------+-+                        </span></span>
+<span class="giallo-l"><span>                         |ethernet1/1                                   |ethernet1/2        </span></span>
+<span class="giallo-l"><span>                         |                                              |</span></span>
+<span class="giallo-l"><span>                         |                                              |</span></span>
+<span class="giallo-l"><span>                         |                                              |</span></span>
+<span class="giallo-l"><span>                         |                            +-----------------+  </span></span>
+<span class="giallo-l"><span>                         |                            |</span></span>
+<span class="giallo-l"><span>                         |                            |      </span></span>
+<span class="giallo-l"><span>                         |                            |      </span></span>
+<span class="giallo-l"><span>                         |                            |          </span></span>
+<span class="giallo-l"><span>                         |ethernet1/1                 |            </span></span>
+<span class="giallo-l"><span>                      +--+----------------+ethernet1/2|           </span></span>
+<span class="giallo-l"><span>                      |    fra-core-1     +-----------+</span></span>
+<span class="giallo-l"><span>                      |     10.0.0.2      |</span></span>
+<span class="giallo-l"><span>                      |  (Nokia SR Linux) +             </span></span>
+<span class="giallo-l"><span>                      +---+---------------+                   </span></span>
+<span class="giallo-l"><span>                          |ethernet1/4.100        </span></span>
+<span class="giallo-l"><span>                          |</span></span>
+<span class="giallo-l"><span> +-------------------+    |</span></span>
+<span class="giallo-l"><span> |    cust-2-frr     |    | </span></span>
+<span class="giallo-l"><span> |    10.200.1.2     +----+ </span></span>
+<span class="giallo-l"><span> |    (FRRouting)    |eth1 </span></span>
+<span class="giallo-l"><span> +-------------------+                                                               </span></span></code></pre><h2 id="verifying-the-network">Verifying the Network</h2>
+<div class="tutorial-mode-block" data-tutorial-mode="webui">
+<p>On the Dashboard, confirm that all three core routers and their customer sites
+are visible. Open <strong>Devices</strong>, select <code>AMS-CORE-1</code>, and check that its running
+and target configurations agree and that its configuration log contains the
+recent changes.</p>
+</div>
+<p>Log in to the <code>ams-core-1</code> router:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="plain"><span class="giallo-l"><span>make cli-ams-core-1</span></span></code></pre>
+<p>On the SR Linux CLI issue the following commands:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="plain"><span class="giallo-l"><span>/ show network-instance default protocols bgp neighbor</span></span>
+<span class="giallo-l"><span>ping network-instance default 10.0.0.2</span></span></code></pre>
+<p>These commands show that the loopback addresses are reachable and iBGP has been
+established between the 3 core routers. Use <em>Ctrl+C</em> to stop the <code>ping</code> command
+and <code>quit</code> to log out of the router.</p>
+<p><em>Note</em>: The <a rel="external" href="https://documentation.nokia.com/srlinux/24-3/title/basics.html">SR Linux Configuration Basics</a>
+are a great introduction to the Nokia SR Linux CLI.</p>
+<h2 id="service-automation-layering-in-sorespo">Service Automation Layering In SORESPO</h2>
+<p>SORESPO implements highly abstracted device and service configuration through
+layers of automation. While SORESPO is implemented using four discrete layers,
+StratoWeave does not place any limitations on the number of layers that can be
+implemented - as few or many as necessary can be used.</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="plain"><span class="giallo-l"><span>                        +-------------------------------+</span></span>
+<span class="giallo-l"><span>+-----------------------| RESTCONF Northbound Interface |-----------------------+</span></span>
+<span class="giallo-l"><span>|                       +-------------------------------+                       |</span></span>
+<span class="giallo-l"><span>|               +-----------------------------------------------+               |</span></span>
+<span class="giallo-l"><span>|               |    Customer Facing Service (CFS) - Layer 0    |               |</span></span>
+<span class="giallo-l"><span>|               +-----------------------------------------------+               |</span></span>
+<span class="giallo-l"><span>|               +-----------------------------------------------+               |</span></span>
+<span class="giallo-l"><span>|               |            Intermediate - Layer 1             |               |</span></span>
+<span class="giallo-l"><span>|               +-----------------------------------------------+               |</span></span>
+<span class="giallo-l"><span>|               +-----------------------------------------------+               |</span></span>
+<span class="giallo-l"><span>|               |    Resource Facing Service (RFS) - Layer 2    |               |</span></span>
+<span class="giallo-l"><span>|               +-----------------------------------------------+               |</span></span>
+<span class="giallo-l"><span>|               +-----------------------------------------------+               |</span></span>
+<span class="giallo-l"><span>|               |                Device - Layer 3               |               |</span></span>
+<span class="giallo-l"><span>|               +-----------------------------------------------+               |</span></span>
+<span class="giallo-l"><span>|                       +-------------------------------+                       |</span></span>
+<span class="giallo-l"><span>+-----------------------|  NETCONF Southbound Interface |-----------------------+</span></span>
+<span class="giallo-l"><span>                        +-------------------------------+</span></span></code></pre>
+<p>The SORESPO system implements a RESTCONF northbound interface, which is
+model-driven by StratoWeave based on the top-level CFS YANG model of the SORESPO
+system.</p>
+<div class="tutorial-mode-block" data-tutorial-mode="webui">
+<p>Use the <strong>Layers</strong> page to move through these outputs.</p>
+</div>
+<div class="tutorial-mode-block" data-tutorial-mode="terminal">
+<p>The <code>get-config0</code> through <code>get-config3</code> Make targets send the equivalent
+RESTCONF requests.</p>
+</div>
+<p>The XML excerpts below are shared by both modes.</p>
+<h3 id="configuration-at-layer-0-customer-facing-service-cfs">Configuration at Layer 0 - Customer Facing Service (CFS)</h3>
+<p>The Customer Facing Service (top-level) YANG model defines SORESPO's northbound
+interface for users and/or BSS/OSS platforms. The YANG modules for <code>layer0</code> are
+located in <code>sorespo/spec/yang/cfs</code>.</p>
+<div class="tutorial-mode-block" data-tutorial-mode="webui">
+<p>Open <strong>Layers</strong>, select <strong>CFS</strong>, and choose XML as the display format.</p>
+</div>
+<div class="tutorial-mode-block" data-tutorial-mode="terminal">
+<p>Retrieve the top-level CFS configuration (<code>layer0</code>) from SORESPO:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-config0</span></span></code></pre>
+<p><em>Note</em>: XML is used for all of the examples throughout this tutorial, but if
+you prefer JSON format, use:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-config-json0</span></span></code></pre>
+</div>
+<p>The resulting output has two top-level containers, <code>&lt;netinfra&gt;</code> (the first
+configuration file you loaded), which describes the configuration of the
+network devices and topology, and <code>&lt;l3vpn-svc&gt;</code> (the second configuration file
+you loaded) which is an implementation of <code>ietf-l3vpn-svc.yang</code> defined
+in <a rel="external" href="https://datatracker.ietf.org/doc/html/rfc8299">RFC8299</a>. The L3VPN Service
+Model is used to define the VPNs, customer attachment points and other
+parameters necessary for provisioning customer L3VPN services.</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="xml"><span class="giallo-l"><span>&lt;</span><span style="color: light-dark(#22863A, #85E89D);">netinfra</span><span style="color: light-dark(#6F42C1, #B392F0);"> xmlns</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">http://example.com/netinfra</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>&gt;</span></span>
+<span class="giallo-l"><span>...</span></span>
+<span class="giallo-l"><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">netinfra</span><span>&gt;</span></span>
+<span class="giallo-l"><span>&lt;</span><span style="color: light-dark(#22863A, #85E89D);">l3vpn-svc</span><span style="color: light-dark(#6F42C1, #B392F0);"> xmlns</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">urn:ietf:params:xml:ns:yang:ietf-l3vpn-svc</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>&gt;</span></span>
+<span class="giallo-l"><span>...</span></span>
+<span class="giallo-l"><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">l3vpn-svc</span><span>&gt;</span></span></code></pre><h4 id="core-network-topology-configuration-netinfra">Core Network Topology Configuration <code>&lt;netinfra&gt;</code></h4>
+<p><code>&lt;netinfra&gt;</code> holds the router and backbone link configuration. At <code>layer0</code>,
+this is highly abstracted with only the essential parameters being exposed.
+The other automation layers implement the logic necessary to create the device
+level configuration (described by vendor supplied YANG modules).</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="xml"><span class="giallo-l"><span>&lt;</span><span style="color: light-dark(#22863A, #85E89D);">netinfra</span><span style="color: light-dark(#6F42C1, #B392F0);"> xmlns</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">http://example.com/netinfra</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>AMS-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">id</span><span>&gt;</span><span>1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">id</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">role</span><span>&gt;</span><span>edge</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">role</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span><span>65001</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  ...</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">backbone-link</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">left-router</span><span>&gt;</span><span>AMS-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">left-router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">left-interface</span><span>&gt;</span><span>ethernet1-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">left-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">right-router</span><span>&gt;</span><span>FRA-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">right-router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">right-interface</span><span>&gt;</span><span>ethernet1-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">right-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">backbone-link</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  ...</span></span>
+<span class="giallo-l"><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">netinfra</span><span>&gt;</span><span>  </span></span></code></pre>
+<p>The <code>&lt;router&gt;</code> container defines the router's name and its role in the network
+topology (<code>core</code> / <code>edge</code>).</p>
+<p>The <code>&lt;backbone-link&gt;</code> container defines the necessary endpoint paramaters to
+configure a link between two routers.</p>
+<h4 id="l3vpn-service-configuration-ietf-l3vpn-svc">L3VPN Service Configuration <code>&lt;ietf-l3vpn-svc&gt;</code></h4>
+<p>The configuration for the L3VPN services itself contains two top-level
+containers as well. These are defined in the IETF's L3VPN Service YANG model.
+The first, <code>&lt;vpn-services&gt;</code>, defines the customer's VPN and the second,
+<code>&lt;sites&gt;</code>, is a list of connection points which configure the edge router's
+links to customer's sites, as follows:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="xml"><span class="giallo-l"><span>&lt;</span><span style="color: light-dark(#22863A, #85E89D);">l3vpn-svc</span><span style="color: light-dark(#6F42C1, #B392F0);"> xmlns</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">urn:ietf:params:xml:ns:yang:ietf-l3vpn-svc</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vpn-services</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vpn-service</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vpn-id</span><span>&gt;</span><span>acme-65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vpn-id</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">customer-name</span><span>&gt;</span><span>CUSTOMER-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">customer-name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vpn-service</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vpn-services</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">sites</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">site</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">site-id</span><span>&gt;</span><span>SITE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">site-id</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">locations</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;</span><span style="color: light-dark(#22863A, #85E89D);">location</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;</span><span style="color: light-dark(#22863A, #85E89D);">location-id</span><span>&gt;</span><span>MAIN</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">location-id</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">location</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">locations</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">management</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;</span><span style="color: light-dark(#22863A, #85E89D);">type</span><span>&gt;</span><span>customer-managed</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">type</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">management</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">site-network-accesses</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;</span><span style="color: light-dark(#22863A, #85E89D);">site-network-access</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;</span><span style="color: light-dark(#22863A, #85E89D);">site-network-access-id</span><span>&gt;</span><span>SNA-1-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">site-network-access-id</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;</span><span style="color: light-dark(#22863A, #85E89D);">location-reference</span><span>&gt;</span><span>MAIN</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">location-reference</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;</span><span style="color: light-dark(#22863A, #85E89D);">bearer</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">bearer-reference</span><span>&gt;</span><span>AMS-CORE-1,ethernet1-3.100</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">bearer-reference</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">bearer</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ip-connection</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4</span><span>&gt;</span></span>
+<span class="giallo-l"><span>              &lt;</span><span style="color: light-dark(#22863A, #85E89D);">address-allocation-type</span><span>&gt;</span><span>static-address</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">address-allocation-type</span><span>&gt;</span></span>
+<span class="giallo-l"><span>              &lt;</span><span style="color: light-dark(#22863A, #85E89D);">addresses</span><span>&gt;</span></span>
+<span class="giallo-l"><span>                &lt;</span><span style="color: light-dark(#22863A, #85E89D);">provider-address</span><span>&gt;</span><span>10.201.1.1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">provider-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>                &lt;</span><span style="color: light-dark(#22863A, #85E89D);">customer-address</span><span>&gt;</span><span>10.201.1.2</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">customer-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>                &lt;</span><span style="color: light-dark(#22863A, #85E89D);">prefix-length</span><span>&gt;</span><span>30</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">prefix-length</span><span>&gt;</span></span>
+<span class="giallo-l"><span>              &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">addresses</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ip-connection</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;</span><span style="color: light-dark(#22863A, #85E89D);">service</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">svc-input-bandwidth</span><span>&gt;</span><span>1000000000</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">svc-input-bandwidth</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">svc-output-bandwidth</span><span>&gt;</span><span>1000000000</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">svc-output-bandwidth</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">svc-mtu</span><span>&gt;</span><span>9000</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">svc-mtu</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">service</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;</span><span style="color: light-dark(#22863A, #85E89D);">routing-protocols</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">routing-protocol</span><span>&gt;</span></span>
+<span class="giallo-l"><span>              &lt;</span><span style="color: light-dark(#22863A, #85E89D);">type</span><span>&gt;</span><span>bgp</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">type</span><span>&gt;</span></span>
+<span class="giallo-l"><span>              &lt;</span><span style="color: light-dark(#22863A, #85E89D);">bgp</span><span>&gt;</span></span>
+<span class="giallo-l"><span>                &lt;</span><span style="color: light-dark(#22863A, #85E89D);">autonomous-system</span><span>&gt;</span><span>65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">autonomous-system</span><span>&gt;</span></span>
+<span class="giallo-l"><span>                &lt;</span><span style="color: light-dark(#22863A, #85E89D);">address-family</span><span>&gt;</span><span>ipv4</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">address-family</span><span>&gt;</span></span>
+<span class="giallo-l"><span>              &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">bgp</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">routing-protocol</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">routing-protocols</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vpn-attachment</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vpn-id</span><span>&gt;</span><span>acme-65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vpn-id</span><span>&gt;</span></span>
+<span class="giallo-l"><span>          &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vpn-attachment</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">site-network-access</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">site-network-accesses</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">site</span><span>&gt;</span></span>
+<span class="giallo-l"><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">l3vpn-svc</span><span>&gt;</span></span></code></pre><h3 id="configuration-at-layer-1-intermediate">Configuration at Layer 1 - Intermediate</h3>
+<p>In SORESPO, the next layer down is the <em>Intermediate</em> layer. At this layer,
+the implemented YANG modules are less abstracted than at <code>layer0</code>. Additional
+parameters are calculated by the service automation. The YANG modules for <code>layer1</code> are
+located in <code>sorespo/spec/yang/inter</code>.</p>
+<div class="tutorial-mode-block" data-tutorial-mode="webui">
+<p>On <strong>Layers</strong>, select <strong>Intermediate</strong> and keep XML as the display format.</p>
+</div>
+<div class="tutorial-mode-block" data-tutorial-mode="terminal">
+<p>Retrieve the <code>layer1</code> configuration:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-config1</span></span></code></pre>
+</div>
+<p>This excerpt from the output shows the intermediate layer configuration for the
+<code>AMS-CORE-1</code> router. The IPv4 and IPv6 addressing for the loopback interface
+for the device are added. These have been calculated according to a pre-defined
+set of addressing rules.</p>
+<p>Additionally, there is configuration for the customer's <code>acme-65501</code> VPN which
+has been defined in the layer0 <code>ietf-l3vpn-svc</code> configuration.</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="xml"><span class="giallo-l"><span>&lt;</span><span style="color: light-dark(#22863A, #85E89D);">netinfra</span><span style="color: light-dark(#6F42C1, #B392F0);"> xmlns</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">http://example.com/netinfra-inter</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>AMS-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">id</span><span>&gt;</span><span>1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">id</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">role</span><span>&gt;</span><span>edge</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">role</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">base-config</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span><span>65001</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span><span>10.0.0.1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv6-address</span><span>&gt;</span><span>2001:db8:0:0::1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv6-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">base-config</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">l3vpn-vrf</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vpn-id</span><span>&gt;</span><span>acme-65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vpn-id</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ebgp-customer-address</span><span>&gt;</span><span>10.201.1.2</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ebgp-customer-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">l3vpn-vrf</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">router</span><span>&gt;</span></span></code></pre>
+<p>At the Intermediate layer, we also introduce a new container for configuring
+iBGP between the core routers. As the configuration for this is entirely
+deterministic, we don't need to expose it at <code>layer0</code>. All of the iBGP
+configuration is created through SORESPO's automation, derived from the CFS
+intent. The logic is simple, all core routers will form an iBGP full-mesh.</p>
+<p><em>Note</em>: it would be trivial to add route-reflectors, suitable for larger networks</p>
+<p>The Intermediate layer calculates the IPv4 addresses used for each
+of the peering routers and configures authentication.</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="xml"><span class="giallo-l"><span>&lt;</span><span style="color: light-dark(#22863A, #85E89D);">netinfra</span><span style="color: light-dark(#6F42C1, #B392F0);"> xmlns</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">http://example.com/netinfra-inter</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  ...</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ibgp-fullmesh</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span><span>65001</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">authentication-key</span><span>&gt;</span><span>ibgp-authentication-key</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">authentication-key</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>AMS-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span><span>10.0.0.1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>FRA-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span><span>10.0.0.2</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>STO-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span><span>10.0.0.3</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ibgp-fullmesh</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  ...</span></span>
+<span class="giallo-l"><span>&lt;</span><span style="color: light-dark(#22863A, #85E89D);">netinfra</span><span>&gt;</span></span></code></pre>
+<p>At the Intermediate layer, the L3VPN service configuration is re-structured as
+follows:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="xml"><span class="giallo-l"><span>&lt;</span><span style="color: light-dark(#22863A, #85E89D);">l3vpns</span><span style="color: light-dark(#6F42C1, #B392F0);"> xmlns</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">http://example.com/l3vpn-inter</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">l3vpn</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>acme-65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span><span>Customer VPN for CUSTOMER-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">endpoint</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">device</span><span>&gt;</span><span>AMS-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">device</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">interface</span><span>&gt;</span><span>ethernet1-3.100</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">site</span><span>&gt;</span><span>SITE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">site</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">site-network-access</span><span>&gt;</span><span>SNA-1-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">site-network-access</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">provider-ipv4-address</span><span>&gt;</span><span>10.201.1.1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">provider-ipv4-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">customer-ipv4-address</span><span>&gt;</span><span>10.201.1.2</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">customer-ipv4-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-prefix-length</span><span>&gt;</span><span>30</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-prefix-length</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">bgp</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;</span><span style="color: light-dark(#22863A, #85E89D);">as-number</span><span>&gt;</span><span>65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">as-number</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">bgp</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">endpoint</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    ...</span></span>
+<span class="giallo-l"><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">l3vpn</span><span>&gt;</span></span></code></pre><h3 id="configuration-at-layer-2-resource-facing-service-rfs">Configuration at Layer 2 - Resource Facing Service (RFS)</h3>
+<p><code>layer2</code> is the Resource Facing Service (RFS) layer. Once again, configuration
+at this layer is more explicit and concrete, with more parameters being
+filled-in by the automation. The main role of the RFS layer is to provide a
+stable vendor-agnostic abstraction to the upper layers. This means that new
+device type's YANG models and versions, or other device management protocol
+integrations can be added without needing to make any changes to the
+Intermediate or CFS layers above. All RFS transforms are written per device,
+that is, a single RFS transform only writes to a single device. This enables
+RFS transforms to be re-run in order to react to changes on the device.</p>
+<p>The YANG modules for <code>layer2</code> are located in <code>sorespo/spec/yang/rfs</code>.</p>
+<p>At this layer, there is an instance of <code>&lt;device&gt;</code> container per managed device
+and a corresponding <code>&lt;rfs&gt;</code> container defining the devices SORESPO is
+managing and the RFS services that SORESPO defines.</p>
+<div class="tutorial-mode-block" data-tutorial-mode="webui">
+<p>On <strong>Layers</strong>, select <strong>RFS</strong> and inspect the per-device services.</p>
+</div>
+<div class="tutorial-mode-block" data-tutorial-mode="terminal">
+<p>Retrieve the configuration for <code>layer2</code>:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-config2</span></span></code></pre>
+</div>
+<p>Which gives the following output:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="xml"><span class="giallo-l"><span>&lt;</span><span style="color: light-dark(#22863A, #85E89D);">rfs</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>AMS-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">base-config</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>AMS-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span><span>10.0.0.1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv6-address</span><span>&gt;</span><span>2001:db8:0:0::1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv6-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span><span>65001</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ibgp-authentication-key</span><span>&gt;</span><span>ibgp-authentication-key</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ibgp-authentication-key</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">base-config</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">backbone-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>ethernet1-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span><span>10.0.7.1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">remote</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">device</span><span>&gt;</span><span>FRA-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">device</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">interface</span><span>&gt;</span><span>ethernet1-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">remote</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">backbone-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">backbone-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>ethernet1-2</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span><span>10.0.20.1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">remote</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">device</span><span>&gt;</span><span>STO-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">device</span><span>&gt;</span></span>
+<span class="giallo-l"><span>      &lt;</span><span style="color: light-dark(#22863A, #85E89D);">interface</span><span>&gt;</span><span>ethernet1-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">remote</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">backbone-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ibgp-neighbor</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">address</span><span>&gt;</span><span>10.0.0.2</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span><span>65001</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span><span>FRA-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ibgp-neighbor</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ibgp-neighbor</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">address</span><span>&gt;</span><span>10.0.0.3</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span><span>65001</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span><span>STO-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ibgp-neighbor</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ibgp-neighbor</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">address</span><span>&gt;</span><span>10.0.0.4</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span><span>65001</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span><span>LJU-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ibgp-neighbor</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vrf</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>acme-65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span><span>Customer VPN for CUSTOMER-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">id</span><span>&gt;</span><span>65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">id</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">router-id</span><span>&gt;</span><span>1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">router-id</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span><span>65001</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vrf</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vrf-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>ethernet1-3.100</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span><span>Customer VPN access SITE-1 [SNA-1-1] in VPN acme-65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vrf</span><span>&gt;</span><span>acme-65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vrf</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span><span>10.201.1.1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-prefix-length</span><span>&gt;</span><span>30</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ipv4-prefix-length</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vrf-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;</span><span style="color: light-dark(#22863A, #85E89D);">ebgp-customer</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">vrf</span><span>&gt;</span><span>acme-65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">vrf</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">address</span><span>&gt;</span><span>10.201.1.2</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">address</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">peer-asn</span><span>&gt;</span><span>65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">peer-asn</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span><span>Customer eBGP SITE-1 [SNA-1-1] in VPN acme-65501 to 10.201.1.2</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">description</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">authentication-key</span><span>&gt;</span><span>acme-65501</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">authentication-key</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">local-asn</span><span>&gt;</span><span>65001</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">local-asn</span><span>&gt;</span></span>
+<span class="giallo-l"><span>  &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">ebgp-customer</span><span>&gt;</span></span>
+<span class="giallo-l"><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">rfs</span><span>&gt;</span></span></code></pre><h3 id="configuration-at-layer-3-the-device-layer">Configuration at Layer 3 - The Device Layer</h3>
+<p>The vendor proprietary device YANG models are located on this layer. The YANG
+modules are organized in directories by device and software version:</p>
+<ul>
+<li>For Cisco IOS-XR: <code>sorespo/spec/yang/CiscoIosXr_25_3_1</code></li>
+<li>For Jupiper JUNOS: <code>JuniperCRPD_24_4R1_9</code></li>
+<li>For Nokia SR-Linux: <code>NokiaSRLinux_25_3_2</code></li>
+</ul>
+<div class="tutorial-mode-block" data-tutorial-mode="webui">
+<p>On <strong>Layers</strong>, select <strong>Device</strong>. You can also open <strong>Devices</strong>, choose a core
+router, and inspect its fully rendered target configuration.</p>
+</div>
+<div class="tutorial-mode-block" data-tutorial-mode="terminal">
+<p>Retrieve the configuration for <code>layer3</code>:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="plain"><span class="giallo-l"><span>make get-config3</span></span></code></pre>
+</div>
+<p>The output is several hundred lines of XML defining the full configuration of
+each of the core router devices. The XML namespaces
+( <code>xmlns="urn:nokia.com:srlinux:</code>) indicate that these are the vendor models.</p>
+<h2 id="adding-a-new-core-router-to-the-topology">Adding a New Core Router to the Topology</h2>
+<div class="pf-block" data-pf="linux macos windows">
+<p>In order to add a new router to the network, including provisioning the
+backbone links and iBGP peering, all we need to do is send in the
+configuration for that router. The configuration is defined in
+<code>test/quicklab-srl/tutorial-add-lju.xml</code>:</p>
+</div>
+<div class="pf-block" data-pf="codespaces">
+<p>In order to add a new router to the network, including provisioning the
+backbone links and iBGP peering, all we need to do is send in the
+configuration for that router. The configuration is defined in
+<code>/workspaces/sorespo/test/quicklab-srl/tutorial-add-lju.xml</code>:</p>
+</div>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="xml"><span class="giallo-l"><span>&lt;?</span><span style="color: light-dark(#22863A, #85E89D);">xml</span><span style="color: light-dark(#6F42C1, #B392F0);"> version</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">1.0</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#6F42C1, #B392F0);"> encoding</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">utf-8</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>?&gt;</span></span>
+<span class="giallo-l"><span>&lt;</span><span style="color: light-dark(#22863A, #85E89D);">data</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;</span><span style="color: light-dark(#22863A, #85E89D);">netinfra</span><span style="color: light-dark(#6F42C1, #B392F0);"> xmlns</span><span>=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">http://example.com/netinfra</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>&gt;</span></span>
+<span class="giallo-l"><span>       &lt;</span><span style="color: light-dark(#22863A, #85E89D);">router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span><span>LJU-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">name</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">id</span><span>&gt;</span><span>4</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">id</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">role</span><span>&gt;</span><span>core</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">role</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span><span>65001</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">asn</span><span>&gt;</span></span>
+<span class="giallo-l"><span>       &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>       &lt;</span><span style="color: light-dark(#22863A, #85E89D);">backbone-link</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">left-router</span><span>&gt;</span><span>FRA-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">left-router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">left-interface</span><span>&gt;</span><span>ethernet-1/3</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">left-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">right-router</span><span>&gt;</span><span>LJU-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">right-router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">right-interface</span><span>&gt;</span><span>ethernet-1/1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">right-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">backbone-link</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;</span><span style="color: light-dark(#22863A, #85E89D);">backbone-link</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">left-router</span><span>&gt;</span><span>STO-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">left-router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">left-interface</span><span>&gt;</span><span>ethernet-1/3</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">left-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">right-router</span><span>&gt;</span><span>LJU-CORE-1</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">right-router</span><span>&gt;</span></span>
+<span class="giallo-l"><span>            &lt;</span><span style="color: light-dark(#22863A, #85E89D);">right-interface</span><span>&gt;</span><span>ethernet-1/2</span><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">right-interface</span><span>&gt;</span></span>
+<span class="giallo-l"><span>        &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">backbone-link</span><span>&gt;</span></span>
+<span class="giallo-l"><span>    &lt;/</span><span style="color: light-dark(#22863A, #85E89D);">netinfra</span><span>&gt;</span></span>
+<span class="giallo-l"><span>&lt;/</span><span style="color: light-dark(#22863A, #85E89D);">data</span><span>&gt;</span></span></code></pre><h3 id="applying-the-router-intent">Applying the Router Intent</h3>
+<div class="tutorial-mode-block" data-tutorial-mode="webui">
+<p>Open <strong>Apply Config</strong>, select XML, and drop <code>tutorial-add-lju.xml</code> onto the
+editor (or paste its contents). Select <strong>Apply</strong> and confirm the operation.
+Return to the Dashboard and watch <code>LJU-CORE-1</code> and its two backbone links
+appear. Open <strong>Devices</strong> and select <code>LJU-CORE-1</code> to inspect its rendered and
+running configuration.</p>
+</div>
+<div class="tutorial-mode-block" data-tutorial-mode="terminal">
+<p>Send the same configuration to SORESPO:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> send-config-wait</span><span style="color: light-dark(#032F62, #9ECBFF);"> FILE=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">tutorial-add-lju.xml</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span></span></code></pre>
+<p>Confirm that layer 0 now contains four routers:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> get-config0</span></span></code></pre>
+</div>
+<p>Optionally, log in to the new router:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> cli-lju-core-1</span></span></code></pre>
+<p>Run the following command to review the BGP neighbor state:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">/</span><span style="color: light-dark(#032F62, #9ECBFF);"> show</span><span style="color: light-dark(#032F62, #9ECBFF);"> network-instance</span><span style="color: light-dark(#032F62, #9ECBFF);"> default</span><span style="color: light-dark(#032F62, #9ECBFF);"> protocols</span><span style="color: light-dark(#032F62, #9ECBFF);"> bgp</span><span style="color: light-dark(#032F62, #9ECBFF);"> neighbor</span></span></code></pre>
+<p>The resulting output shows that iBGP sessions with the other 3 core routers
+have been established:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="plain"><span class="giallo-l"><span>A:root@LJU-CORE-1# / show network-instance default protocols bgp neighbor</span></span>
+<span class="giallo-l"><span>--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span></span>
+<span class="giallo-l"><span>BGP neighbor summary for network-instance &quot;default&quot;</span></span>
+<span class="giallo-l"><span>Flags: S static, D dynamic, L discovered by LLDP, B BFD enabled, - disabled, * slow</span></span>
+<span class="giallo-l"><span>--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span></span>
+<span class="giallo-l"><span>--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span></span>
+<span class="giallo-l"><span>+--------------------+-----------------------------+--------------------+-------+-----------+----------------+----------------+--------------+-----------------------------+</span></span>
+<span class="giallo-l"><span>|      Net-Inst      |            Peer             |       Group        | Flags |  Peer-AS  |     State      |     Uptime     |   AFI/SAFI   |       [Rx/Active/Tx]        |</span></span>
+<span class="giallo-l"><span>+====================+=============================+====================+=======+===========+================+================+==============+=============================+</span></span>
+<span class="giallo-l"><span>| default            | 10.0.0.1                    | IPV4-IBGP          | S     | 65001     | established    | 0d:0h:0m:46s   | evpn         | [0/0/0]                     |</span></span>
+<span class="giallo-l"><span>|                    |                             |                    |       |           |                |                | ipv4-unicast | [0/0/0]                     |</span></span>
+<span class="giallo-l"><span>| default            | 10.0.0.2                    | IPV4-IBGP          | S     | 65001     | established    | 0d:0h:0m:47s   | evpn         | [0/0/0]                     |</span></span>
+<span class="giallo-l"><span>|                    |                             |                    |       |           |                |                | ipv4-unicast | [0/0/0]                     |</span></span>
+<span class="giallo-l"><span>| default            | 10.0.0.3                    | IPV4-IBGP          | S     | 65001     | established    | 0d:0h:0m:47s   | evpn         | [0/0/0]                     |</span></span>
+<span class="giallo-l"><span>|                    |                             |                    |       |           |                |                | ipv4-unicast | [0/0/0]                     |</span></span>
+<span class="giallo-l"><span>+--------------------+-----------------------------+--------------------+-------+-----------+----------------+----------------+--------------+-----------------------------+</span></span>
+<span class="giallo-l"><span>--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span></span>
+<span class="giallo-l"><span>Summary:</span></span>
+<span class="giallo-l"><span>3 configured neighbors, 3 configured sessions are established, 0 disabled peers</span></span>
+<span class="giallo-l"><span>0 dynamic peers</span></span></code></pre>
+<p>The new LJU-CORE-1 router has been configured and the necessary
+configuration, iBGP neighbors, on all the other routers was automatically
+added as per the updated intent (4 routers) as well.</p>
+<h3 id="connecting-a-customer-site">Connecting a Customer Site</h3>
+<div class="tutorial-mode-block" data-tutorial-mode="webui">
+<p>Use <strong>Apply Config</strong> again with <code>tutorial-add-cust-4.xml</code>. Return to the
+Dashboard and confirm that the fourth customer site is attached to
+<code>LJU-CORE-1</code>. The new site is also available under <strong>Services</strong>.</p>
+</div>
+<div class="tutorial-mode-block" data-tutorial-mode="terminal">
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> send-config-wait</span><span style="color: light-dark(#032F62, #9ECBFF);"> FILE=</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">tutorial-add-cust-4.xml</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span></span></code></pre>
+</div>
+<p>The resulting topology is as follows:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="plain"><span class="giallo-l"><span>+-------------------+                                                                     +-------------------+   </span></span>
+<span class="giallo-l"><span>|    cust-1-frr     |                                                                     |    cust-3-frr     |   </span></span>
+<span class="giallo-l"><span>|    10.200.1.1     |                                                                     |    10.200.1.3     |   </span></span>
+<span class="giallo-l"><span>|    (FRRouting)    |                                                                     |    (FRRouting)    |   </span></span>
+<span class="giallo-l"><span>+----+--------------+                                                                     +--+----------------+   </span></span>
+<span class="giallo-l"><span>     |eth1                                                                                   |eth1       </span></span>
+<span class="giallo-l"><span>     |                                                                                       |                    </span></span>
+<span class="giallo-l"><span>     +-------------------+                                                                   |                    </span></span>
+<span class="giallo-l"><span>                         |                                                                   |                    </span></span>
+<span class="giallo-l"><span>                         |ethernet1/3.100                                                    |                    </span></span>
+<span class="giallo-l"><span>                      +--+----------------+                          +-------------------+   |                    </span></span>
+<span class="giallo-l"><span>                      |    ams-core-1     |ethernet1/2               |    sto-core-1     |   |                    </span></span>
+<span class="giallo-l"><span>                      |     10.0.0.1      +--------------------------+     10.0.0.3      +---+                    </span></span>
+<span class="giallo-l"><span>                      |  (Nokia SR Linux) |               ethernet1/1|  (Nokia SR Linux) |ethernet1/4.100                </span></span>
+<span class="giallo-l"><span>                      +--+----------------+                          +--+--------------+-+                        </span></span>
+<span class="giallo-l"><span>                         |ethernet1/1                                   |ethernet1/2   |ethernet1/3                          </span></span>
+<span class="giallo-l"><span>                         |                                              |              |                          </span></span>
+<span class="giallo-l"><span>                         |                                              |              |                          </span></span>
+<span class="giallo-l"><span>                         |                                              |              |                          </span></span>
+<span class="giallo-l"><span>                         |                            +-----------------+              |                          </span></span>
+<span class="giallo-l"><span>                         |                            |                                |                          </span></span>
+<span class="giallo-l"><span>                         |                            |                                |                          </span></span>
+<span class="giallo-l"><span>                         |                            |                                |                          </span></span>
+<span class="giallo-l"><span>                         |                            |                                |                          </span></span>
+<span class="giallo-l"><span>                         |ethernet1/1                 |                     ethernet1/2|                          </span></span>
+<span class="giallo-l"><span>                      +--+----------------+ethernet1/2|              +-----------------+-+                        </span></span>
+<span class="giallo-l"><span>                      |    fra-core-1     +-----------+              |    lju-core-1     |                        </span></span>
+<span class="giallo-l"><span>                      |     10.0.0.2      |ethernet1/3               |     10.0.0.4      |                        </span></span>
+<span class="giallo-l"><span>                      |  (Nokia SR Linux) +--------------------------+  (Nokia SR Linux) |                        </span></span>
+<span class="giallo-l"><span>                      +---+---------------+               ethernet1/1+--------+----------+                        </span></span>
+<span class="giallo-l"><span>                          |ethernet1/4.100                                    |ethernet1/3.100                           </span></span>
+<span class="giallo-l"><span>                          |                                                   |                                   </span></span>
+<span class="giallo-l"><span> +-------------------+    |                                                   |              +-------------------+</span></span>
+<span class="giallo-l"><span> |    cust-2-frr     |    |                                                   |              |    cust-4-frr     |</span></span>
+<span class="giallo-l"><span> |    10.200.1.2     +----+                                                   |          eth1|    10.200.1.4     |</span></span>
+<span class="giallo-l"><span> |    (FRRouting)    |eth1                                                    +--------------+    (FRRouting)    |</span></span>
+<span class="giallo-l"><span> +-------------------+                                                                       +-------------------+</span></span></code></pre><h3 id="verifying-the-expanded-topology">Verifying the Expanded Topology</h3>
+<div class="tutorial-mode-block" data-tutorial-mode="webui">
+<p>Confirm that all four routers and customer sites appear on the Dashboard.
+Check <strong>Config Queue</strong> for outstanding changes, then open <code>LJU-CORE-1</code> under
+<strong>Devices</strong> and confirm that its target and running configurations agree.</p>
+<p>The Web UI submits Apply Config requests asynchronously, so you can follow
+their progress in <strong>Config Queue</strong> and each device's configuration log.</p>
+</div>
+<p>Test connectivity between all customer routers:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="shellscript"><span class="giallo-l"><span style="color: light-dark(#6F42C1, #B392F0);">make</span><span style="color: light-dark(#032F62, #9ECBFF);"> test-ping</span></span></code></pre>
+<p><em>NOTE</em>: It may take up to a minute for the customer and provider routers to establish a BGP session and exchange routes.</p>
+<div class="tutorial-mode-block" data-tutorial-mode="terminal">
+<p>The <code>send-config-wait</code> target waits for StratoWeave to process the configuration
+before returning. To use asynchronous submission from the terminal, run
+<code>make send-config-async FILE="&lt;file&gt;.xml"</code> and observe that the command returns
+as soon as SORESPO accepts the intent.</p>
+</div>
+<h2 id="what-s-next">What's Next</h2>
+<p>You have run SORESPO against a live network and followed its intent through
+every automation layer. The final step is to change those transforms, build
+SORESPO yourself, and see your code update the network.</p>
+<div class="demo-cta">
+    <a class="button button-primary" href="/tutorials/developing-sorespo/">
+        Develop SORESPO
+    </a>
+    <span class="demo-cta__note">Install the Acton toolchain, modify an RFS transform and YANG model, then deploy your own build in the same lab.</span>
+</div>
+
+
+        </div>
+
+        
+        
+    </main>
+
+    
+    <footer class="site-footer">
+        <small class="subtext">
+            Copyright © 2026 <a href="https://www.stratoweave.org">StratoWeave Project</a> © 2026 <a href="https://www.linuxfoundation.org/">The Linux Foundation®</a>. All rights reserved.
+        </small>
+    </footer>
+    
+</body>
+<script>
+    function highlightNav(heading) {
+        let pathname = location.pathname;
+        document.querySelectorAll(".toc a").forEach((item) => {
+            item.classList.remove("active");
+        });
+        const activeItem = document.querySelector(".toc a[href$='" + pathname + "#" + heading + "']");
+        if (activeItem) {
+            activeItem.classList.add("active");
+        }
+    }
+
+    let currentHeading = "";
+    window.onscroll = function () {
+        if (!document.querySelector(".toc")) {
+            return;
+        }
+
+        let h = document.querySelectorAll("h1,h2,h3,h4,h5,h6");
+        let elementArr = [];
+
+        h.forEach(item => {
+            if (item.id !== "") {
+                elementArr[item.id] = item.getBoundingClientRect().top;
+            }
+        });
+        elementArr.sort();
+        for (let key in elementArr) {
+            if (!elementArr.hasOwnProperty(key)) {
+                continue;
+            }
+            if (elementArr[key] > 0 && elementArr[key] < 300) {
+                if (currentHeading !== key) {
+                    highlightNav(key);
+                    currentHeading = key;
+                }
+                break;
+            }
+        }
+    }
+</script>
+
+<script>
+// Inject copy buttons into fenced code blocks and handle clipboard copying
+(function () {
+    if (typeof navigator === 'undefined' || !navigator.clipboard) return;
+    function addCopyButtons() {
+        document.querySelectorAll('pre > code').forEach(function (code) {
+            var pre = code.parentNode;
+            if (!pre || pre.querySelector('.code-copy-btn')) return;
+            pre.classList.add('has-copy');
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'code-copy-btn';
+            btn.setAttribute('aria-label', 'Copy code');
+            btn.textContent = 'Copy';
+            btn.addEventListener('click', function () {
+                var text = code.innerText;
+                navigator.clipboard.writeText(text).then(function () {
+                    btn.textContent = 'Copied';
+                    setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+                }).catch(function () {
+                    /* ignore */
+                });
+            });
+            pre.appendChild(btn);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', addCopyButtons);
+    } else {
+        addCopyButtons();
+    }
+})();
+</script>
+
+</html>
