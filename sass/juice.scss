@@ -2,6 +2,7 @@
 @import "_markdown.scss";
 @import "_platform.scss";
 @import "_demo.scss";
+@import "_articles.scss";
 
 *,
 *::before,
@@ -297,6 +298,19 @@ header {
   border-color: rgba(226, 232, 240, 0.08);
   background: rgba(13, 23, 48, 0.35);
   letter-spacing: 0.12em;
+}
+
+/* Keep the submenu on-screen when the expanded navigation wraps on tablets. */
+@media (min-width: 701px) and (max-width: 1100px) {
+  .nav-subnav {
+    left: auto;
+    right: 0;
+    transform: translateY(-0.1rem);
+  }
+  .nav-group:hover .nav-subnav,
+  .nav-group:focus-within .nav-subnav {
+    transform: translateY(0);
+  }
 }
 
 .nav-item--subnav:hover {
