@@ -27,3 +27,12 @@ juice_extra_menu = [
     { title = "Github", link = "https://github.com/stratoweave/stratoweave"}
 ]
 repository_url = "https://github.com/stratoweave/stratoweave"
+
+# Dates are optional ISO 8601 timestamps. Use a new unique id for each announcement
+# so visitors who dismissed an older message will still see the new one.
+[[extra.announcements]]
+id = "stratoweave-intro-webinar-sep-2026"
+start_at = ""
+end_at = "2026-09-30T23:59:59Z"
+text = "Join the StratoWeave Introduction webinar hosted by the Linux Foundation on September 29, 2026."
+link = "https://www.linkedin.com/events/7501707643640610816/"

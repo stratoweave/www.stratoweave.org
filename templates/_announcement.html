@@ -1,0 +1,45 @@
+{% if config.extra.announcements %}
+<aside class="announcements" aria-label="Announcements">
+    {% for announcement in config.extra.announcements %}
+    <div class="announcement" data-announcement data-announcement-id="{{ announcement.id }}"
+        data-start-at="{{ announcement.start_at | default(value='') }}"
+        data-end-at="{{ announcement.end_at | default(value='') }}" hidden>
+        <a class="announcement__link" href="{{ announcement.link }}">
+            <span class="announcement__label">Announcement</span>
+            <span class="announcement__text">{{ announcement.text }}</span>
+            <span class="announcement__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <button class="announcement__close" type="button" aria-label="Dismiss announcement">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+</aside>
+<script>
+(function () {
+    var now = Date.now();
+
+    document.querySelectorAll('[data-announcement]').forEach(function (announcement) {
+        var id = announcement.getAttribute('data-announcement-id');
+        var startValue = announcement.getAttribute('data-start-at');
+        var endValue = announcement.getAttribute('data-end-at');
+        var startAt = startValue ? Date.parse(startValue) : null;
+        var endAt = endValue ? Date.parse(endValue) : null;
+        var storageKey = 'sw-announcement-dismissed-' + id;
+        var dismissed = false;
+
+        try { dismissed = localStorage.getItem(storageKey) === 'true'; } catch (error) {}
+
+        var validStart = !startValue || (!Number.isNaN(startAt) && now >= startAt);
+        var validEnd = !endValue || (!Number.isNaN(endAt) && now <= endAt);
+        if (dismissed || !validStart || !validEnd) return;
+
+        announcement.hidden = false;
+        announcement.querySelector('.announcement__close').addEventListener('click', function () {
+            announcement.hidden = true;
+            try { localStorage.setItem(storageKey, 'true'); } catch (error) {}
+        });
+    });
+})();
+</script>
+{% endif %}
