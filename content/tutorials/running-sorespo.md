@@ -24,11 +24,11 @@ core network infrastructure.
 
 If you have not used SORESPO before, start with the zero-install
 [Web UI tour](@/tutorials/exploring-the-webui.md). This tutorial takes the next
-step: one command starts the Containerlab environment, including the Nokia SR
-Linux network and Web UI, then runs SORESPO in the `sweave` container. From
-there, choose the default Web UI path or follow the same tutorial entirely
-through Make targets in a terminal. Both paths use the same environment and
-produce the same result.
+step: one command starts the Containerlab environment with the Nokia SR Linux
+network, then runs SORESPO in the `sweave` container. SORESPO serves the Web UI
+itself, on the same port as its APIs. From there, choose the default Web UI
+path or follow the same tutorial entirely through Make targets in a terminal.
+Both paths use the same environment and produce the same result.
 
 {% <platform only="linux"> %}
 You will need a Linux host with 4 CPU cores and 8 GB of RAM available to be
@@ -166,8 +166,8 @@ the top right of the VS Code Terminal window to do so.
 {% </platform> %}
 
 The first image download can take several minutes. Later starts reuse the
-downloaded router and Web UI images. If port `3000` is already occupied, stop
-the other process or choose another port with `WEBUI_PORT=3100 make tutorial`.
+downloaded router images. If port `3000` is already occupied, stop the other
+process or choose another port with `WEBUI_PORT=3100 make tutorial`.
 
 When you finish, stop SORESPO with *Ctrl+C*, then shut down the complete
 Containerlab environment from this directory with `make stop`.
@@ -220,8 +220,9 @@ automatically.
 
 In the second shell or Terminal, stay in the `test/quicklab-srl` directory.
 This mode is useful when the Web UI is not reachable, such as in a remote
-environment without port forwarding. The Web UI remains part of the
-Containerlab environment; the terminal workflow simply does not use it.
+environment without port forwarding. SORESPO still serves the Web UI on the
+same port as the APIs these Make targets call; the terminal workflow simply
+does not use it.
 
 Apply the same two files with the synchronous RESTCONF Make target:
 
