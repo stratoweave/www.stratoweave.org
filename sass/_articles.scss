@@ -1,0 +1,62 @@
+.page-shell--articles, .page-shell--article {
+  max-width: 1100px;
+  .content { background: none; border: 0; box-shadow: none; padding: clamp(.5rem, 3vw, 2rem); overflow: visible; }
+  h1 { font-size: clamp(2.1rem, 4.6vw, 3.8rem); line-height: 1.1; letter-spacing: -.045em; margin: .6rem 0 1.4rem; }
+}
+.article-eyebrow { color: #22d3ee; font-size: .78rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.articles-intro { max-width: 44rem; margin-bottom: 3rem; }
+.article-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; padding: 2rem 0; border-top: 1px solid var(--border-color); align-items: center;
+  h2 { font-size: clamp(1.55rem, 2.5vw, 2rem); line-height: 1.2; margin: .65rem 0 1rem; }
+  h2 a { color: #f8fbff; text-decoration: none; }
+  p { line-height: 1.7; color: #b8c5dc; }
+  .article-summary__author { color: #e2e8f0; font-size: .9rem; span { color: #a7b5d1; } }
+}
+.article-summary__image { display: block; border: 1px solid var(--border-color); border-radius: 1rem; overflow: hidden; background: #081020; img { display: block; width: 100%; } }
+.article-meta { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font-size: .82rem; color: #a7b5d1; margin: .3rem 0; }
+.article-read { font-size: .9rem; font-weight: 600; }
+.editorial { max-width: 900px; margin: auto; }
+.article-heading { max-width: 850px; margin: 0 auto 2.4rem; }
+.article-deck { font-size: clamp(1.08rem, 2vw, 1.3rem); line-height: 1.65; color: #b8c5dc; }
+.article-byline { display: flex; align-items: center; gap: .9rem; margin-top: 1.7rem; font-size: .9rem;
+  > img { border-radius: 50%; object-fit: cover; }
+  > div > a { color: #f8fbff; }
+  span { color: #a7b5d1; }
+}
+.article-toc { max-width: 720px; margin: 0 auto 2.5rem; padding: 1.1rem 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);
+  summary { cursor: pointer; font-size: .9rem; font-weight: 600; }
+  ol { columns: 2; column-gap: 2.5rem; padding: 1rem 0 0; margin-bottom: 0; font-size: .85rem; }
+  li { break-inside: avoid; padding-left: .15rem; }
+}
+.article-body { font-size: 1.04rem; line-height: 1.85; color: #c7d1e4;
+  > p, > ul, > ol, > h2, > h3, > blockquote { max-width: 720px; margin-left: auto; margin-right: auto; }
+  > h2 { color: #f8fbff; font-size: clamp(1.5rem, 2.8vw, 2rem); line-height: 1.25; letter-spacing: -.025em; margin-top: 3rem; scroll-margin-top: 7rem; }
+  > p { margin-top: 1rem; margin-bottom: 1.3rem; }
+  strong { color: #e2e8f0; }
+  li { color: #c7d1e4; }
+  table { width: 100%; border-collapse: collapse; font-size: .84rem; line-height: 1.65; }
+  th, td { padding: 1rem; vertical-align: top; border-bottom: 1px solid var(--border-color); text-align: left; }
+  th { color: #f8fbff; background: #101c33; }
+  td:first-child { color: #e2e8f0; min-width: 8rem; font-weight: 600; }
+}
+.article-table { overflow-x: auto; margin: 2rem 0; border: 1px solid var(--border-color); border-radius: .75rem; &:focus-visible { outline: 2px solid #22d3ee; } }
+.article-figure { margin: 2.5rem 0; img { display: block; width: 100%; border: 1px solid var(--border-color); border-radius: .8rem; }
+  figcaption { font-size: .8rem; line-height: 1.65; color: #a7b5d1; padding: .8rem .2rem; }
+}
+.article-author { display: grid; grid-template-columns: 144px 1fr; gap: 2rem; margin: 3.5rem auto 0; padding-top: 2.5rem; border-top: 1px solid var(--border-color); max-width: 720px; scroll-margin-top: 7rem;
+  h2 { margin-top: .3rem; font-size: 1.4rem; }
+  p { line-height: 1.75; color: #b8c5dc; }
+  .article-eyebrow { margin: 0; color: #22d3ee; }
+}
+.article-author__portrait { width: 144px; height: 144px; object-fit: cover; border-radius: .8rem; }
+.article-author__company { display: inline-flex; align-items: center; gap: 1rem; font-size: .85rem;
+  img { width: 100px; height: 40px; object-fit: contain; background: white; padding: .5rem; border-radius: .3rem; }
+}
+.article-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+@media (max-width: 700px) {
+  .article-summary { grid-template-columns: 1fr; gap: 1rem; }
+  .article-toc ol { columns: 1; }
+  .article-author { grid-template-columns: 1fr; gap: 1rem; }
+  .article-author__portrait { width: 112px; height: 112px; }
+  .article-body { font-size: 1rem; }
+  .article-body table { min-width: 650px; }
+}

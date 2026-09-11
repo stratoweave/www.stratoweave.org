@@ -1,0 +1,6 @@
+{% component article_figure(src: string, alt: string, caption: string, width: number = 960, height: number = 660) %}
+<figure class="article-figure">
+  <img src="{{ get_url(path=src) }}" alt="{{ alt }}" width="{{ width | default(value=960) }}" height="{{ height | default(value=660) }}" loading="lazy">
+  <figcaption>{{ caption }}</figcaption>
+</figure>
+{% endcomponent article_figure %}
