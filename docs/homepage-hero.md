@@ -101,6 +101,13 @@ Do not change only one surface and assume the others will follow automatically.
 - In reduced motion mode, the custom telemetry and sparkle systems stop, and the Lottie animation is frozen on a static frame.
 - Preserve that behavior when editing the hero animation code.
 
+## Safari Reader
+
+- Keep `instapaper_ignore` on both `.hero-visual` and `.hero-lottie__viewport`. Safari Reader can flatten the outer wrappers before pruning, so the viewport itself also needs the exclusion class.
+- The animation depends on positioned HTML and SVG layers that do not survive Reader's styling. Exclude the labels, telemetry, sparkles, and Lottie canvas together so detached graphic fragments cannot bleed into the text.
+- Keep the hero heading, description, and proof points outside this wrapper so they remain available in Reader.
+- When changing the wrapper, verify the normal homepage and Safari Reader as well as running `zola build`.
+
 ## Editing Guidance For The Hero
 
 - Preserve the semantic distinction between intent and configuration flow and telemetry and state flow.
