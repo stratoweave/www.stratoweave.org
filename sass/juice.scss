@@ -1302,8 +1302,8 @@ header {
 .compatibility-panel {
   display: grid;
   gap: 1.25rem;
-  padding: 1.25rem 0 0;
-  border-width: 1px 0 0;
+  padding: 0;
+  border: 0;
   border-radius: 0;
   background: transparent;
 }
