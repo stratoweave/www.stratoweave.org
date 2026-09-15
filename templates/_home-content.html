@@ -1,0 +1,124 @@
+<div class="platform-story">
+    <section id="architecture" class="platform-section" aria-labelledby="architecture-title">
+        <div class="architecture-intro">
+            <h2 id="architecture-title">Reactive from<br> the ground up.</h2>
+            <div class="platform-copy">
+                <p>StratoWeave is purely reactive. Configuration changes from northbound APIs and streaming telemetry from devices are input events that drive the platform. Desired state and observed state meet in the same orchestration system.</p>
+                <p>Its design draws on functional programming and a decade of experience automating large IP networks: compose small transformations, make intent explicit, and respond when inputs change.</p>
+            </div>
+        </div>
+        <div class="transform-principles">
+            <article>
+                <h3>Declare the whole lifecycle</h3>
+                <p>A transform owns its configuration for as long as its intent exists. Describe the desired result; the platform handles updates and removal without separate create, update, and delete workflows.</p>
+            </article>
+            <article>
+                <h3>Compose layers of abstraction</h3>
+                <p>Turn a service order into network intent, then device configuration. Each layer hides implementation details, keeping service definitions stable across vendors and domains.</p>
+            </article>
+            <article>
+                <h3>Close the loop at any layer</h3>
+                <p>Transforms can subscribe to device or service state and expose their own operational view. Multi-stage transforms keep conditional procedures and migrations behind a declarative interface.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="ecosystem" class="platform-section" aria-labelledby="ecosystem-title">
+        <div class="platform-section-heading">
+            <h2 id="ecosystem-title">A complete ecosystem<br> for network orchestration.</h2>
+            <p>Shared YANG models connect service intent, execution, collection, observability, and operator interfaces. Develop, test, and operate your orchestration logic within one consistent system throughout the service lifecycle.</p>
+        </div>
+        <div class="ecosystem-columns">
+            <article>
+                <h3>Define your network in YANG</h3>
+                <p>Choose the service layers, models, and device types in your system specification. Use IETF or vendor models, and add abstractions that match how you operate.</p>
+            </article>
+            <article>
+                <h3>Catch errors before deployment</h3>
+                <p>YANG models become Acton types, so the compiler can catch data and type errors in your transforms. Test orchestration end to end with simulated devices and networks.</p>
+            </article>
+            <article>
+                <h3>Tools that understand your models</h3>
+                <p>Get code completion and error checking in VS Code through Acton’s language server. Use <a href="https://github.com/stratoweave/netclics">netclics</a> to convert existing CLI snippets into YANG-compliant Acton data for your transforms.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="integrations" class="platform-section" aria-labelledby="integrations-title">
+        <div class="platform-section-heading">
+            <h2 id="integrations-title">Any network. Any device.<br> Any API.</h2>
+            <p>Connect the systems above your network to the infrastructure below it. Adapters keep service logic declarative while handling the details of each device, cloud service, or external API.</p>
+        </div>
+        <div class="integration-rows">
+            <article>
+                <h3>Northbound to your OSS/BSS</h3>
+                <p>Expose YANG-modeled services through NETCONF and RESTCONF. Map those models to TM Forum service catalogs, ordering, and activation interfaces.</p>
+                <ul class="protocol-list" aria-label="Northbound interfaces"><li>NETCONF</li><li>RESTCONF</li><li>TMF633 / 640 / 641</li></ul>
+            </article>
+            <article>
+                <h3>Southbound to your network</h3>
+                <p>Generate NETCONF adapters from device YANG modules. Extend the adapter framework for CLIs, REST APIs, and other interfaces, preserving a consistent contract for transforms. Adapters are developed and maintained in the open.</p>
+                <ul class="protocol-list" aria-label="Southbound adapter interfaces"><li>NETCONF / YANG</li><li>CLI</li><li>REST APIs &amp; more</li></ul>
+            </article>
+        </div>
+    </section>
+
+    <section id="brownfield" class="platform-section brownfield-section" aria-labelledby="brownfield-title">
+        <div class="platform-copy">
+            <h2 id="brownfield-title">Bring your existing<br> network along.</h2>
+            <p>Decades of configuration do not disappear when you adopt automation. StratoWeave supports brownfield onboarding and gradual migration, alongside day-zero provisioning for new devices.</p>
+            <p>Start with a subset of services or devices. Keep existing scripts and OSS tools in use as you expand the platform’s ownership.</p>
+        </div>
+        <ul class="migration-steps">
+            <li><h3>Discover existing intent</h3><p>Read the running configuration and reconstruct the services that would produce it, working from device-facing layers upward.</p></li>
+            <li><h3>Validate in isolation</h3><p>Compare generated configuration with the existing network. Refine models and discovery logic before taking ownership.</p></li>
+            <li><h3>Adopt at your own pace</h3><p>Configuration attribution distinguishes transform-owned elements from manually managed or externally managed ones, so StratoWeave manages the lifecycle of its own configuration.</p></li>
+        </ul>
+    </section>
+
+    <section id="use-cases" class="platform-section" aria-labelledby="use-cases-title">
+        <div class="platform-section-heading">
+            <h2 id="use-cases-title">One architecture, multiple domains, many use cases.</h2>
+            <p>Build the models and transforms for your environment. The same layered, reactive architecture can support services that span technologies, vendors, and operational boundaries.</p>
+        </div>
+        <div class="use-case-grid">
+            <article><h3>IP &amp; optical transport</h3><p>Model backbone routers, links, and optical resources as a connected service-provider network. Coordinate changes across transport layers.</p></article>
+            <article><h3>L2 &amp; L3 VPN services</h3><p>Express customer connectivity as service intent. Decompose endpoints and policies into the configuration each participating device needs.</p></article>
+            <article><h3>Datacenter automation</h3><p>Bring fabric provisioning, tenant connectivity, and datacenter interconnect into one system, from device onboarding to service operations.</p></article>
+            <article><h3>Your next network domain</h3><p>Extend the ecosystem with models and adapters for cloud services, access networks, or your own APIs. Compose them with existing services.</p></article>
+        </div>
+    </section>
+
+    <section id="sorespo" class="platform-section sorespo-section" aria-labelledby="sorespo-title">
+        <div class="platform-split">
+            <div class="platform-copy">
+                <h2 id="sorespo-title">Explore a working<br> service-provider orchestrator.</h2>
+                <p>The <strong>Somewhat Realistic Service Provider Orchestrator</strong> is a complete, open-source reference implementation for IP transport and L3VPN orchestration.</p>
+                <p>Explore topology, service intent, configuration layers, and device changes. Then run the orchestrator against a Nokia SR Linux lab, modify its transforms, or fork it as the starting point for your own system.</p>
+                <div class="platform-actions">
+                    <a class="button button-primary" href="{{ get_url(path="/tutorials/exploring-the-webui/") }}">Explore the demo</a>
+                    <a class="platform-link" href="https://github.com/stratoweave/sorespo">View the source <span aria-hidden="true">↗</span></a>
+                </div>
+            </div>
+            <div class="sorespo-stack" aria-label="Reference implementation service decomposition">
+                <ol>
+                    <li><span>Service intent</span><strong>L3VPN service &amp; customer sites</strong></li>
+                    <li><span>Network abstraction</span><strong>Routers &amp; backbone links</strong></li>
+                    <li><span>Resource-facing services</span><strong>Interfaces, routing &amp; VPN configuration</strong></li>
+                    <li><span>Device configuration</span><strong>Vendor YANG models &amp; adapters</strong></li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section class="platform-section platform-community" aria-labelledby="community-title">
+        <div class="platform-copy">
+            <h2 id="community-title">Help build the open<br> orchestration platform.</h2>
+            <p>StratoWeave is a Linux Foundation Networking project, released under the BSD 3-Clause License. Contribute models, transforms, adapters, documentation, or experience from your network. Help shape the platform by putting it to work.</p>
+        </div>
+        <div class="platform-actions">
+            <a class="button button-primary" href="{{ get_url(path="/community/") }}">Join the community</a>
+            <a class="button button-secondary" href="{{ config.extra.repository_url }}">Contribute on GitHub</a>
+        </div>
+    </section>
+</div>

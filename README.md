@@ -10,6 +10,17 @@ https://www.stratoweave.org.
 zola serve
 ```
 
+## Homepage
+
+The content below the hero is in `templates/_home-content.html`, with scoped
+styles in `sass/_home-content.scss`. Use descriptive section headings without
+eyebrow labels or decorative numbering. Introduce the reference implementation
+by its full name rather than assuming visitors know the SORESPO abbreviation.
+
+The Technology page’s content is combined into the homepage. The hero
+remains in `templates/index.html`; see
+`docs/homepage-hero.md` before touching its markup, styles, or animation.
+
 ## Writing articles
 
 Add Markdown pages under `content/articles/` with `title`, `description`, and

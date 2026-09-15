@@ -3,6 +3,7 @@
 @import "_platform.scss";
 @import "_demo.scss";
 @import "_articles.scss";
+@import "_home-content.scss";
 
 *,
 *::before,
@@ -444,6 +445,11 @@ header {
   min-width: 0;
   padding: 0 1rem;
   font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+.hero-actions .platform-link {
+  align-self: center;
   white-space: nowrap;
 }
 

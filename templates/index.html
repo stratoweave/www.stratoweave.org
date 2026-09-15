@@ -45,23 +45,9 @@
                 </p>
                 <div class="hero-actions">
                     <a class="button button-primary" href="{{ get_url(path="/tutorials/exploring-the-webui") }}">Explore the live demo</a>
-                    <a class="button button-secondary" href="https://github.com/stratoweave/stratoweave">View the source</a>
-                    <a class="button button-secondary" href="{{ get_url(path="/technology") }}">Understand the tech</a>
+                    <a class="button button-secondary" href="#architecture">Understand the tech</a>
+                    <a class="platform-link" href="https://github.com/stratoweave/stratoweave">View the source <span aria-hidden="true">↗</span></a>
                 </div>
-                <dl class="hero-proof">
-                    <div>
-                        <dt>Completely declarative</dt>
-                        <dd>Express desired config as intent instead of stitching imperative device workflows together.</dd>
-                    </div>
-                    <div>
-                        <dt>Strongly typed</dt>
-                        <dd>Build layered abstractions from YANG models and catch more errors before runtime.</dd>
-                    </div>
-                    <div>
-                        <dt>Open Source</dt>
-                        <dd>Released under the BSD 3-Clause License and part of the Linux Foundation.</dd>
-                    </div>
-                </dl>
             </div>
 
             <!-- Safari Reader honors instapaper_ignore: keep the layered animation out of extracted text. -->
@@ -138,134 +124,8 @@
             </div>
         </section>
 
-        <section class="proof-strip" aria-label="Platform proof points">
-            <article class="proof-card">
-                <strong>NETCONF, CLI, REST APIs, ...</strong>
-                <span>StratoWeave is designed for YANG-modeled devices, but also supports CLIs, REST APIs, and any other device interface.</span>
-            </article>
-            <article class="proof-card">
-                <strong>Service-provider scale</strong>
-                <span>Designed for highly available, fault-tolerant automation across large service and infrastructure estates.</span>
-            </article>
-            <article class="proof-card">
-                <strong>Closed-loop ready</strong>
-                <span>Use telemetry and operational state to drive reactive automation instead of one-way config pushes.</span>
-            </article>
-            <article class="proof-card">
-                <strong>Batteries included</strong>
-                <span>Use SORESPO, our reference implementation, to explore the platform, then fork it to build your own orchestrator.</span>
-            </article>
-        </section>
+        {% include "_home-content.html" %}
 
-        <section class="flow-section" aria-labelledby="flow-title">
-            <div class="section-intro">
-                <h2 id="flow-title">StratoWeave is a complete ecosystem for network orchestration.</h2>
-                <p>
-                    StratoWeave comes with a set of tools and features to automate the entire lifecycle of network services.
-                    Onboard your existing devices, migrate from manual configuration, orchestrate alongside existing tools, all the way
-                    up to expressing complex network migrations through multi-stage transforms and closed-loop telemetry reactions.
-                </p>
-            </div>
-            <div class="flow-track">
-                <article class="flow-step">
-                    <h3>Migrate from CLI to NETCONF/YANG.</h3>
-                    <p>Bring your existing CLI-based workflows into YANG model-driven transform code.</p>
-                </article>
-                <article class="flow-step">
-                    <h3>Onboard your existing network.</h3>
-                    <p>Our Service Discovery process can find existing service instances from the running network config.</p>
-                </article>
-                <article class="flow-step">
-                    <h3>Express complex procedures in code.</h3>
-                    <p>Break down complex network operations into manageable, repeatable stages.</p>
-                </article>
-                <article class="flow-step">
-                    <h3>Observe and react to telemetry.</h3>
-                    <p>Use telemetry data to drive closed-loop decisions and visualize network state.</p>
-                </article>
-            </div>
-        </section>
-
-        <section class="learn-path" aria-labelledby="learn-title">
-            <div class="learn-path__copy">
-                <h2 id="learn-title">Our complete reference implementation is open-source too.</h2>
-                <p>
-                    The fastest way to understand StratoWeave is to explore the <strong>SOmewhat REalistic Service Provider Orchestrator (SORESPO)</strong> in your browser.
-                    Start with the zero-install Web UI demo, continue with the live Nokia SR Linux lab, and then change the transform code yourself.
-                </p>
-                <div class="hero-actions">
-                    <a class="button button-primary" href="{{ get_url(path="/tutorials") }}">Start the guided path</a>
-                    <a class="button button-secondary" href="https://github.com/stratoweave/sorespo">View the SORESPO repo</a>
-                </div>
-            </div>
-            <div class="learn-path__panel">
-                <div class="learn-path__panel-copy">
-                    <h3>Move from platform concepts to a working orchestration system.</h3>
-                </div>
-                <div class="learn-outcomes" aria-label="Learning outcomes">
-                    <article class="learn-outcome">
-                        <strong>Experience declarative intent</strong>
-                        <span>See how a declarative platform can build and maintain a consistent network state.</span>
-                    </article>
-                    <article class="learn-outcome">
-                        <strong>Layered abstraction</strong>
-                        <span>Follow the decomposition of business intent into real-world device configurations.</span>
-                    </article>
-                    <article class="learn-outcome">
-                        <strong>Developer experience</strong>
-                        <span>Make real changes to your orchestrator and see the effects immediately.</span>
-                    </article>
-                    <article class="learn-outcome">
-                        <strong>Real platform shape</strong>
-                        <span>Work from a full reference implementation instead of disconnected examples.</span>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="compatibility-section" aria-labelledby="compatibility-title">
-            <div class="section-intro">
-                <h2 id="compatibility-title">Integrate with any network, any device, and any API.</h2>
-                <p>
-                    StratoWeave is built to work southbound with the network you already run.
-                    NETCONF/YANG device adapters, CLI adapters, RESTful API adapters, and more
-                    let the platform integrate with network devices, cloud services, and other systems using
-                    any interface or API.
-                </p>
-            </div>
-            <div class="compatibility-panel">
-                <div class="compatibility-details">
-                    <article>
-                        <strong>Tested and validated NETCONF/YANG adapters</strong>
-                        <span>NETCONF/YANG adapters already exist for Cisco IOS-XR, Cisco IOS-XE, Juniper JunOS, Nokia SR Linux, and more.</span>
-                    </article>
-                    <article>
-                        <strong>Community-maintained adapters</strong>
-                        <span>Adapters are maintained in the open so everyone in the community can benefit from excellent integration with device vendors, cloud services, and operational environments.</span>
-                    </article>
-                    <article>
-                        <strong>Works with IETF standards</strong>
-                        <span>StratoWeave works with IETF service models, IETF network models, and IETF device models alongside vendor-specific abstractions at the right layer.</span>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="landing-cta" aria-labelledby="landing-cta-title">
-            <div class="landing-cta__copy">
-                <h2 id="landing-cta-title">Help build the open orchestration platform.</h2>
-                <p>
-                    StratoWeave grows through real technical participation. Contribute transforms,
-                    adapters, models, documentation, lab feedback, and deployment experience, or
-                    reach out to the maintainers on GitHub if you want to adopt the platform,
-                    explore an integration, or help shape the roadmap.
-                </p>
-            </div>
-            <div class="landing-cta__actions">
-                <a class="button button-primary" href="{{ config.extra.repository_url }}">Contribute on GitHub</a>
-                <a class="button button-secondary" href="{{ get_url(path="/community") }}">Join the Community</a>
-            </div>
-        </section>
     </main>
 
     <footer class="site-footer">

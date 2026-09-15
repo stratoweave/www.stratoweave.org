@@ -1,7 +1,7 @@
 # The URL the site will be built for
 base_url = "https://www.stratoweave.org"
 title = "StratoWeave"
-description = "Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a SORESPO learning path."
+description = "Reactive network orchestration with YANG models, layered transforms, open interfaces, and streaming telemetry."
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -22,7 +22,6 @@ juice_logo_path = "stratoweave-icon.svg"
 
 juice_extra_menu = [
     { title = "Tutorials", link = "/tutorials"},
-    { title = "Technology", link = "/technology"},
     { title = "Articles", link = "/articles/"},
     { title = "Governance", link = "/governance"},
     { title = "Github", link = "https://github.com/stratoweave/stratoweave"}
