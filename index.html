@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>StratoWeave Orchestration Platform | StratoWeave</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Intent-based network orchestration with YANG-driven layers, streaming telemetry, and a complete reference implementation.">
+    
+    <link rel="icon" href="https://www.stratoweave.org/favicon.svg">
+    
+    <style>
+    :root {
+        --stratoweave-navy: #081020;
+        --stratoweave-blue: #2563eb;
+        --stratoweave-cyan: #22d3ee;
+        --stratoweave-violet: #8b5cf6;
+        --stratoweave-fuchsia: #a855f7;
+        --stratoweave-slate: #64748b;
+        --stratoweave-mist: #e2e8f0;
+        --stratoweave-ink-900: #0d1730;
+        --stratoweave-ink-800: #16223f;
+        --stratoweave-ink-700: #233456;
+        --stratoweave-ink-500: #7d8cac;
+        --stratoweave-ink-300: #c7d1e4;
+        --stratoweave-paper: #f8fbff;
+
+        --primary-color: var(--stratoweave-blue);
+        --primary-color-touch: var(--stratoweave-cyan);
+        --primary-text-color: var(--stratoweave-paper);
+        --primary-hero-text-color: var(--stratoweave-paper);
+        --nav-text-color: var(--stratoweave-paper);
+        --primary-link-color: var(--stratoweave-cyan);
+        --secondary-color: var(--stratoweave-navy);
+        --secondary-color-accent: var(--stratoweave-ink-900);
+        --secondary-text-color: #a7b5d1;
+        --toc-highlight-text-color: var(--stratoweave-cyan);
+        --tertiary-color: #070f1d;
+        --panel-color: #0d1730;
+        --border-color: rgba(226, 232, 240, 0.14);
+        --chrome-color: #0b1424;
+        --code-color: #070f1d;
+        color-scheme: dark;
+    }
+</style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.stratoweave.org/normalize.css">
+    <link rel="stylesheet" href="https://www.stratoweave.org/juice.css">
+    
+    
+</head>
+
+<body class="home-page">
+    
+<aside class="announcements" aria-label="Announcements">
+    
+    <div class="announcement" data-announcement data-announcement-id="stratoweave-intro-webinar-sep-2026"
+        data-start-at=""
+        data-end-at="2026-09-30T23:59:59Z" hidden>
+        <a class="announcement__link" href="https://www.linkedin.com/events/7501707643640610816/">
+            <span class="announcement__label">Announcement</span>
+            <span class="announcement__text">Join the StratoWeave Introduction webinar hosted by the Linux Foundation on September 29, 2026.</span>
+            <span class="announcement__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <button class="announcement__close" type="button" aria-label="Dismiss announcement">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+</aside>
+<script>
+(function () {
+    var now = Date.now();
+
+    document.querySelectorAll('[data-announcement]').forEach(function (announcement) {
+        var id = announcement.getAttribute('data-announcement-id');
+        var startValue = announcement.getAttribute('data-start-at');
+        var endValue = announcement.getAttribute('data-end-at');
+        var startAt = startValue ? Date.parse(startValue) : null;
+        var endAt = endValue ? Date.parse(endValue) : null;
+        var storageKey = 'sw-announcement-dismissed-' + id;
+        var dismissed = false;
+
+        try { dismissed = localStorage.getItem(storageKey) === 'true'; } catch (error) {}
+
+        var validStart = !startValue || (!Number.isNaN(startAt) && now >= startAt);
+        var validEnd = !endValue || (!Number.isNaN(endAt) && now <= endAt);
+        if (dismissed || !validStart || !validEnd) return;
+
+        announcement.hidden = false;
+        announcement.querySelector('.announcement__close').addEventListener('click', function () {
+            announcement.hidden = true;
+            try { localStorage.setItem(storageKey, 'true'); } catch (error) {}
+        });
+    });
+})();
+</script>
+
+
+    <header class="site-header site-header--home">
+        
+<a class="site-logo" href="https://www.stratoweave.org">
+    <span class="brand-mark" aria-hidden="true">
+        <img src="https://www.stratoweave.org/stratoweave-logo.svg" alt="">
+    </span>
+</a>
+
+<!-- Keep navigation and its SVG icons out of Safari Reader's extracted content. -->
+<div class="site-nav-shell instapaper_ignore">
+    <button
+        class="site-nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav-primary"
+        aria-label="Toggle navigation menu"
+    >
+        <span class="site-nav-toggle__bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <nav id="site-nav-primary" class="site-nav instapaper_ignore" aria-label="Primary navigation">
+        <a class="nav-item" href="https://www.stratoweave.org/tutorials">Get Started</a>
+        <a class="nav-item" href="https://www.stratoweave.org/articles">Articles</a>
+        <a class="nav-item" href="https://stratoweave.guide" target="_blank" rel="noopener noreferrer">Documentation</a>
+        <div class="nav-group">
+            <a class="nav-item nav-item--group" href="https://www.stratoweave.org/community">Community</a>
+            <div class="nav-subnav">
+                <a class="nav-item nav-item--subnav" href="https://www.stratoweave.org/governance">Governance</a>
+            </div>
+        </div>
+        <a class="nav-item" href="https://www.stratoweave.org/partners">Partners</a>
+        <a
+            class="nav-item nav-item--icon"
+            href="https://github.com/stratoweave"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="StratoWeave on GitHub"
+            title="StratoWeave on GitHub"
+        >
+            <svg class="nav-icon" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                <path
+                    fill="currentColor"
+                    d="M12 0C5.372 0 0 5.373 0 12c0 5.302 3.438 9.8 8.206 11.387.6.11.82-.26.82-.577v-2.235c-3.338.726-4.042-1.415-4.042-1.415-.546-1.388-1.333-1.758-1.333-1.758-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.238 1.84 1.238 1.07 1.835 2.809 1.304 3.495.997.108-.775.418-1.304.762-1.603-2.665-.303-5.467-1.333-5.467-5.93 0-1.31.468-2.382 1.237-3.222-.124-.303-.536-1.524.117-3.176 0 0 1.008-.323 3.302 1.23A11.52 11.52 0 0 1 12 5.818c1.02.005 2.047.138 3.006.404 2.292-1.554 3.298-1.231 3.298-1.231.656 1.653.244 2.874.12 3.177.771.84 1.236 1.912 1.236 3.222 0 4.609-2.807 5.624-5.48 5.921.43.371.823 1.102.823 2.221v3.292c0 .319.216.694.825.576C20.565 21.798 24 17.302 24 12c0-6.627-5.373-12-12-12z"
+                />
+            </svg>
+        </a>
+    </nav>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".site-nav-shell").forEach(function (shell) {
+        const toggle = shell.querySelector(".site-nav-toggle");
+        const nav = shell.querySelector(".site-nav");
+
+        if (!toggle || !nav) {
+            return;
+        }
+
+        const mobileQuery = window.matchMedia("(max-width: 700px)");
+
+        function closeMenu() {
+            shell.classList.remove("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+
+        function syncMenuState() {
+            shell.classList.add("site-nav-shell--ready");
+
+            if (!mobileQuery.matches) {
+                closeMenu();
+            }
+        }
+
+        toggle.addEventListener("click", function () {
+            const isOpen = shell.classList.toggle("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!mobileQuery.matches || shell.contains(event.target)) {
+                return;
+            }
+
+            closeMenu();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+        });
+
+        if (typeof mobileQuery.addEventListener === "function") {
+            mobileQuery.addEventListener("change", syncMenuState);
+        } else {
+            mobileQuery.addListener(syncMenuState);
+        }
+
+        syncMenuState();
+    });
+});
+</script>
+
+    </header>
+
+    <main class="home home-shell">
+        <div class="home-partner">
+            <a class="hero-partner" href="https://lfnetworking.org/" aria-label="Linux Foundation Networking">
+                <span class="hero-partner__eyebrow">A Project of</span>
+                <img src="https://www.stratoweave.org/LFN-Logo-White.svg" alt="Linux Foundation Networking" loading="lazy">
+            </a>
+        </div>
+
+        <section class="hero-shell" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <h1 id="hero-title">Intent-based network orchestration, built to close the loop.</h1>
+                <p class="hero-tagline">Declarative configuration, YANG-modeled abstraction layers, and telemetry in one focused open-source platform.</p>
+                <p class="hero-lede">
+                    StratoWeave is a platform for robust network orchestration systems based on
+                    model-driven declarative transforms. Build automation that makes sense for your
+                    network with reactive closed loops and observability powered by streaming telemetry.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="https://www.stratoweave.org/tutorials/exploring-the-webui">Explore the live demo</a>
+                    <a class="button button-secondary" href="#architecture">Understand the tech</a>
+                    <a class="platform-link" href="https://github.com/stratoweave/stratoweave">View the source <span aria-hidden="true">↗</span></a>
+                </div>
+            </div>
+
+            <!-- Safari Reader honors instapaper_ignore: keep the layered animation out of extracted text. -->
+            <div class="hero-visual instapaper_ignore">
+                <article class="hero-panel hero-panel--lottie" aria-label="StratoWeave transform flow">
+                    <div class="hero-lottie__stage">
+                        <div class="hero-lottie__viewport instapaper_ignore">
+                            <div
+                                id="hero-lottie"
+                                class="hero-lottie__canvas"
+                                aria-hidden="true"
+                                data-animation-path="https://www.stratoweave.org/hero-transform-flow.json"
+                            ></div>
+                            <svg id="hero-telemetry" class="hero-telemetry" viewBox="0 0 720 720" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                                <path class="hero-telemetry__lane" data-duration="2360" data-phase="180" data-particles="3" d="M 181 157 C 166 128, 176 84, 224 50 C 236 42, 245 39, 251 39"></path>
+                                <path class="hero-telemetry__lane" data-duration="2580" data-phase="620" data-particles="3" d="M 360 157 C 344 124, 320 88, 286 60 C 272 48, 260 41, 251 39"></path>
+                                <path class="hero-telemetry__lane" data-duration="2520" data-phase="980" data-particles="3" d="M 360 157 C 376 124, 400 88, 434 60 C 448 48, 460 41, 469 39"></path>
+                                <path class="hero-telemetry__lane" data-duration="2400" data-phase="1380" data-particles="3" d="M 539 157 C 554 128, 544 84, 496 50 C 484 42, 475 39, 469 39"></path>
+                                <path class="hero-telemetry__lane hero-telemetry__lane--left" data-duration="2840" data-phase="0" d="M 168 652 C 168 624, 154 580, 162 532 C 172 476, 210 434, 252 410"></path>
+                                <path class="hero-telemetry__lane hero-telemetry__lane--center" data-duration="3040" data-phase="380" d="M 360 652 C 360 622, 352 578, 360 532 C 368 480, 388 438, 412 410"></path>
+                                <path class="hero-telemetry__lane hero-telemetry__lane--right" data-duration="2920" data-phase="760" d="M 552 652 C 552 624, 566 580, 558 532 C 548 476, 510 434, 468 410"></path>
+                                <g class="hero-telemetry__particles"></g>
+                            </svg>
+                            <div id="hero-sparkles" class="hero-sparkle" aria-hidden="true"></div>
+                            <div class="hero-lottie__sources" aria-label="Intent sources">
+                                <span class="hero-lottie__source--oss">OSS/BSS</span>
+                                <span class="hero-lottie__source--crm">Customer/CRM</span>
+                            </div>
+                            <div class="hero-lottie__orchestrator" aria-hidden="true"></div>
+                            <div class="hero-lottie__protocols" aria-label="Northbound intent interfaces">
+                                <span>NETCONF</span>
+                                <span>RESTCONF</span>
+                                <span>TMF640/641</span>
+                            </div>
+                            <div class="hero-lottie__layers" aria-hidden="true">
+                                <span class="hero-lottie__layer hero-lottie__layer--service">Service Layer</span>
+                                <div class="hero-lottie__service-cloud">
+                                    <span>L3VPN</span>
+                                    <span>L2VPN</span>
+                                    <span>Internet access</span>
+                                    <span>DCI</span>
+                                </div>
+                                <span class="hero-lottie__layer hero-lottie__layer--network">Network Layer</span>
+                                <div class="hero-lottie__network-cloud">
+                                    <span>PE Router</span>
+                                    <span>Access Switch</span>
+                                    <span>CPE Router</span>
+                                    <span>ROADM</span>
+                                </div>
+                                <span class="hero-lottie__layer hero-lottie__layer--device-krk">
+                                    IOS-XR<br>
+                                    NETCONF<br>
+                                    Adapter
+                                </span>
+                                <span class="hero-lottie__layer hero-lottie__layer--device-fra">
+                                    JunOS<br>
+                                    NETCONF<br>
+                                    Adapter
+                                </span>
+                                <span class="hero-lottie__layer hero-lottie__layer--device-sto">
+                                    IOS-XE<br>
+                                    CLI<br>
+                                    Adapter
+                                </span>
+                            </div>
+                            <div class="hero-lottie__router-labels" aria-hidden="true">
+                                <span>KRK Router</span>
+                                <span>FRA Router</span>
+                                <span>STO Router</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <div class="platform-story">
+    <section id="architecture" class="platform-section" aria-labelledby="architecture-title">
+        <div class="architecture-intro">
+            <h2 id="architecture-title">Reactive from<br> the ground up.</h2>
+            <div class="platform-copy">
+                <p>StratoWeave is purely reactive. Configuration changes from northbound APIs and streaming telemetry from devices are input events that drive the platform. Desired state and observed state meet in the same orchestration system.</p>
+                <p>Its design draws on functional programming and a decade of experience automating large IP networks: compose small transformations, make intent explicit, and respond when inputs change.</p>
+            </div>
+        </div>
+        <div class="transform-principles">
+            <article>
+                <h3>Declare the whole lifecycle</h3>
+                <p>A transform owns its configuration for as long as its intent exists. Describe the desired result; the platform handles updates and removal without separate create, update, and delete workflows.</p>
+            </article>
+            <article>
+                <h3>Compose layers of abstraction</h3>
+                <p>Turn a service order into network intent, then device configuration. Each layer hides implementation details, keeping service definitions stable across vendors and domains.</p>
+            </article>
+            <article>
+                <h3>Close the loop at any layer</h3>
+                <p>Transforms can subscribe to device or service state and expose their own operational view. Multi-stage transforms keep conditional procedures and migrations behind a declarative interface.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="ecosystem" class="platform-section" aria-labelledby="ecosystem-title">
+        <div class="platform-section-heading">
+            <h2 id="ecosystem-title">A complete ecosystem<br> for network orchestration.</h2>
+            <p>Shared YANG models connect service intent, execution, collection, observability, and operator interfaces. Develop, test, and operate your orchestration logic within one consistent system throughout the service lifecycle.</p>
+        </div>
+        <div class="ecosystem-columns">
+            <article>
+                <h3>Define your network in YANG</h3>
+                <p>Choose the service layers, models, and device types in your system specification. Use IETF or vendor models, and add abstractions that match how you operate.</p>
+            </article>
+            <article>
+                <h3>Catch errors before deployment</h3>
+                <p>YANG models become Acton types, so the compiler can catch data and type errors in your transforms. Test orchestration end to end with simulated devices and networks.</p>
+            </article>
+            <article>
+                <h3>Tools that understand your models</h3>
+                <p>Get code completion and error checking in VS Code through Acton’s language server. Use <a href="https://github.com/stratoweave/netclics">netclics</a> to convert existing CLI snippets into YANG-compliant Acton data for your transforms.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="integrations" class="platform-section" aria-labelledby="integrations-title">
+        <div class="platform-section-heading">
+            <h2 id="integrations-title">Any network, any device, any API.</h2>
+            <p>Connect the systems above your network to the infrastructure below it. Adapters keep service logic declarative while handling the details of each device, cloud service, or external API.</p>
+        </div>
+        <div class="integration-rows">
+            <article>
+                <h3>Northbound to your OSS/BSS</h3>
+                <p>Expose YANG-modeled services through NETCONF and RESTCONF. Map those models to TM Forum service catalogs, ordering, and activation interfaces.</p>
+                <ul class="protocol-list" aria-label="Northbound interfaces"><li>NETCONF</li><li>RESTCONF</li><li>TMF633 / 640 / 641</li></ul>
+            </article>
+            <article>
+                <h3>Southbound to your network</h3>
+                <p>Generate NETCONF adapters from device YANG modules. Extend the adapter framework for CLIs, REST APIs, and other interfaces, preserving a consistent contract for transforms. Adapters are developed and maintained in the open.</p>
+                <ul class="protocol-list" aria-label="Southbound adapter interfaces"><li>NETCONF</li><li>RESTCONF</li><li>gNMI</li><li>CLI</li><li>SNMP</li><li>REST APIs &amp; more</li></ul>
+            </article>
+        </div>
+    </section>
+
+    <section id="brownfield" class="platform-section brownfield-section" aria-labelledby="brownfield-title">
+        <div class="platform-copy">
+            <h2 id="brownfield-title">Bring your existing<br> network along.</h2>
+            <p>Decades of configuration do not disappear when you adopt automation. StratoWeave supports brownfield onboarding and gradual migration, alongside day-zero provisioning for new devices.</p>
+            <p>Start with a subset of services or devices. Keep existing scripts and OSS tools in use as you expand the platform’s ownership.</p>
+        </div>
+        <ul class="migration-steps">
+            <li><h3>Discover existing intent</h3><p>Read the running configuration and reconstruct the services that would produce it, working from device-facing layers upward.</p></li>
+            <li><h3>Validate in isolation</h3><p>Compare generated configuration with the existing network. Refine models and discovery logic before taking ownership.</p></li>
+            <li><h3>Adopt at your own pace</h3><p>Configuration attribution distinguishes transform-owned elements from manually managed or externally managed ones, so StratoWeave manages the lifecycle of its own configuration.</p></li>
+        </ul>
+    </section>
+
+    <section id="use-cases" class="platform-section" aria-labelledby="use-cases-title">
+        <div class="platform-section-heading">
+            <h2 id="use-cases-title">One architecture, multiple domains, many use cases.</h2>
+            <p>Build the models and transforms for your environment. The same layered, reactive architecture can support services that span technologies, vendors, and operational boundaries.</p>
+        </div>
+        <div class="use-case-grid">
+            <article><h3>IP &amp; optical transport</h3><p>Model backbone routers, links, and optical resources as a connected service-provider network. Coordinate changes across transport layers.</p></article>
+            <article><h3>L2 &amp; L3 VPN services</h3><p>Express customer connectivity as service intent. Decompose endpoints and policies into the configuration each participating device needs.</p></article>
+            <article><h3>Datacenter automation</h3><p>Bring fabric provisioning, tenant connectivity, and datacenter interconnect into one system, from device onboarding to service operations.</p></article>
+            <article><h3>Your next network domain</h3><p>Extend the ecosystem with models and adapters for cloud services, access networks, or your own APIs. Compose them with existing services.</p></article>
+        </div>
+    </section>
+
+    <section id="sorespo" class="platform-section sorespo-section" aria-labelledby="sorespo-title">
+        <div class="platform-split">
+            <div class="platform-copy">
+                <h2 id="sorespo-title">Explore a working<br> service-provider orchestrator.</h2>
+                <p>The <strong>Somewhat Realistic Service Provider Orchestrator</strong> is a complete, open-source reference implementation for IP transport and L3VPN orchestration.</p>
+                <p>Explore topology, service intent, configuration layers, and device changes. Then run the orchestrator against a Nokia SR Linux lab, modify its transforms, or fork it as the starting point for your own system.</p>
+                <div class="platform-actions">
+                    <a class="button button-primary" href="https://www.stratoweave.org/tutorials/exploring-the-webui">Explore the demo</a>
+                    <a class="platform-link" href="https://github.com/stratoweave/sorespo">View the source <span aria-hidden="true">↗</span></a>
+                </div>
+            </div>
+            <div class="sorespo-stack" aria-label="Reference implementation service decomposition">
+                <ol>
+                    <li><span>Service intent</span><strong>L3VPN service &amp; customer sites</strong></li>
+                    <li><span>Network abstraction</span><strong>Routers &amp; backbone links</strong></li>
+                    <li><span>Resource-facing services</span><strong>Interfaces, routing &amp; VPN configuration</strong></li>
+                    <li><span>Device configuration</span><strong>Vendor YANG models &amp; adapters</strong></li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section class="platform-section platform-community" aria-labelledby="community-title">
+        <div class="platform-copy">
+            <h2 id="community-title">Help build the open<br> orchestration platform.</h2>
+            <p>StratoWeave is a Linux Foundation Networking project, released under the BSD 3-Clause License. Contribute models, transforms, adapters, documentation, or experience from your network. Help shape the platform by putting it to work.</p>
+        </div>
+        <div class="platform-actions">
+            <a class="button button-primary" href="https://www.stratoweave.org/community">Join the community</a>
+            <a class="button button-secondary" href="https://github.com/stratoweave/stratoweave">Contribute on GitHub</a>
+        </div>
+    </section>
+</div>
+
+
+    </main>
+
+    <footer class="site-footer">
+        <small class="subtext">
+            Copyright © 2026 <a href="https://www.stratoweave.org">StratoWeave Project</a> © 2026 <a href="https://www.linuxfoundation.org/">The Linux Foundation®</a>. All rights reserved.
+        </small>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.getElementById("hero-lottie");
+            const telemetryLayer = document.getElementById("hero-telemetry");
+            const sparkleLayer = document.getElementById("hero-sparkles");
+
+            function createHeroTelemetry(root) {
+                if (!root) {
+                    return null;
+                }
+
+                const svgNamespace = "http://www.w3.org/2000/svg";
+                const particleHost = root.querySelector(".hero-telemetry__particles");
+                const lanePaths = Array.from(root.querySelectorAll(".hero-telemetry__lane"));
+                const particleCount = 4;
+                let animationFrameId = null;
+
+                if (!particleHost || lanePaths.length === 0) {
+                    return null;
+                }
+
+                function createSvgNode(tagName, attributes) {
+                    const node = document.createElementNS(svgNamespace, tagName);
+
+                    Object.keys(attributes).forEach(function (attributeName) {
+                        node.setAttribute(attributeName, attributes[attributeName]);
+                    });
+
+                    return node;
+                }
+
+                function createParticle() {
+                    const group = createSvgNode("g", { class: "hero-telemetry__particle" });
+                    group.appendChild(createSvgNode("ellipse", { class: "hero-telemetry__trail", cx: "-6.8", cy: "0", rx: "8.1", ry: "1.9" }));
+                    group.appendChild(createSvgNode("circle", { class: "hero-telemetry__glow", cx: "0", cy: "0", r: "5.1" }));
+                    group.appendChild(createSvgNode("circle", { class: "hero-telemetry__core", cx: "0", cy: "0", r: "1.9" }));
+                    particleHost.appendChild(group);
+
+                    return group;
+                }
+
+                function envelope(progress) {
+                    if (progress <= 0 || progress >= 1) {
+                        return 0;
+                    }
+
+                    if (progress < 0.1) {
+                        return progress / 0.1;
+                    }
+
+                    if (progress > 0.88) {
+                        return (1 - progress) / 0.12;
+                    }
+
+                    return 1;
+                }
+
+                function hideParticle(particle) {
+                    particle.style.opacity = "0";
+                }
+
+                function angleAt(path, distance, length) {
+                    const before = path.getPointAtLength(Math.max(distance - 4, 0));
+                    const after = path.getPointAtLength(Math.min(distance + 4, length));
+                    return Math.atan2(after.y - before.y, after.x - before.x) * 180 / Math.PI;
+                }
+
+                const lanes = lanePaths.map(function (path) {
+                    const duration = Number(path.dataset.duration) || 3000;
+                    const particleCount = Number(path.dataset.particles) || 4;
+                    return {
+                        path: path,
+                        length: path.getTotalLength(),
+                        duration: duration,
+                        phase: Number(path.dataset.phase) || 0,
+                        particles: Array.from({ length: particleCount }, function (_value, particleIndex) {
+                            return {
+                                element: createParticle(),
+                                offset: particleIndex * (duration / particleCount)
+                            };
+                        })
+                    };
+                });
+
+                function renderFrame(now) {
+                    lanes.forEach(function (lane, laneIndex) {
+                        lane.particles.forEach(function (particle, particleIndex) {
+                            let localTime = (now + lane.phase - particle.offset) % lane.duration;
+
+                            if (localTime < 0) {
+                                localTime += lane.duration;
+                            }
+
+                            const progress = localTime / lane.duration;
+                            const distance = lane.length * progress;
+                            const point = lane.path.getPointAtLength(distance);
+                            const angle = angleAt(lane.path, distance, lane.length);
+                            const opacity = envelope(progress) * (0.58 - particleIndex * 0.08);
+                            const scale = 0.94 + 0.08 * Math.sin((now + lane.phase + particleIndex * 120 + laneIndex * 160) / 240);
+
+                            particle.element.setAttribute(
+                                "transform",
+                                "translate(" + point.x.toFixed(2) + " " + point.y.toFixed(2) + ") rotate(" + angle.toFixed(2) + ") scale(" + scale.toFixed(3) + ")"
+                            );
+                            particle.element.style.opacity = opacity.toFixed(3);
+                        });
+                    });
+
+                    animationFrameId = window.requestAnimationFrame(renderFrame);
+                }
+
+                return {
+                    start: function () {
+                        if (animationFrameId !== null) {
+                            return;
+                        }
+
+                        animationFrameId = window.requestAnimationFrame(renderFrame);
+                    },
+                    stop: function () {
+                        if (animationFrameId !== null) {
+                            window.cancelAnimationFrame(animationFrameId);
+                            animationFrameId = null;
+                        }
+
+                        lanes.forEach(function (lane) {
+                            lane.particles.forEach(function (particle) {
+                                hideParticle(particle.element);
+                            });
+                        });
+                    }
+                };
+            }
+
+            function createHeroSparkles(root) {
+                if (!root) {
+                    return null;
+                }
+
+                const metrics = {
+                    sourceY: 39,
+                    protocolAlignY: 92,
+                    sources: [
+                        { x: 251, y: 39 },
+                        { x: 469, y: 39 }
+                    ],
+                    protocols: [
+                        { x: 181, y: 157 },
+                        { x: 360, y: 157 },
+                        { x: 539, y: 157 }
+                    ],
+                    service: { x: 360, y: 240 },
+                    network: { x: 360, y: 372 },
+                    devices: [
+                        { x: 168, y: 504, routerY: 652 },
+                        { x: 360, y: 504, routerY: 652 },
+                        { x: 552, y: 504, routerY: 652 }
+                    ]
+                };
+                const variations = [
+                    { source: 0, protocol: 0, targets: [0], offset: 0, trunkDuration: 2920, branchDuration: 1760 },
+                    { source: 1, protocol: 2, targets: [2], offset: 1340, trunkDuration: 3040, branchDuration: 1820 },
+                    { source: 0, protocol: 1, targets: [1], offset: 2740, trunkDuration: 2840, branchDuration: 1680 },
+                    { source: 1, protocol: 0, targets: [0, 1], offset: 4160, trunkDuration: 3160, branchDuration: 1880 },
+                    { source: 0, protocol: 2, targets: [1, 2], offset: 5600, trunkDuration: 3240, branchDuration: 1940 },
+                    { source: 1, protocol: 1, targets: [0, 2], offset: 7060, trunkDuration: 2960, branchDuration: 1840 },
+                    { source: 0, protocol: 0, targets: [0, 1, 2], offset: 8520, trunkDuration: 3360, branchDuration: 2040 },
+                    { source: 1, protocol: 2, targets: [2, 1], offset: 10000, trunkDuration: 3120, branchDuration: 1900 },
+                    { source: 0, protocol: 1, targets: [0, 2], offset: 11480, trunkDuration: 2880, branchDuration: 1800 },
+                    { source: 1, protocol: 0, targets: [1], offset: 12980, trunkDuration: 3000, branchDuration: 1720 },
+                    { source: 0, protocol: 2, targets: [0], offset: 14500, trunkDuration: 3200, branchDuration: 1840 },
+                    { source: 1, protocol: 1, targets: [1, 2, 0], offset: 16040, trunkDuration: 3320, branchDuration: 2080 }
+                ];
+                const cycleDuration = 20600;
+                const branchLead = 120;
+                const branchStagger = 140;
+                let animationFrameId = null;
+
+                function createParticle() {
+                    const group = document.createElement("span");
+                    group.className = "hero-sparkle__particle";
+                    group.innerHTML = ""
+                        + '<span class="hero-sparkle__glow"></span>'
+                        + '<span class="hero-sparkle__core"></span>'
+                        + '<span class="hero-sparkle__beam hero-sparkle__beam--horizontal"></span>'
+                        + '<span class="hero-sparkle__beam hero-sparkle__beam--vertical"></span>'
+                        + '<span class="hero-sparkle__beam hero-sparkle__beam--diag-a"></span>'
+                        + '<span class="hero-sparkle__beam hero-sparkle__beam--diag-b"></span>'
+                        + '<span class="hero-sparkle__hotspot"></span>';
+                    root.appendChild(group);
+
+                    return group;
+                }
+
+                function buildPath(points) {
+                    const segments = [];
+                    let total = 0;
+
+                    for (let index = 0; index < points.length - 1; index += 1) {
+                        const from = points[index];
+                        const to = points[index + 1];
+                        const length = Math.hypot(to.x - from.x, to.y - from.y);
+                        segments.push({ from: from, to: to, length: length });
+                        total += length;
+                    }
+
+                    return { points: points, segments: segments, total: total };
+                }
+
+                function pointAt(path, progress) {
+                    if (path.total === 0) {
+                        return path.points[0];
+                    }
+
+                    const targetDistance = path.total * Math.min(Math.max(progress, 0), 1);
+                    let traversed = 0;
+
+                    for (const segment of path.segments) {
+                        if (traversed + segment.length >= targetDistance) {
+                            const distanceInSegment = targetDistance - traversed;
+                            const ratio = segment.length === 0 ? 0 : distanceInSegment / segment.length;
+                            return {
+                                x: segment.from.x + (segment.to.x - segment.from.x) * ratio,
+                                y: segment.from.y + (segment.to.y - segment.from.y) * ratio
+                            };
+                        }
+
+                        traversed += segment.length;
+                    }
+
+                    return path.points[path.points.length - 1];
+                }
+
+                function envelope(progress) {
+                    if (progress <= 0 || progress >= 1) {
+                        return 0;
+                    }
+
+                    if (progress < 0.12) {
+                        return progress / 0.12;
+                    }
+
+                    if (progress > 0.84) {
+                        return (1 - progress) / 0.16;
+                    }
+
+                    return 1;
+                }
+
+                function getLayout() {
+                    const rect = root.getBoundingClientRect();
+                    const size = Math.min(rect.width, rect.height);
+
+                    return {
+                        offsetX: (rect.width - size) / 2,
+                        offsetY: (rect.height - size) / 2,
+                        scale: size / 720
+                    };
+                }
+
+                function hideParticle(group) {
+                    group.style.opacity = "0";
+                }
+
+                function renderParticle(group, path, progress, elapsed, scaleBase, layout) {
+                    const point = pointAt(path, progress);
+                    const opacity = envelope(progress);
+                    const pulse = 1 + 0.04 * Math.sin(elapsed / 170);
+                    const scale = layout.scale * scaleBase * pulse;
+                    const x = layout.offsetX + point.x * layout.scale;
+                    const y = layout.offsetY + point.y * layout.scale;
+
+                    group.style.transform = "translate(" + x.toFixed(2) + "px, " + y.toFixed(2) + "px) translate(-50%, -50%) scale(" + scale.toFixed(3) + ")";
+                    group.style.opacity = opacity.toFixed(3);
+                }
+
+                const transactions = variations.map(function (variation) {
+                    const trunkPath = buildPath([
+                        metrics.sources[variation.source],
+                        { x: metrics.sources[variation.source].x, y: metrics.protocolAlignY },
+                        { x: metrics.protocols[variation.protocol].x, y: metrics.protocolAlignY },
+                        metrics.protocols[variation.protocol],
+                        metrics.service,
+                        metrics.network
+                    ]);
+                    const branchPaths = variation.targets.map(function (targetIndex) {
+                        return buildPath([
+                            metrics.network,
+                            { x: metrics.devices[targetIndex].x, y: metrics.network.y },
+                            { x: metrics.devices[targetIndex].x, y: metrics.devices[targetIndex].y },
+                            { x: metrics.devices[targetIndex].x, y: metrics.devices[targetIndex].routerY }
+                        ]);
+                    });
+
+                    return {
+                        variation: variation,
+                        trunkPath: trunkPath,
+                        branchPaths: branchPaths,
+                        trunkParticle: createParticle(),
+                        branchParticles: branchPaths.map(function () {
+                            return createParticle();
+                        })
+                    };
+                });
+
+                function renderFrame(now) {
+                    const layout = getLayout();
+
+                    transactions.forEach(function (transaction) {
+                        const variation = transaction.variation;
+                        let localTime = (now - variation.offset) % cycleDuration;
+
+                        if (localTime < 0) {
+                            localTime += cycleDuration;
+                        }
+
+                        if (localTime <= variation.trunkDuration) {
+                            renderParticle(
+                                transaction.trunkParticle,
+                                transaction.trunkPath,
+                                localTime / variation.trunkDuration,
+                                localTime,
+                                0.78,
+                                layout
+                            );
+                        } else {
+                            hideParticle(transaction.trunkParticle);
+                        }
+
+                        transaction.branchParticles.forEach(function (particle, index) {
+                            const branchStart = variation.trunkDuration - branchLead + index * branchStagger;
+                            const branchEnd = branchStart + variation.branchDuration;
+
+                            if (localTime >= branchStart && localTime <= branchEnd) {
+                                const branchElapsed = localTime - branchStart;
+                                renderParticle(
+                                    particle,
+                                    transaction.branchPaths[index],
+                                    branchElapsed / variation.branchDuration,
+                                    branchElapsed,
+                                    0.72 - index * 0.04,
+                                    layout
+                                );
+                            } else {
+                                hideParticle(particle);
+                            }
+                        });
+                    });
+
+                    animationFrameId = window.requestAnimationFrame(renderFrame);
+                }
+
+                return {
+                    start: function () {
+                        if (animationFrameId !== null) {
+                            return;
+                        }
+
+                        animationFrameId = window.requestAnimationFrame(renderFrame);
+                    },
+                    stop: function () {
+                        if (animationFrameId !== null) {
+                            window.cancelAnimationFrame(animationFrameId);
+                            animationFrameId = null;
+                        }
+
+                        transactions.forEach(function (transaction) {
+                            hideParticle(transaction.trunkParticle);
+                            transaction.branchParticles.forEach(hideParticle);
+                        });
+                    }
+                };
+            }
+
+            if (!container || !window.lottie) {
+                return;
+            }
+
+            const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            const telemetryController = createHeroTelemetry(telemetryLayer);
+            const sparkleController = createHeroSparkles(sparkleLayer);
+            const animation = window.lottie.loadAnimation({
+                container,
+                renderer: "svg",
+                loop: !reduceMotion,
+                autoplay: !reduceMotion,
+                path: container.dataset.animationPath,
+                rendererSettings: {
+                    preserveAspectRatio: "xMidYMid meet"
+                }
+            });
+
+            if (reduceMotion) {
+                if (telemetryController) {
+                    telemetryController.stop();
+                }
+
+                if (sparkleController) {
+                    sparkleController.stop();
+                }
+
+                animation.addEventListener("DOMLoaded", function () {
+                    animation.goToAndStop(72, true);
+                });
+                return;
+            }
+
+            animation.setSpeed(0.85);
+
+            if (telemetryController) {
+                telemetryController.start();
+            }
+
+            if (sparkleController) {
+                sparkleController.start();
+            }
+        });
+    </script>
+</body>
+
+</html>
