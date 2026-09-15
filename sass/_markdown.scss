@@ -60,11 +60,8 @@
   margin: 1.75rem auto 2.25rem;
   padding: clamp(0.9rem, 2vw, 1.4rem);
   border: 1px solid rgba(226, 232, 240, 0.12);
-  border-radius: 1.4rem;
-  background:
-    radial-gradient(circle at top right, rgba(34, 211, 238, 0.1), transparent 14rem),
-    linear-gradient(180deg, rgba(13, 23, 48, 0.72), rgba(8, 16, 32, 0.94));
-  box-shadow: 0 24px 58px rgba(0, 0, 0, 0.22);
+  border-radius: 0.75rem;
+  background: var(--panel-color);
   overflow: hidden;
 }
 

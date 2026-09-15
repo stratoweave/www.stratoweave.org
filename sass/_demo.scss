@@ -8,10 +8,8 @@
   margin: 1.5rem 0 2rem;
   padding: 1.1rem 1.25rem;
   border: 1px solid var(--border-color);
-  border-radius: 1.2rem;
-  background:
-    radial-gradient(circle at top right, rgba(34, 211, 238, 0.08), transparent 16rem),
-    var(--panel-color);
+  border-radius: 0.5rem;
+  background: var(--panel-color);
 }
 
 .demo-cta__note {
@@ -27,7 +25,7 @@
 }
 
 .content .demo-cta a.button-primary {
-  color: #04101f;
+  color: var(--stratoweave-paper);
 }
 
 @media screen and (max-width: 700px) {

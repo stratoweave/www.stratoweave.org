@@ -50,9 +50,7 @@ html[data-pf="codespaces"] .pf-block[data-pf~="codespaces"] {
   padding: 0.85rem 1rem;
   border: 1px solid var(--border-color);
   border-radius: 1rem;
-  background:
-    radial-gradient(circle at top right, rgba(34, 211, 238, 0.08), transparent 16rem),
-    var(--panel-color);
+  background: var(--panel-color);
 }
 
 .pf-picker__label {
