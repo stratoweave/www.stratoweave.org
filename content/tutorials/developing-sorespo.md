@@ -239,7 +239,7 @@ Open `sorespo/src/sorespo/rfs.act` in your favorite editor and find the
 following section of the code:
 
 {% raw %}
-```python
+```acton
 class VrfInterface(base.VrfInterface):
     def transform(self, i, di):
         ...
@@ -423,7 +423,7 @@ Modify the YANG module to add in the `mtu` leaf:
 Open `sorespo/src/sorespo/inter.act` in your favorite editor and find the
 following section of the code:
 
-```python
+```acton
 ...
 class L3Vpn(base.L3Vpn):
     def transform(self, i):
