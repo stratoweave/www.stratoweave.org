@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Declarative all the way down: How StratoWeave transforms handle change | StratoWeave</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Follow an iBGP full mesh from network intent to vendor configuration and see how in StratoWeave service developers don&#39;t need separate update or delete procedures.">
+    
+    <link rel="icon" href="https://www.stratoweave.org/favicon.svg">
+    
+    <style>
+    :root {
+        --stratoweave-navy: #081020;
+        --stratoweave-blue: #2563eb;
+        --stratoweave-cyan: #22d3ee;
+        --stratoweave-violet: #8b5cf6;
+        --stratoweave-fuchsia: #a855f7;
+        --stratoweave-slate: #64748b;
+        --stratoweave-mist: #e2e8f0;
+        --stratoweave-ink-900: #0d1730;
+        --stratoweave-ink-800: #16223f;
+        --stratoweave-ink-700: #233456;
+        --stratoweave-ink-500: #7d8cac;
+        --stratoweave-ink-300: #c7d1e4;
+        --stratoweave-paper: #f8fbff;
+
+        --primary-color: var(--stratoweave-blue);
+        --primary-color-touch: var(--stratoweave-cyan);
+        --primary-text-color: var(--stratoweave-paper);
+        --primary-hero-text-color: var(--stratoweave-paper);
+        --nav-text-color: var(--stratoweave-paper);
+        --primary-link-color: var(--stratoweave-cyan);
+        --secondary-color: var(--stratoweave-navy);
+        --secondary-color-accent: var(--stratoweave-ink-900);
+        --secondary-text-color: #a7b5d1;
+        --toc-highlight-text-color: var(--stratoweave-cyan);
+        --tertiary-color: #070f1d;
+        --panel-color: #0d1730;
+        --border-color: rgba(226, 232, 240, 0.14);
+        --chrome-color: #0b1424;
+        --code-color: #070f1d;
+        color-scheme: dark;
+    }
+</style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.stratoweave.org/normalize.css">
+    <link rel="stylesheet" href="https://www.stratoweave.org/juice.css">
+    
+
+
+<link rel="canonical" href="https://www.stratoweave.org/articles/declarative-all-the-way-down/">
+<meta name="author" content="Kris Lambrechts">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Declarative all the way down: How StratoWeave transforms handle change">
+<meta property="og:description" content="Follow an iBGP full mesh from network intent to vendor configuration and see how in StratoWeave service developers don&#39;t need separate update or delete procedures.">
+<meta property="og:url" content="https://www.stratoweave.org/articles/declarative-all-the-way-down/">
+<meta property="og:site_name" content="StratoWeave">
+<meta property="og:image" content="https://www.stratoweave.org/images/articles/declarative-transforms/declarative-all-the-way-down.png">
+<meta property="og:image:alt" content="Three blue nesting dolls reveal successively smaller dolls, each bearing the same braces symbol, beneath the headline Declarative all the way down.">
+<meta property="article:published_time" content="2026-09-22">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Declarative all the way down: How StratoWeave transforms handle change">
+<meta name="twitter:description" content="Follow an iBGP full mesh from network intent to vendor configuration and see how in StratoWeave service developers don&#39;t need separate update or delete procedures.">
+<meta name="twitter:image" content="https://www.stratoweave.org/images/articles/declarative-transforms/declarative-all-the-way-down.png">
+
+</head>
+
+<body class="site-page">
+    
+<aside class="announcements" aria-label="Announcements">
+    
+    <div class="announcement" data-announcement data-announcement-id="stratoweave-intro-webinar-sep-2026"
+        data-start-at=""
+        data-end-at="2026-09-30T23:59:59Z" hidden>
+        <a class="announcement__link" href="https://www.linkedin.com/events/7501707643640610816/">
+            <span class="announcement__label">Announcement</span>
+            <span class="announcement__text">Join the StratoWeave Introduction webinar hosted by the Linux Foundation on September 29, 2026.</span>
+            <span class="announcement__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <button class="announcement__close" type="button" aria-label="Dismiss announcement">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+</aside>
+<script>
+(function () {
+    var now = Date.now();
+
+    document.querySelectorAll('[data-announcement]').forEach(function (announcement) {
+        var id = announcement.getAttribute('data-announcement-id');
+        var startValue = announcement.getAttribute('data-start-at');
+        var endValue = announcement.getAttribute('data-end-at');
+        var startAt = startValue ? Date.parse(startValue) : null;
+        var endAt = endValue ? Date.parse(endValue) : null;
+        var storageKey = 'sw-announcement-dismissed-' + id;
+        var dismissed = false;
+
+        try { dismissed = localStorage.getItem(storageKey) === 'true'; } catch (error) {}
+
+        var validStart = !startValue || (!Number.isNaN(startAt) && now >= startAt);
+        var validEnd = !endValue || (!Number.isNaN(endAt) && now <= endAt);
+        if (dismissed || !validStart || !validEnd) return;
+
+        announcement.hidden = false;
+        announcement.querySelector('.announcement__close').addEventListener('click', function () {
+            announcement.hidden = true;
+            try { localStorage.setItem(storageKey, 'true'); } catch (error) {}
+        });
+    });
+})();
+</script>
+
+
+    
+
+    <header class="site-header">
+        
+<a class="site-logo" href="https://www.stratoweave.org">
+    <span class="brand-mark" aria-hidden="true">
+        <img src="https://www.stratoweave.org/stratoweave-logo.svg" alt="">
+    </span>
+</a>
+
+<!-- Keep navigation and its SVG icons out of Safari Reader's extracted content. -->
+<div class="site-nav-shell instapaper_ignore">
+    <button
+        class="site-nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav-primary"
+        aria-label="Toggle navigation menu"
+    >
+        <span class="site-nav-toggle__bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <nav id="site-nav-primary" class="site-nav instapaper_ignore" aria-label="Primary navigation">
+        <a class="nav-item" href="https://www.stratoweave.org/tutorials">Get Started</a>
+        <a class="nav-item" href="https://www.stratoweave.org/articles">Articles</a>
+        <a class="nav-item" href="https://stratoweave.guide" target="_blank" rel="noopener noreferrer">Documentation</a>
+        <div class="nav-group">
+            <a class="nav-item nav-item--group" href="https://www.stratoweave.org/community">Community</a>
+            <div class="nav-subnav">
+                <a class="nav-item nav-item--subnav" href="https://www.stratoweave.org/governance">Governance</a>
+            </div>
+        </div>
+        <a class="nav-item" href="https://www.stratoweave.org/partners">Partners</a>
+        <a
+            class="nav-item nav-item--icon"
+            href="https://github.com/stratoweave"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="StratoWeave on GitHub"
+            title="StratoWeave on GitHub"
+        >
+            <svg class="nav-icon" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                <path
+                    fill="currentColor"
+                    d="M12 0C5.372 0 0 5.373 0 12c0 5.302 3.438 9.8 8.206 11.387.6.11.82-.26.82-.577v-2.235c-3.338.726-4.042-1.415-4.042-1.415-.546-1.388-1.333-1.758-1.333-1.758-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.238 1.84 1.238 1.07 1.835 2.809 1.304 3.495.997.108-.775.418-1.304.762-1.603-2.665-.303-5.467-1.333-5.467-5.93 0-1.31.468-2.382 1.237-3.222-.124-.303-.536-1.524.117-3.176 0 0 1.008-.323 3.302 1.23A11.52 11.52 0 0 1 12 5.818c1.02.005 2.047.138 3.006.404 2.292-1.554 3.298-1.231 3.298-1.231.656 1.653.244 2.874.12 3.177.771.84 1.236 1.912 1.236 3.222 0 4.609-2.807 5.624-5.48 5.921.43.371.823 1.102.823 2.221v3.292c0 .319.216.694.825.576C20.565 21.798 24 17.302 24 12c0-6.627-5.373-12-12-12z"
+                />
+            </svg>
+        </a>
+    </nav>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".site-nav-shell").forEach(function (shell) {
+        const toggle = shell.querySelector(".site-nav-toggle");
+        const nav = shell.querySelector(".site-nav");
+
+        if (!toggle || !nav) {
+            return;
+        }
+
+        const mobileQuery = window.matchMedia("(max-width: 700px)");
+
+        function closeMenu() {
+            shell.classList.remove("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+
+        function syncMenuState() {
+            shell.classList.add("site-nav-shell--ready");
+
+            if (!mobileQuery.matches) {
+                closeMenu();
+            }
+        }
+
+        toggle.addEventListener("click", function () {
+            const isOpen = shell.classList.toggle("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!mobileQuery.matches || shell.contains(event.target)) {
+                return;
+            }
+
+            closeMenu();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+        });
+
+        if (typeof mobileQuery.addEventListener === "function") {
+            mobileQuery.addEventListener("change", syncMenuState);
+        } else {
+            mobileQuery.addListener(syncMenuState);
+        }
+
+        syncMenuState();
+    });
+});
+</script>
+
+    </header>
+    
+
+    <main class="page-shell page-shell--article">
+        
+
+        <div class="content text">
+            
+
+
+<article class="editorial">
+  <div class="article-heading">
+    <h1>Declarative all the way down: How StratoWeave transforms handle change</h1>
+    <p class="article-deck">Follow an iBGP full mesh from network intent to vendor configuration and see how in StratoWeave service developers don&#39;t need separate update or delete procedures.</p>
+    <div class="article-byline">
+      <img src="https://www.stratoweave.org/images/authors/kris-lambrechts.jpeg" alt="" width="48" height="48">
+      <div><a href="#about-the-author" rel="author">Kris Lambrechts</a> <span>· Intwine</span>
+        <p class="article-meta"><time datetime="2026-09-22">22 September 2026</time><span>7 min read</span></p>
+      </div>
+    </div>
+  </div>
+  <nav class="article-toc" aria-label="In this article">
+    <details open>
+      <summary>In this article</summary>
+      <ol><li><a href="https://www.stratoweave.org/articles/declarative-all-the-way-down/#a-transform-describes-its-desired-contribution">A transform describes its desired contribution</a></li><li><a href="https://www.stratoweave.org/articles/declarative-all-the-way-down/#each-router-adds-itself-to-the-ibgp-full-mesh">Each router adds itself to the iBGP full mesh</a></li><li><a href="https://www.stratoweave.org/articles/declarative-all-the-way-down/#from-a-full-mesh-to-individual-ibgp-neighbors">From a full mesh to individual iBGP neighbors</a></li><li><a href="https://www.stratoweave.org/articles/declarative-all-the-way-down/#mapping-to-vendor-specific-configuration-still-declaratively">Mapping to vendor-specific configuration, still declaratively</a></li><li><a href="https://www.stratoweave.org/articles/declarative-all-the-way-down/#change-the-intent-reuse-the-mapping">Change the intent, reuse the mapping</a></li><li><a href="https://www.stratoweave.org/articles/declarative-all-the-way-down/#how-the-platform-handles-updates-and-deletion">How the platform handles updates and deletion</a></li><li><a href="https://www.stratoweave.org/articles/declarative-all-the-way-down/#where-device-operations-happen">Where device operations happen</a></li><li><a href="https://www.stratoweave.org/articles/declarative-all-the-way-down/#one-development-model-across-the-layers">One development model across the layers</a></li></ol>
+    </details>
+  </nav>
+  <div class="article-body"><p>When you write a StratoWeave transform, you describe what should exist. You map the current input into the desired configuration at the next layer. When that input changes, you describe what should exist now. You don't write a second implementation for updates or a third one to undo your work.</p>
+<p>That's already quite something at the service layer. It becomes all the more interesting when the same approach continues all the way down to vendor-specific configuration. StratoWeave is a platform for building orchestration systems around these layered, model-driven transforms. At every modeled layer, the service developer works with the same contract: produce the desired output, and let the platform handle the transition.</p>
+<p>Think of a set of nesting dolls. Open one layer and you find another, with the same principle inside. Let's follow an iBGP full mesh through those layers, from network intent to individual neighbors and finally to vendor-specific device configuration.</p>
+<figure class="article-figure">
+  <img src="https://www.stratoweave.org/images/articles/declarative-transforms/declarative-all-the-way-down.png" alt="Three blue nesting dolls reveal successively smaller dolls, each marked with braces to represent the same declarative contract at every layer." width="1536" height="1024" loading="lazy">
+  <figcaption>Different models at each layer. The same declarative contract throughout: describe what should exist.</figcaption>
+</figure>
+<h2 id="a-transform-describes-its-desired-contribution">A transform describes its desired contribution</h2>
+<p>A <a rel="external" href="https://stratoweave.guide/developer/transforms/">transform function</a> receives input typed according to a YANG model and returns output typed for the layer below. The output describes that transform's contribution to the desired state. Other transforms can contribute to the same layer too.</p>
+<p>The transform function can iterate over input, calculate values, and perform resource allocations (e.g. IP addresses, VLAN IDs). It must return a desired configuration tree. It doesn't send commands to devices or compare its output with the previous version. The transaction engine takes care of that comparison.</p>
+<p>In the code snippets, you'll see methods named <code>.create()</code>. <strong>Here, <code>.create()</code> builds an entry in the output tree; it does not issue a create operation to a device.</strong> A transform starts with a fresh output tree and constructs what it wants to contribute, whether its input is new or has changed for the tenth time.</p>
+<p>The following snippets are Acton code from <a rel="external" href="https://github.com/stratoweave/sorespo">SORESPO</a>, our reference implementation of a Service Provider Orchestration system.</p>
+<h2 id="each-router-adds-itself-to-the-ibgp-full-mesh">Each router adds itself to the iBGP full mesh</h2>
+<p>SORESPO's customer-facing router model contains information such as the router's identity and autonomous system number. Its <a rel="external" href="https://github.com/stratoweave/sorespo/blob/main/src/sorespo/cfs.act">router transform</a> derives loopback addresses and contributes the router to an intermediate iBGP full-mesh model.</p>
+<p><code>o_router</code> in this transform function represents the output router on the layer below.</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="Acton"><span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">class</span><span style="color: light-dark(#6F42C1, #B392F0);"> Router</span><span>(base.Router):</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">    def</span><span style="color: light-dark(#6F42C1, #B392F0);"> transform</span><span>(self, i, linked):</span></span>
+<span class="giallo-l"><span>        o = base.o_root()</span></span>
+<span class="giallo-l"><span>        o_router = o.netinfra.router.create(i.name, id=i.id, type=i.type, role=i.role)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>        bc = o_router.base_config</span></span>
+<span class="giallo-l"><span>        bc.ipv4_address = </span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">10.0.0.{i.id}</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span></span>
+<span class="giallo-l"><span>        bc.ipv6_address = </span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">2001:db8:0:0::{i.id}</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span></span>
+<span class="giallo-l"><span>        bc.asn = i.asn</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>        gs = y_0.root.from_gdata(linked).netinfra.global_settings</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>        fm = o.netinfra.ibgp_fullmesh.create(i.asn, gs.ibgp_authentication_key)</span></span>
+<span class="giallo-l"><span>        fm.router.create(i.name, bc.ipv4_address)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">        return</span><span> o</span></span></code></pre>
+<p>The full mesh is keyed by autonomous system number. Routers in the same AS all add themselves to the mesh. The authentication key comes from  a linked input which containes all the global settings for the network.</p>
+<p>At this layer, the developer specifies a router's membership and peering address. The next layer owns the rule that turns those members into individual neighbors. This separation lets the router transform stay focused on what one router contributes to the network model.</p>
+<h2 id="from-a-full-mesh-to-individual-ibgp-neighbors">From a full mesh to individual iBGP neighbors</h2>
+<p>Open the next layer and we find the <a rel="external" href="https://github.com/stratoweave/sorespo/blob/main/src/sorespo/inter.act">intermediate full-mesh transform</a>. Its domain rule is straightforward: every router peers with every other router.</p>
+<p>The transform expresses that rule directly:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="Acton"><span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">class</span><span style="color: light-dark(#6F42C1, #B392F0);"> IbgpFullmesh</span><span>(base.IbgpFullmesh):</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">    def</span><span style="color: light-dark(#6F42C1, #B392F0);"> transform</span><span>(self, i):</span></span>
+<span class="giallo-l"><span>        o = base.o_root()</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">        for</span><span> ra </span><span style="color: light-dark(#D73A49, #F97583);">in</span><span> i.router:</span></span>
+<span class="giallo-l"><span>            rfs = o.rfs.create(ra.name)</span></span>
+<span class="giallo-l"><span>            rfs.base_config.ibgp_authentication_key = i.authentication_key</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">            for</span><span> rb </span><span style="color: light-dark(#D73A49, #F97583);">in</span><span> i.router:</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">                if</span><span> ra.name </span><span style="color: light-dark(#D73A49, #F97583);">==</span><span> rb.name:</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">                    continue</span></span>
+<span class="giallo-l"><span>                rfs.ibgp_neighbor.create(</span></span>
+<span class="giallo-l"><span>                    rb.ipv4_address,</span></span>
+<span class="giallo-l"><span>                    asn=i.asn,</span></span>
+<span class="giallo-l"><span>                    description=rb.name,</span></span>
+<span class="giallo-l"><span>                    ibgp_authentication_key=i.authentication_key</span></span>
+<span class="giallo-l"><span>                )</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">        return</span><span> o</span></span></code></pre>
+<p>For each router in the network, <code>ra</code>, the transform produces a resource-facing service (RFS) neighbor entry for each other router, <code>rb</code>. The iBGP neighbor model is vendor neutral and carries all necessary information down.</p>
+<p>There are loops and a conditional here. Declarative development still contains domain logic! Those statements calculate the desired neighbor set. They don't classify the request as a create, update, or delete, or prescribe the sequence of device operations needed to reach it.</p>
+<p>For a mesh containing A, B, and C, the output would contain six neighbor entries: A points to B and C, B points to A and C, and C points to A and B.</p>
+<h2 id="mapping-to-vendor-specific-configuration-still-declaratively">Mapping to vendor-specific configuration, still declaratively</h2>
+<p>Each generated neighbor becomes input to SORESPO's <a rel="external" href="https://github.com/stratoweave/sorespo/blob/main/src/sorespo/rfs.act">RFS neighbor transform</a>. This transform receives both the neighbor intent, <code>i</code>, and device information, <code>di</code>. The device's advertised modules determine which configuration model to use.</p>
+<p>The Cisco IOS XR branch constructs a neighbor under the appropriate BGP autonomous system:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="Acton"><span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">if</span><span style="color: light-dark(#032F62, #9ECBFF);"> &quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">Cisco-IOS-XR-um-hostname-cfg</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#D73A49, #F97583);"> in</span><span> di.modules:</span></span>
+<span class="giallo-l"><span>    dev = xr25.root()</span></span>
+<span class="giallo-l"><span>    bgp_as = dev.um_router_bgp_cfg_router.bgp.as_.create(i.asn)</span></span>
+<span class="giallo-l"><span>    nb = bgp_as.neighbors.neighbor.create(</span></span>
+<span class="giallo-l"><span>        i.address, description=i.description</span></span>
+<span class="giallo-l"><span>    )</span></span>
+<span class="giallo-l"><span>    nb.use.neighbor_group = </span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">IPV4-IBGP</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">    return</span><span> dev</span></span></code></pre>
+<p>The Junos branch constructs the equivalent neighbor under a BGP group:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="Acton"><span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">elif</span><span style="color: light-dark(#032F62, #9ECBFF);"> &quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">http://xml.juniper.net/netconf/junos/1.0</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#D73A49, #F97583);"> in</span><span> di.modules </span><span style="color: light-dark(#D73A49, #F97583);">or</span><span style="color: light-dark(#032F62, #9ECBFF);"> &quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">junos-conf-root</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#D73A49, #F97583);"> in</span><span> di.modules:</span></span>
+<span class="giallo-l"><span>    dev = crpd24.root()</span></span>
+<span class="giallo-l"><span>    bgp = dev.configuration.protocols.bgp</span></span>
+<span class="giallo-l"><span>    g = bgp.group.create(</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span style="color: light-dark(#032F62, #9ECBFF);">IPV4-IBGP</span><span style="color: light-dark(#032F62, #9ECBFF);">&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>    g.neighbor.create(i.address, description=i.description)</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">    return</span><span> dev</span></span></code></pre>
+<p>The implementation also includes a Nokia SR Linux branch. Other transforms contribute the surrounding base configuration, including the shared BGP group settings.</p>
+<p>The configuration structure changes between vendors, but the developer's contract stays familiar. Build a modeled output tree and return it. Even here, at the vendor-specific boundary, there is no separate neighbor-update method or neighbor-delete method to implement.</p>
+<h2 id="change-the-intent-reuse-the-mapping">Change the intent, reuse the mapping</h2>
+<p>Now let's change the mesh. The same transform functions handle each case:</p>
+<div class="article-table" role="region" aria-label="Intent changes and their desired configuration consequences" tabindex="0">
+<table><thead><tr><th style="text-align: left">Intent change</th><th style="text-align: left">What the desired output now contains</th></tr></thead><tbody>
+<tr><td style="text-align: left">Add C to a mesh containing A and B</td><td style="text-align: left">The existing A–B entries, plus neighbor entries between C and each existing member, in both directions.</td></tr>
+<tr><td style="text-align: left">Change C's peering address</td><td style="text-align: left">Neighbor entries on A and B referencing C's new address; the old address is absent from those contributions.</td></tr>
+<tr><td style="text-align: left">Remove C's membership from the mesh</td><td style="text-align: left">Only the A–B entries. The mesh no longer contributes neighbors to or from C.</td></tr>
+</tbody></table>
+</div>
+<p>Notice what the developer didn't have to supply: a procedure that searches for C's old neighbors and removes them. They simply stop appearing in the output of the full-mesh mapping.</p>
+<p>That absence has a precise meaning. The output represents the transform's current desired contribution, so anything it previously contributed but no longer returns must be withdrawn. It doesn't mean that configuration belonging to another source should disappear too.</p>
+<p>This is why contribution tracking matters. Several transforms can contribute to a shared object. Removing one source withdraws its contribution while allowing compatible contributions from other sources to remain. The unit of reasoning is what each transform owns, rather than a blanket instruction to delete a shared container.</p>
+<h2 id="how-the-platform-handles-updates-and-deletion">How the platform handles updates and deletion</h2>
+<p>The transaction engine retains a transform's previous output, computes its new output, and passes the difference to the next layer under that transform's source identity. The essential lines in the <a rel="external" href="https://github.com/stratoweave/stratoweave/blob/main/src/ttt.act">engine implementation</a> are:</p>
+<pre class="giallo" style="color-scheme: light dark; color: light-dark(#24292E, #E1E4E8); background-color: light-dark(#FFFFFF, #24292E);" ><code data-lang="Acton"><span class="giallo-l"><span>res = difference(self.output, newout)</span></span>
+<span class="giallo-l"><span style="color: light-dark(#D73A49, #F97583);">if</span><span> out </span><span style="color: light-dark(#D73A49, #F97583);">is not</span><span style="color: light-dark(#005CC5, #79B8FF);"> None</span><span style="color: light-dark(#D73A49, #F97583);"> and</span><span> res </span><span style="color: light-dark(#D73A49, #F97583);">is not</span><span style="color: light-dark(#005CC5, #79B8FF);"> None</span><span>:</span></span>
+<span class="giallo-l"><span>    out.configure(tid, {self.me: res})</span></span></code></pre>
+<p>The lower layer applies those contributions and recomputes affected transforms. That repeats through the stack until the desired vendor configuration has been derived. RFS transforms use the same output-diffing principle when passing their device configuration contribution downward.</p>
+<p>There is also an important special case: a transform's input can disappear entirely. The engine then clears its contribution by comparing the previous output with an empty output tree. It doesn't call a service-specific delete function and ask the developer to reconstruct everything the transform used to produce.</p>
+<p>This explains both kinds of removal: an entry disappears from a still-active transform's output, or the entire transform instance loses its input. <strong>The developer writes the mapping once; changes and removals follow from what that mapping now produces, or from its contribution being withdrawn.</strong></p>
+<h2 id="where-device-operations-happen">Where device operations happen</h2>
+<p>The modeled layers eventually produce target device configuration. StratoWeave's device manager holds that target alongside the running configuration it knows for the device. It computes the changes and hands the work to the southbound adapter, which implements the device-facing operations.</p>
+<p>So “declarative all the way down” describes the service developer's experience from the CFS down to the device configuration layer. The platform and adapters handle the protocol behavior and transaction guarantees that make this contract work in practice.</p>
+<p>YANG modeled devices can process those declarative configuration updates natively over NETCONF, RESTCONF, or gNMI. Devices that only support a CLI or proprietary APIs may require multiple operations to reach the desired state. Those require custom adapters that understand the device's behavior and can sequence the operations correctly. But as a service developer, you don't have to write that sequencing logic. You just describe what should exist, and the platform and adapters handle the rest.</p>
+<h2 id="one-development-model-across-the-layers">One development model across the layers</h2>
+<p>You still need to know what a correct iBGP mesh looks like and how each device represents a neighbor. That's the domain knowledge your transforms capture. StratoWeave carries changes through those representations and withdraws contributions that are no longer required.</p>
+<p>Each layer can express intent at the level that makes sense for its consumer: router membership, individual neighbors, or vendor-specific configuration. SORESPO's particular layers are one implementation choice; your orchestrator can use the abstractions its services need.</p>
+<p>Ready to learn more? , start with the <a href="https://www.stratoweave.org/tutorials/developing-sorespo/">SORESPO development tutorial</a> and follow the router, full-mesh, and neighbor transforms through the source in your local environment.</p>
+</div>
+  <section class="article-author" id="about-the-author" aria-labelledby="author-heading">
+    <img class="article-author__portrait" src="https://www.stratoweave.org/images/authors/kris-lambrechts.jpeg" alt="Portrait of Kris Lambrechts" width="160" height="160" loading="lazy">
+    <div>
+      <p class="article-eyebrow">About the author</p>
+      <h2 id="author-heading">Kris Lambrechts</h2>
+      <p>Kris leads Intwine, a network orchestration consultancy firm. Intwine provides architecture advice, training, support, and core platform enhancements for StratoWeave.</p>
+      
+      <p><a href="https://www.linkedin.com/in/klambrec/" rel="me">Kris Lambrechts on LinkedIn <span aria-hidden="true">↗</span></a></p>
+      
+      <a class="article-author__company" href="https://www.intwine.net"><img src="https://www.stratoweave.org/partners/intwine.svg" alt="Intwine" width="120" height="40" loading="lazy"><span>Visit Intwine <span aria-hidden="true">↗</span></span></a>
+    </div>
+  </section>
+</article>
+
+        </div>
+
+        
+        
+    </main>
+
+    
+    <footer class="site-footer">
+        <small class="subtext">
+            Copyright © 2026 <a href="https://www.stratoweave.org">StratoWeave Project</a> © 2026 <a href="https://www.linuxfoundation.org/">The Linux Foundation®</a>. All rights reserved.
+        </small>
+    </footer>
+    
+</body>
+<script>
+    function highlightNav(heading) {
+        let pathname = location.pathname;
+        document.querySelectorAll(".toc a").forEach((item) => {
+            item.classList.remove("active");
+        });
+        const activeItem = document.querySelector(".toc a[href$='" + pathname + "#" + heading + "']");
+        if (activeItem) {
+            activeItem.classList.add("active");
+        }
+    }
+
+    let currentHeading = "";
+    window.onscroll = function () {
+        if (!document.querySelector(".toc")) {
+            return;
+        }
+
+        let h = document.querySelectorAll("h1,h2,h3,h4,h5,h6");
+        let elementArr = [];
+
+        h.forEach(item => {
+            if (item.id !== "") {
+                elementArr[item.id] = item.getBoundingClientRect().top;
+            }
+        });
+        elementArr.sort();
+        for (let key in elementArr) {
+            if (!elementArr.hasOwnProperty(key)) {
+                continue;
+            }
+            if (elementArr[key] > 0 && elementArr[key] < 300) {
+                if (currentHeading !== key) {
+                    highlightNav(key);
+                    currentHeading = key;
+                }
+                break;
+            }
+        }
+    }
+</script>
+
+<script>
+// Inject copy buttons into fenced code blocks and handle clipboard copying
+(function () {
+    if (typeof navigator === 'undefined' || !navigator.clipboard) return;
+    function addCopyButtons() {
+        document.querySelectorAll('pre > code').forEach(function (code) {
+            var pre = code.parentNode;
+            if (!pre || pre.querySelector('.code-copy-btn')) return;
+            pre.classList.add('has-copy');
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'code-copy-btn';
+            btn.setAttribute('aria-label', 'Copy code');
+            btn.textContent = 'Copy';
+            btn.addEventListener('click', function () {
+                var text = code.innerText;
+                navigator.clipboard.writeText(text).then(function () {
+                    btn.textContent = 'Copied';
+                    setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+                }).catch(function () {
+                    /* ignore */
+                });
+            });
+            pre.appendChild(btn);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', addCopyButtons);
+    } else {
+        addCopyButtons();
+    }
+})();
+</script>
+
+</html>
