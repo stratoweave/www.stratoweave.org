@@ -27,8 +27,11 @@
         <a class="nav-item" href="https://stratoweave.guide" target="_blank" rel="noopener noreferrer">Documentation</a>
         <div class="nav-group">
             <a class="nav-item nav-item--group" href="{{ get_url(path="/community") }}">Community</a>
-            <div class="nav-subnav">
-                <a class="nav-item nav-item--subnav" href="{{ get_url(path="/governance") }}">Governance</a>
+            <button class="nav-group-toggle" type="button" aria-label="Toggle Community submenu" aria-expanded="false" aria-controls="community-menu"></button>
+            <div class="nav-subnav" id="community-menu">
+                <ul class="nav-subnav__items">
+                    <li><a class="nav-item--subnav" href="{{ get_url(path="/governance") }}">Governance</a></li>
+                </ul>
             </div>
         </div>
         <a class="nav-item" href="{{ get_url(path="/partners") }}">Partners</a>
@@ -62,7 +65,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const mobileQuery = window.matchMedia("(max-width: 700px)");
 
+        const groups = Array.from(nav.querySelectorAll(".nav-group"));
+
+        function setGroupOpen(group, open) {
+            group.classList.toggle("nav-group--open", open);
+            group.querySelector("button").setAttribute("aria-expanded", String(open));
+        }
+
+        groups.forEach(function (group) {
+            const trigger = group.querySelector("button");
+            const overview = group.querySelector(".nav-item--group");
+            group.addEventListener("pointerenter", function (event) {
+                if (event.pointerType === "mouse") setGroupOpen(group, true);
+            });
+            group.addEventListener("pointerleave", function (event) {
+                if (event.pointerType === "mouse" && !group.contains(document.activeElement)) {
+                    setGroupOpen(group, false);
+                }
+            });
+            trigger.addEventListener("click", function () {
+                const open = !group.classList.contains("nav-group--open");
+                groups.forEach(function (other) { setGroupOpen(other, false); });
+                setGroupOpen(group, open);
+            });
+            function enterSubmenu(event) {
+                if (event.key === "ArrowDown") {
+                    event.preventDefault();
+                    setGroupOpen(group, true);
+                    group.querySelector(".nav-subnav a").focus();
+                }
+            }
+            trigger.addEventListener("keydown", enterSubmenu);
+            overview.addEventListener("keydown", enterSubmenu);
+            group.addEventListener("focusout", function (event) {
+                if (!group.contains(event.relatedTarget)) setGroupOpen(group, false);
+            });
+        });
+
         function closeMenu() {
+            groups.forEach(function (group) { setGroupOpen(group, false); });
             shell.classList.remove("site-nav-shell--open");
             toggle.setAttribute("aria-expanded", "false");
         }
@@ -70,14 +111,13 @@ document.addEventListener("DOMContentLoaded", function () {
         function syncMenuState() {
             shell.classList.add("site-nav-shell--ready");
 
-            if (!mobileQuery.matches) {
-                closeMenu();
-            }
+            closeMenu();
         }
 
         toggle.addEventListener("click", function () {
             const isOpen = shell.classList.toggle("site-nav-shell--open");
             toggle.setAttribute("aria-expanded", String(isOpen));
+            if (!isOpen) closeMenu();
         });
 
         nav.querySelectorAll("a").forEach(function (link) {
@@ -85,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         document.addEventListener("click", function (event) {
-            if (!mobileQuery.matches || shell.contains(event.target)) {
+            if (shell.contains(event.target)) {
                 return;
             }
 
@@ -94,7 +134,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.addEventListener("keydown", function (event) {
             if (event.key === "Escape") {
-                closeMenu();
+                const openGroup = groups.find(function (group) {
+                    return group.classList.contains("nav-group--open");
+                });
+                if (openGroup) {
+                    setGroupOpen(openGroup, false);
+                    openGroup.querySelector("button").focus();
+                } else {
+                    if (shell.classList.contains("site-nav-shell--open")) toggle.focus();
+                    closeMenu();
+                }
             }
         });
 
