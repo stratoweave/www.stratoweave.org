@@ -1,7 +1,6 @@
 +++
 title = "Partners"
 weight = 2
-description = "Organizations in the StratoWeave ecosystem."
 +++
 
 ## Implementation partners

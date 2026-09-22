@@ -26,11 +26,15 @@
         <a class="nav-item" href="{{ get_url(path="/articles/") }}">Articles</a>
         <a class="nav-item" href="https://stratoweave.guide" target="_blank" rel="noopener noreferrer">Documentation</a>
         <div class="nav-group">
-            <a class="nav-item nav-item--group" href="{{ get_url(path="/community") }}">Community</a>
-            <button class="nav-group-toggle" type="button" aria-label="Toggle Community submenu" aria-expanded="false" aria-controls="community-menu"></button>
+            <div class="nav-group-trigger">
+                <a class="nav-item nav-item--group" href="{{ get_url(path="/community") }}">Community</a>
+                <button class="nav-group-toggle" type="button" aria-label="Toggle Community submenu" aria-expanded="false" aria-controls="community-menu"></button>
+            </div>
             <div class="nav-subnav" id="community-menu">
                 <ul class="nav-subnav__items">
+                    <li><a class="nav-item--subnav" href="{{ get_url(path="/tsc") }}">Technical Steering Committee</a></li>
                     <li><a class="nav-item--subnav" href="{{ get_url(path="/governance") }}">Governance</a></li>
+                    <li><a class="nav-item--subnav" href="{{ get_url(path="/community/resources") }}">Resources</a></li>
                 </ul>
             </div>
         </div>

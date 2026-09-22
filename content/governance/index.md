@@ -1,10 +1,8 @@
 +++
 title = "Governance"
+template = "community.html"
 weight = 4
-description = "Why stakeholders and contributors can trust StratoWeave's open governance and help shape the platform."
 +++
-
-# Governance for a durable open collaboration
 
 StratoWeave is an open-source platform released under the BSD 3-Clause License,
 with governance designed to support operators, vendors, integrators, and
@@ -13,35 +11,21 @@ StratoWeave is a [Linux Foundation](https://www.linuxfoundation.org/)
 project, with a neutral home, transparent decision making, and a clear path for
 the project to grow with the community.
 
-# What operators and partners can expect
+## Technical Charter and TSC
 
-When you adopt, evaluate, or support StratoWeave, you should expect a project
-that is governed in the open and built to earn trust. That means:
+The [Technical Charter for StratoWeave, a Series of LF Projects, LLC](https://lfx-cdn-prod.s3.us-east-1.amazonaws.com/project-artifacts/stratoweave/stratoweave_Charter.pdf?v=1772574235908)
+is the governing reference for the project. See the
+[Technical Steering Committee](@/tsc/index.md) for its members, public meeting
+schedule, and how to bring a topic to the committee.
 
-- a vendor-neutral platform with transparent decision making
-- project assets and community infrastructure managed for the benefit of the community
-- straightforward open-source licensing and contributor terms
-- technical direction developed in public, not behind closed doors
-- a collaboration model that welcomes participation from across the ecosystem
+## Project policies
 
-Those are not abstract ideals. They are the operating conditions that make a
-network orchestration platform credible for long-term use. They reduce adoption
-risk, increase contributor confidence, and make it easier for organizations to
-invest time, code, integration work, and operational experience into the
-project.
+StratoWeave follows the [LF Projects policies](https://lfprojects.org/policies/), including:
 
-# What contributors can expect
+- [Antitrust Policy](https://lfprojects.org/policies/antitrust-policy/)
+- [Code of Conduct](https://lfprojects.org/policies/code-of-conduct/)
+- [Privacy Policy](https://lfprojects.org/policies/privacy-policy/)
+- [Terms of Use](https://lfprojects.org/policies/terms-of-use/)
+- [Trademark Policy](https://lfprojects.org/policies/trademark-policy/)
 
-If you want to contribute to StratoWeave, you should expect a project that is
-worth contributing to.
-
-That means you can work in the open, see how decisions are made, and help shape
-the technical direction through real participation. It also means your work can
-land in a platform that is intended to serve a broad community, not a narrow
-internal use case.
-
-We want contributors building reusable models, transforms, adapters, reference
-deployments, operational patterns, documentation, and learning material. We
-want operators sharing real deployment needs. We want ecosystem partners
-bringing integrations and implementation experience. And we want individual
-developers to know that strong technical work can have lasting impact here.
+For questions about these policies, contact [manager@lfprojects.org](mailto:manager@lfprojects.org).
