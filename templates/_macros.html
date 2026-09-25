@@ -24,6 +24,20 @@
     <nav id="site-nav-primary" class="site-nav instapaper_ignore" aria-label="Primary navigation">
         <a class="nav-item" href="{{ get_url(path="/tutorials") }}">Get Started</a>
         <a class="nav-item" href="{{ get_url(path="/articles/") }}">Articles</a>
+        {% set use_cases = get_section(path="use-cases/_index.md") %}
+        <div class="nav-group">
+            <div class="nav-group-trigger">
+                <a class="nav-item nav-item--group" href="{{ use_cases.permalink | safe }}">Use cases</a>
+                <button class="nav-group-toggle" type="button" aria-label="Toggle Use cases submenu" aria-expanded="false" aria-controls="use-cases-menu"></button>
+            </div>
+            <div class="nav-subnav" id="use-cases-menu">
+                <ul class="nav-subnav__items">
+                    {% for use_case in use_cases.pages %}
+                    <li><a class="nav-item--subnav" href="{{ use_case.permalink | safe }}">{{ use_case.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
         <a class="nav-item" href="https://stratoweave.guide" target="_blank" rel="noopener noreferrer">Documentation</a>
         <div class="nav-group">
             <div class="nav-group-trigger">

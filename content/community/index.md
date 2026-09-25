@@ -27,7 +27,7 @@ The community meets **weekly on Thursdays** at **09:30 Eastern / 15:30 Central E
 ## Ways to contribute
 
 As an operator you can bring deployment requirements and operational experience
-for various **use cases**.
+for various [use cases](@/use-cases/_index.md).
 Vendors and integrators can help build reusable integrations. Documentation, bug reports,
 and reproductions are valuable contributions alongside code.
 

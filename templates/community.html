@@ -2,21 +2,13 @@
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}
 {% block description %}{% endblock description %}
+{% block toc %}{% endblock toc %}
 
 {% block page_shell_class %} page-shell--community{% endblock page_shell_class %}
 
 {% block content %}
-<nav class="community-nav" aria-label="Community section">
-    {% set links = [
-        ["Community", "/community/"],
-        ["TSC", "/tsc/"],
-        ["Governance", "/governance/"],
-        ["Resources", "/community/resources/"]
-    ] %}
-    {% for link in links %}
-    <a href="{{ get_url(path=link[1]) }}"{% if page.path == link[1] %} aria-current="page"{% endif %}>{{ link[0] }}</a>
-    {% endfor %}
-</nav>
-<h1 class="heading-text">{{ page.title }}</h1>
-{{ page.content | safe }}
+<article class="community-story">
+    <h1>{{ page.title }}</h1>
+    {{ page.content | safe }}
+</article>
 {% endblock content %}

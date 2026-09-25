@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ section.title }} | {{ config.title }}{% endblock title %}
+{% block description %}<meta name="description" content="{{ section.description }}">{% endblock description %}
+{% block head %}
+<link rel="canonical" href="{{ section.permalink | safe }}">
+<meta property="og:title" content="{{ section.title }} | {{ config.title }}">
+<meta property="og:description" content="{{ section.description }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ section.permalink | safe }}">
+<meta name="twitter:card" content="summary">
+{% endblock head %}
+{% block toc %}{% endblock toc %}
+{% block page_shell_class %} page-shell--use-cases{% endblock page_shell_class %}
+{% block content %}
+<div class="use-cases-intro">
+    <h1>{{ section.title }}</h1>
+    <p class="use-cases-lead">{{ section.description }}</p>
+</div>
+<div class="use-cases-grid">
+    {% for use_case in section.pages %}
+    <article class="use-cases-card">
+        <h2><a href="{{ use_case.permalink | safe }}">{{ use_case.title }}</a></h2>
+        <p>{{ use_case.description }}</p>
+        <a class="use-cases-more" href="{{ use_case.permalink | safe }}">Explore {{ use_case.title }} <span aria-hidden="true">→</span></a>
+    </article>
+    {% endfor %}
+</div>
+<div class="use-cases-combine">{{ section.content | safe }}</div>
+{% endblock content %}

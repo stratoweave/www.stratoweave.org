@@ -4,6 +4,7 @@
 @import "_demo.scss";
 @import "_articles.scss";
 @import "_home-content.scss";
+@import "_use-cases.scss";
 
 *,
 *::before,
@@ -423,6 +424,25 @@ header {
 .nav-item--subnav:focus-visible {
   outline: 2px solid #22d3ee;
   outline-offset: -2px;
+}
+
+/* Keep both submenus in document flow when JavaScript is unavailable. */
+header:has(.site-nav-shell:not(.site-nav-shell--ready)) {
+  position: static;
+  flex-wrap: wrap;
+}
+
+.site-nav-shell:not(.site-nav-shell--ready) {
+  .site-nav { align-items: flex-start; }
+  .nav-group { flex-direction: column; }
+  .nav-group-toggle { display: none; }
+  .nav-subnav { position: static; min-width: 0; box-shadow: none; }
+  .nav-group::after { display: none; }
+
+  @media (max-width: 700px) {
+    flex-basis: 100%;
+    .site-nav { width: 100%; flex-direction: column; align-items: stretch; }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

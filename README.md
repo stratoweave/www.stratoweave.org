@@ -21,6 +21,29 @@ The Technology page’s content is combined into the homepage. The hero
 remains in `templates/index.html`; see
 `docs/homepage-hero.md` before touching its markup, styles, or animation.
 
+## Use cases
+
+Use-case pages live under `content/use-cases/`. The section's `weight` ordering
+drives the overview cards and primary dropdown.
+Each page uses `title` and `description` for its introduction and metadata.
+
+To add a screenshot, put the image under `static/images/use-cases/` and add
+the following table to the page's TOML front matter, using the image's actual
+dimensions and a descriptive alt text and caption:
+
+```toml
+[extra.screenshot]
+src = "images/use-cases/ip-transport.png"
+alt = "Backbone topology with routers and the status of their connecting links"
+caption = "IP transport topology in the SORESPO web UI."
+width = 1600
+height = 1000
+```
+
+Without this table, the page renders without a figure or reserved image space.
+Run `zola build` and inspect the pages and dropdown on desktop and mobile after
+content or layout changes.
+
 ## Writing articles
 
 Add Markdown pages under `content/articles/` with `title`, `description`, and
