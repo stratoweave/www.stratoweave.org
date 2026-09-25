@@ -1,0 +1,1 @@
+var e=class{#e=0;begin(){return++this.#e}isCurrent(e){return e===this.#e}};export{e as t};

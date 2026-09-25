@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Fleet Management | StratoWeave</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Complete software lifecycle management built right into your orchestration platform. Select a set of devices, define a target release, and let the system plan and execute the upgrade campaign.">
+    
+    <link rel="icon" href="https://www.stratoweave.org/favicon.svg">
+    
+    <style>
+    :root {
+        --stratoweave-navy: #081020;
+        --stratoweave-blue: #2563eb;
+        --stratoweave-cyan: #22d3ee;
+        --stratoweave-violet: #8b5cf6;
+        --stratoweave-fuchsia: #a855f7;
+        --stratoweave-slate: #64748b;
+        --stratoweave-mist: #e2e8f0;
+        --stratoweave-ink-900: #0d1730;
+        --stratoweave-ink-800: #16223f;
+        --stratoweave-ink-700: #233456;
+        --stratoweave-ink-500: #7d8cac;
+        --stratoweave-ink-300: #c7d1e4;
+        --stratoweave-paper: #f8fbff;
+
+        --primary-color: var(--stratoweave-blue);
+        --primary-color-touch: var(--stratoweave-cyan);
+        --primary-text-color: var(--stratoweave-paper);
+        --primary-hero-text-color: var(--stratoweave-paper);
+        --nav-text-color: var(--stratoweave-paper);
+        --primary-link-color: var(--stratoweave-cyan);
+        --secondary-color: var(--stratoweave-navy);
+        --secondary-color-accent: var(--stratoweave-ink-900);
+        --secondary-text-color: #a7b5d1;
+        --toc-highlight-text-color: var(--stratoweave-cyan);
+        --tertiary-color: #070f1d;
+        --panel-color: #0d1730;
+        --border-color: rgba(226, 232, 240, 0.14);
+        --chrome-color: #0b1424;
+        --code-color: #070f1d;
+        color-scheme: dark;
+    }
+</style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.stratoweave.org/normalize.css">
+    <link rel="stylesheet" href="https://www.stratoweave.org/juice.css">
+    
+<link rel="canonical" href="https://www.stratoweave.org/use-cases/fleet-management/">
+<meta property="og:title" content="Fleet Management | StratoWeave">
+<meta property="og:description" content="Complete software lifecycle management built right into your orchestration platform. Select a set of devices, define a target release, and let the system plan and execute the upgrade campaign.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.stratoweave.org/use-cases/fleet-management/">
+<meta name="twitter:card" content="summary">
+
+</head>
+
+<body class="site-page">
+    
+<aside class="announcements" aria-label="Announcements">
+    
+    <div class="announcement" data-announcement data-announcement-id="stratoweave-intro-webinar-sep-2026"
+        data-start-at=""
+        data-end-at="2026-09-30T23:59:59Z" hidden>
+        <a class="announcement__link" href="https://www.linkedin.com/events/7501707643640610816/">
+            <span class="announcement__label">Announcement</span>
+            <span class="announcement__text">Join the StratoWeave Introduction webinar hosted by the Linux Foundation on September 29, 2026.</span>
+            <span class="announcement__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <button class="announcement__close" type="button" aria-label="Dismiss announcement">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+</aside>
+<script>
+(function () {
+    var now = Date.now();
+
+    document.querySelectorAll('[data-announcement]').forEach(function (announcement) {
+        var id = announcement.getAttribute('data-announcement-id');
+        var startValue = announcement.getAttribute('data-start-at');
+        var endValue = announcement.getAttribute('data-end-at');
+        var startAt = startValue ? Date.parse(startValue) : null;
+        var endAt = endValue ? Date.parse(endValue) : null;
+        var storageKey = 'sw-announcement-dismissed-' + id;
+        var dismissed = false;
+
+        try { dismissed = localStorage.getItem(storageKey) === 'true'; } catch (error) {}
+
+        var validStart = !startValue || (!Number.isNaN(startAt) && now >= startAt);
+        var validEnd = !endValue || (!Number.isNaN(endAt) && now <= endAt);
+        if (dismissed || !validStart || !validEnd) return;
+
+        announcement.hidden = false;
+        announcement.querySelector('.announcement__close').addEventListener('click', function () {
+            announcement.hidden = true;
+            try { localStorage.setItem(storageKey, 'true'); } catch (error) {}
+        });
+    });
+})();
+</script>
+
+
+    
+
+    <header class="site-header">
+        
+<a class="site-logo" href="https://www.stratoweave.org">
+    <span class="brand-mark" aria-hidden="true">
+        <img src="https://www.stratoweave.org/stratoweave-logo.svg" alt="">
+    </span>
+</a>
+
+<!-- Keep navigation and its SVG icons out of Safari Reader's extracted content. -->
+<div class="site-nav-shell instapaper_ignore">
+    <button
+        class="site-nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav-primary"
+        aria-label="Toggle navigation menu"
+    >
+        <span class="site-nav-toggle__bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <nav id="site-nav-primary" class="site-nav instapaper_ignore" aria-label="Primary navigation">
+        <a class="nav-item" href="https://www.stratoweave.org/tutorials">Get Started</a>
+        <a class="nav-item" href="https://www.stratoweave.org/articles">Articles</a>
+        
+        <div class="nav-group">
+            <div class="nav-group-trigger">
+                <a class="nav-item nav-item--group" href="https://www.stratoweave.org/use-cases/">Use cases</a>
+                <button class="nav-group-toggle" type="button" aria-label="Toggle Use cases submenu" aria-expanded="false" aria-controls="use-cases-menu"></button>
+            </div>
+            <div class="nav-subnav" id="use-cases-menu">
+                <ul class="nav-subnav__items">
+                    
+                    <li><a class="nav-item--subnav" href="https://www.stratoweave.org/use-cases/ip-transport/">IP Transport</a></li>
+                    
+                    <li><a class="nav-item--subnav" href="https://www.stratoweave.org/use-cases/vpn-services/">VPN Services</a></li>
+                    
+                    <li><a class="nav-item--subnav" href="https://www.stratoweave.org/use-cases/fleet-management/">Fleet Management</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+        <a class="nav-item" href="https://stratoweave.guide" target="_blank" rel="noopener noreferrer">Documentation</a>
+        <div class="nav-group">
+            <div class="nav-group-trigger">
+                <a class="nav-item nav-item--group" href="https://www.stratoweave.org/community">Community</a>
+                <button class="nav-group-toggle" type="button" aria-label="Toggle Community submenu" aria-expanded="false" aria-controls="community-menu"></button>
+            </div>
+            <div class="nav-subnav" id="community-menu">
+                <ul class="nav-subnav__items">
+                    <li><a class="nav-item--subnav" href="https://www.stratoweave.org/tsc">Technical Steering Committee</a></li>
+                    <li><a class="nav-item--subnav" href="https://www.stratoweave.org/governance">Governance</a></li>
+                    <li><a class="nav-item--subnav" href="https://www.stratoweave.org/community/resources">Resources</a></li>
+                </ul>
+            </div>
+        </div>
+        <a class="nav-item" href="https://www.stratoweave.org/partners">Partners</a>
+        <a
+            class="nav-item nav-item--icon"
+            href="https://github.com/stratoweave"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="StratoWeave on GitHub"
+            title="StratoWeave on GitHub"
+        >
+            <svg class="nav-icon" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                <path
+                    fill="currentColor"
+                    d="M12 0C5.372 0 0 5.373 0 12c0 5.302 3.438 9.8 8.206 11.387.6.11.82-.26.82-.577v-2.235c-3.338.726-4.042-1.415-4.042-1.415-.546-1.388-1.333-1.758-1.333-1.758-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.238 1.84 1.238 1.07 1.835 2.809 1.304 3.495.997.108-.775.418-1.304.762-1.603-2.665-.303-5.467-1.333-5.467-5.93 0-1.31.468-2.382 1.237-3.222-.124-.303-.536-1.524.117-3.176 0 0 1.008-.323 3.302 1.23A11.52 11.52 0 0 1 12 5.818c1.02.005 2.047.138 3.006.404 2.292-1.554 3.298-1.231 3.298-1.231.656 1.653.244 2.874.12 3.177.771.84 1.236 1.912 1.236 3.222 0 4.609-2.807 5.624-5.48 5.921.43.371.823 1.102.823 2.221v3.292c0 .319.216.694.825.576C20.565 21.798 24 17.302 24 12c0-6.627-5.373-12-12-12z"
+                />
+            </svg>
+        </a>
+    </nav>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".site-nav-shell").forEach(function (shell) {
+        const toggle = shell.querySelector(".site-nav-toggle");
+        const nav = shell.querySelector(".site-nav");
+
+        if (!toggle || !nav) {
+            return;
+        }
+
+        const mobileQuery = window.matchMedia("(max-width: 700px)");
+
+        const groups = Array.from(nav.querySelectorAll(".nav-group"));
+
+        function setGroupOpen(group, open) {
+            group.classList.toggle("nav-group--open", open);
+            group.querySelector("button").setAttribute("aria-expanded", String(open));
+        }
+
+        groups.forEach(function (group) {
+            const trigger = group.querySelector("button");
+            const overview = group.querySelector(".nav-item--group");
+            group.addEventListener("pointerenter", function (event) {
+                if (event.pointerType === "mouse") setGroupOpen(group, true);
+            });
+            group.addEventListener("pointerleave", function (event) {
+                if (event.pointerType === "mouse" && !group.contains(document.activeElement)) {
+                    setGroupOpen(group, false);
+                }
+            });
+            trigger.addEventListener("click", function () {
+                const open = !group.classList.contains("nav-group--open");
+                groups.forEach(function (other) { setGroupOpen(other, false); });
+                setGroupOpen(group, open);
+            });
+            function enterSubmenu(event) {
+                if (event.key === "ArrowDown") {
+                    event.preventDefault();
+                    setGroupOpen(group, true);
+                    group.querySelector(".nav-subnav a").focus();
+                }
+            }
+            trigger.addEventListener("keydown", enterSubmenu);
+            overview.addEventListener("keydown", enterSubmenu);
+            group.addEventListener("focusout", function (event) {
+                if (!group.contains(event.relatedTarget)) setGroupOpen(group, false);
+            });
+        });
+
+        function closeMenu() {
+            groups.forEach(function (group) { setGroupOpen(group, false); });
+            shell.classList.remove("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+
+        function syncMenuState() {
+            shell.classList.add("site-nav-shell--ready");
+
+            closeMenu();
+        }
+
+        toggle.addEventListener("click", function () {
+            const isOpen = shell.classList.toggle("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", String(isOpen));
+            if (!isOpen) closeMenu();
+        });
+
+        nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("click", function (event) {
+            if (shell.contains(event.target)) {
+                return;
+            }
+
+            closeMenu();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                const openGroup = groups.find(function (group) {
+                    return group.classList.contains("nav-group--open");
+                });
+                if (openGroup) {
+                    setGroupOpen(openGroup, false);
+                    openGroup.querySelector("button").focus();
+                } else {
+                    if (shell.classList.contains("site-nav-shell--open")) toggle.focus();
+                    closeMenu();
+                }
+            }
+        });
+
+        if (typeof mobileQuery.addEventListener === "function") {
+            mobileQuery.addEventListener("change", syncMenuState);
+        } else {
+            mobileQuery.addListener(syncMenuState);
+        }
+
+        syncMenuState();
+    });
+});
+</script>
+
+    </header>
+    
+
+    <main class="page-shell page-shell--use-cases">
+        
+
+        <div class="content text">
+            
+<article class="use-case-story">
+    <div class="use-cases-intro">
+        <h1>Fleet Management</h1>
+        <p class="use-cases-lead">Complete software lifecycle management built right into your orchestration platform. Select a set of devices, define a target release, and let the system plan and execute the upgrade campaign.</p>
+    </div>
+    
+    <figure class="use-case-screenshot">
+        <img src="https://www.stratoweave.org/images/use-cases/fleet-management.png" alt="Fleet Manager campaign showing the target release, upgrade pace, and device progress across Asia, Europe, and Americas maintenance windows." width="3086" height="1948" loading="lazy">
+        <figcaption>An upgrade campaign in progress, with device status mapped onto regional maintenance windows.</figcaption>
+    </figure>
+    
+    <div class="use-case-body"><p>Your orchestration platform can do more than service provisioning.
+It can also manage the software lifecycle of your devices, from inventory to
+upgrade campaigns. StratoWeave's Fleet Manager demonstrates how to coordinate
+device upgrades across a fleet with different maintenance schedules,
+while providing operators with a shared view of the work ahead and the results
+as it runs.</p>
+<h2 id="plan-upgrades-according-to-maintenance-schedules">Plan upgrades according to maintenance schedules</h2>
+<p>Assign a predefined maintenance schedule to each device in your fleet. For each
+upgrade campaign, select a set of devices and a target release, and let the
+system take care of the rest. The Fleet Manager will automatically plan the
+upgrade campaign, scheduling upgrades for each device according to its
+maintenance window. The system is aware of timezones and maintenance window
+notice periods.</p>
+<p>As soon as you add a device for StratoWeave management, the system will
+automatically collect inventory information such as the current software version,
+hardware model, and other relevant metadata. This information is used to determine
+which devices are eligible for a given upgrade campaign, and to select the exact
+software image in an operating system family.</p>
+<h2 id="preparation-steps-outside-of-maintenance-windows">Preparation steps outside of maintenance windows</h2>
+<p>StratoWeave can execute non-disruptive preparation steps outside of maintenance
+windows, this includes downloading and caching the target release, performing
+some pre-upgrade checks, and cleaning up old upgrade artifacts.</p>
+<h2 id="service-aware-upgrade-jobs">Service-aware upgrade jobs</h2>
+<p>Once inside the maintenance window, StratoWeave's Fleet Manager will release
+individual devices to commence the upgrade process. The system will start slow
+and ramp up the upgrade pace to the maximum allowed by the campaign settings.
+Devices that are part of a redundancy group or are otherwise related,  will be
+upgraded one at a time, so that the service remains available throughout the
+campaign. An upgrade will not start if the redundancy group is already in a
+degraded state.</p>
+<p>For each device, the upgrade component will (re-)evaluate the device's current
+state, e.g. software image checksum, available disk space and most crucially,
+the state of the services running on the device.</p>
+<p>The platform comes with set of pre- and post-upgrade checks that will be executed
+before and after the upgrade job. By keeping a snapshot of e.g. interface state,
+BGP sessions, and received routes, the system can verify that the new software
+version is running correctly and that the upgrade did not cause any service
+disruption.</p>
+<p>We do encourage you to define your own pre- and post-upgrade checks, so that you
+can verify that your specific services are running correctly before and after the
+upgrade.</p>
+<h2 id="failed-upgrades-and-rollbacks">Failed upgrades and rollbacks</h2>
+<p>If an upgrade fails, the system will automatically attempt to roll back the device
+to the previous software version. The rollback process is also service-aware, and
+will automatically be executed if the device's services are unhealthy after the
+upgrade. If the rollback fails, the system will notify the operator and provide a
+set of tools to help recover the device.</p>
+<p>A failure budget can be defined for each upgrade campaign, which will determine how
+many devices can fail before the campaign is stopped. If the failure budget is
+exceeded, the campaign will be paused and the operator will be notified.
+The operator can then decide to either fix the issue and resume the campaign,
+or to stop the campaign entirely.</p>
+</div>
+</article>
+
+        </div>
+
+        
+        
+    </main>
+
+    
+    <footer class="site-footer">
+        <small class="subtext">
+            Copyright © 2026 <a href="https://www.stratoweave.org">StratoWeave Project</a> © 2026 <a href="https://www.linuxfoundation.org/">The Linux Foundation®</a>. All rights reserved.
+        </small>
+    </footer>
+    
+</body>
+<script>
+    function highlightNav(heading) {
+        let pathname = location.pathname;
+        document.querySelectorAll(".toc a").forEach((item) => {
+            item.classList.remove("active");
+        });
+        const activeItem = document.querySelector(".toc a[href$='" + pathname + "#" + heading + "']");
+        if (activeItem) {
+            activeItem.classList.add("active");
+        }
+    }
+
+    let currentHeading = "";
+    window.onscroll = function () {
+        if (!document.querySelector(".toc")) {
+            return;
+        }
+
+        let h = document.querySelectorAll("h1,h2,h3,h4,h5,h6");
+        let elementArr = [];
+
+        h.forEach(item => {
+            if (item.id !== "") {
+                elementArr[item.id] = item.getBoundingClientRect().top;
+            }
+        });
+        elementArr.sort();
+        for (let key in elementArr) {
+            if (!elementArr.hasOwnProperty(key)) {
+                continue;
+            }
+            if (elementArr[key] > 0 && elementArr[key] < 300) {
+                if (currentHeading !== key) {
+                    highlightNav(key);
+                    currentHeading = key;
+                }
+                break;
+            }
+        }
+    }
+</script>
+
+<script>
+// Inject copy buttons into fenced code blocks and handle clipboard copying
+(function () {
+    if (typeof navigator === 'undefined' || !navigator.clipboard) return;
+    function addCopyButtons() {
+        document.querySelectorAll('pre > code').forEach(function (code) {
+            var pre = code.parentNode;
+            if (!pre || pre.querySelector('.code-copy-btn')) return;
+            pre.classList.add('has-copy');
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'code-copy-btn';
+            btn.setAttribute('aria-label', 'Copy code');
+            btn.textContent = 'Copy';
+            btn.addEventListener('click', function () {
+                var text = code.innerText;
+                navigator.clipboard.writeText(text).then(function () {
+                    btn.textContent = 'Copied';
+                    setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+                }).catch(function () {
+                    /* ignore */
+                });
+            });
+            pre.appendChild(btn);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', addCopyButtons);
+    } else {
+        addCopyButtons();
+    }
+})();
+</script>
+
+</html>

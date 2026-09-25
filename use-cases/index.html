@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Use cases | StratoWeave</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="StratoWeave is an orchestration platform on top of which you can build various use cases. As a community we have developed reference implementations for common scenarios, which you can use as starting points for your own orchestration system.">
+    
+    <link rel="icon" href="https://www.stratoweave.org/favicon.svg">
+    
+    <style>
+    :root {
+        --stratoweave-navy: #081020;
+        --stratoweave-blue: #2563eb;
+        --stratoweave-cyan: #22d3ee;
+        --stratoweave-violet: #8b5cf6;
+        --stratoweave-fuchsia: #a855f7;
+        --stratoweave-slate: #64748b;
+        --stratoweave-mist: #e2e8f0;
+        --stratoweave-ink-900: #0d1730;
+        --stratoweave-ink-800: #16223f;
+        --stratoweave-ink-700: #233456;
+        --stratoweave-ink-500: #7d8cac;
+        --stratoweave-ink-300: #c7d1e4;
+        --stratoweave-paper: #f8fbff;
+
+        --primary-color: var(--stratoweave-blue);
+        --primary-color-touch: var(--stratoweave-cyan);
+        --primary-text-color: var(--stratoweave-paper);
+        --primary-hero-text-color: var(--stratoweave-paper);
+        --nav-text-color: var(--stratoweave-paper);
+        --primary-link-color: var(--stratoweave-cyan);
+        --secondary-color: var(--stratoweave-navy);
+        --secondary-color-accent: var(--stratoweave-ink-900);
+        --secondary-text-color: #a7b5d1;
+        --toc-highlight-text-color: var(--stratoweave-cyan);
+        --tertiary-color: #070f1d;
+        --panel-color: #0d1730;
+        --border-color: rgba(226, 232, 240, 0.14);
+        --chrome-color: #0b1424;
+        --code-color: #070f1d;
+        color-scheme: dark;
+    }
+</style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.stratoweave.org/normalize.css">
+    <link rel="stylesheet" href="https://www.stratoweave.org/juice.css">
+    
+<link rel="canonical" href="https://www.stratoweave.org/use-cases/">
+<meta property="og:title" content="Use cases | StratoWeave">
+<meta property="og:description" content="StratoWeave is an orchestration platform on top of which you can build various use cases. As a community we have developed reference implementations for common scenarios, which you can use as starting points for your own orchestration system.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.stratoweave.org/use-cases/">
+<meta name="twitter:card" content="summary">
+
+</head>
+
+<body class="site-page">
+    
+<aside class="announcements" aria-label="Announcements">
+    
+    <div class="announcement" data-announcement data-announcement-id="stratoweave-intro-webinar-sep-2026"
+        data-start-at=""
+        data-end-at="2026-09-30T23:59:59Z" hidden>
+        <a class="announcement__link" href="https://www.linkedin.com/events/7501707643640610816/">
+            <span class="announcement__label">Announcement</span>
+            <span class="announcement__text">Join the StratoWeave Introduction webinar hosted by the Linux Foundation on September 29, 2026.</span>
+            <span class="announcement__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <button class="announcement__close" type="button" aria-label="Dismiss announcement">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+</aside>
+<script>
+(function () {
+    var now = Date.now();
+
+    document.querySelectorAll('[data-announcement]').forEach(function (announcement) {
+        var id = announcement.getAttribute('data-announcement-id');
+        var startValue = announcement.getAttribute('data-start-at');
+        var endValue = announcement.getAttribute('data-end-at');
+        var startAt = startValue ? Date.parse(startValue) : null;
+        var endAt = endValue ? Date.parse(endValue) : null;
+        var storageKey = 'sw-announcement-dismissed-' + id;
+        var dismissed = false;
+
+        try { dismissed = localStorage.getItem(storageKey) === 'true'; } catch (error) {}
+
+        var validStart = !startValue || (!Number.isNaN(startAt) && now >= startAt);
+        var validEnd = !endValue || (!Number.isNaN(endAt) && now <= endAt);
+        if (dismissed || !validStart || !validEnd) return;
+
+        announcement.hidden = false;
+        announcement.querySelector('.announcement__close').addEventListener('click', function () {
+            announcement.hidden = true;
+            try { localStorage.setItem(storageKey, 'true'); } catch (error) {}
+        });
+    });
+})();
+</script>
+
+
+    
+
+    <header class="site-header">
+        
+<a class="site-logo" href="https://www.stratoweave.org">
+    <span class="brand-mark" aria-hidden="true">
+        <img src="https://www.stratoweave.org/stratoweave-logo.svg" alt="">
+    </span>
+</a>
+
+<!-- Keep navigation and its SVG icons out of Safari Reader's extracted content. -->
+<div class="site-nav-shell instapaper_ignore">
+    <button
+        class="site-nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav-primary"
+        aria-label="Toggle navigation menu"
+    >
+        <span class="site-nav-toggle__bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <nav id="site-nav-primary" class="site-nav instapaper_ignore" aria-label="Primary navigation">
+        <a class="nav-item" href="https://www.stratoweave.org/tutorials">Get Started</a>
+        <a class="nav-item" href="https://www.stratoweave.org/articles">Articles</a>
+        
+        <div class="nav-group">
+            <div class="nav-group-trigger">
+                <a class="nav-item nav-item--group" href="https://www.stratoweave.org/use-cases/">Use cases</a>
+                <button class="nav-group-toggle" type="button" aria-label="Toggle Use cases submenu" aria-expanded="false" aria-controls="use-cases-menu"></button>
+            </div>
+            <div class="nav-subnav" id="use-cases-menu">
+                <ul class="nav-subnav__items">
+                    
+                    <li><a class="nav-item--subnav" href="https://www.stratoweave.org/use-cases/ip-transport/">IP Transport</a></li>
+                    
+                    <li><a class="nav-item--subnav" href="https://www.stratoweave.org/use-cases/vpn-services/">VPN Services</a></li>
+                    
+                    <li><a class="nav-item--subnav" href="https://www.stratoweave.org/use-cases/fleet-management/">Fleet Management</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+        <a class="nav-item" href="https://stratoweave.guide" target="_blank" rel="noopener noreferrer">Documentation</a>
+        <div class="nav-group">
+            <div class="nav-group-trigger">
+                <a class="nav-item nav-item--group" href="https://www.stratoweave.org/community">Community</a>
+                <button class="nav-group-toggle" type="button" aria-label="Toggle Community submenu" aria-expanded="false" aria-controls="community-menu"></button>
+            </div>
+            <div class="nav-subnav" id="community-menu">
+                <ul class="nav-subnav__items">
+                    <li><a class="nav-item--subnav" href="https://www.stratoweave.org/tsc">Technical Steering Committee</a></li>
+                    <li><a class="nav-item--subnav" href="https://www.stratoweave.org/governance">Governance</a></li>
+                    <li><a class="nav-item--subnav" href="https://www.stratoweave.org/community/resources">Resources</a></li>
+                </ul>
+            </div>
+        </div>
+        <a class="nav-item" href="https://www.stratoweave.org/partners">Partners</a>
+        <a
+            class="nav-item nav-item--icon"
+            href="https://github.com/stratoweave"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="StratoWeave on GitHub"
+            title="StratoWeave on GitHub"
+        >
+            <svg class="nav-icon" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                <path
+                    fill="currentColor"
+                    d="M12 0C5.372 0 0 5.373 0 12c0 5.302 3.438 9.8 8.206 11.387.6.11.82-.26.82-.577v-2.235c-3.338.726-4.042-1.415-4.042-1.415-.546-1.388-1.333-1.758-1.333-1.758-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.238 1.84 1.238 1.07 1.835 2.809 1.304 3.495.997.108-.775.418-1.304.762-1.603-2.665-.303-5.467-1.333-5.467-5.93 0-1.31.468-2.382 1.237-3.222-.124-.303-.536-1.524.117-3.176 0 0 1.008-.323 3.302 1.23A11.52 11.52 0 0 1 12 5.818c1.02.005 2.047.138 3.006.404 2.292-1.554 3.298-1.231 3.298-1.231.656 1.653.244 2.874.12 3.177.771.84 1.236 1.912 1.236 3.222 0 4.609-2.807 5.624-5.48 5.921.43.371.823 1.102.823 2.221v3.292c0 .319.216.694.825.576C20.565 21.798 24 17.302 24 12c0-6.627-5.373-12-12-12z"
+                />
+            </svg>
+        </a>
+    </nav>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".site-nav-shell").forEach(function (shell) {
+        const toggle = shell.querySelector(".site-nav-toggle");
+        const nav = shell.querySelector(".site-nav");
+
+        if (!toggle || !nav) {
+            return;
+        }
+
+        const mobileQuery = window.matchMedia("(max-width: 700px)");
+
+        const groups = Array.from(nav.querySelectorAll(".nav-group"));
+
+        function setGroupOpen(group, open) {
+            group.classList.toggle("nav-group--open", open);
+            group.querySelector("button").setAttribute("aria-expanded", String(open));
+        }
+
+        groups.forEach(function (group) {
+            const trigger = group.querySelector("button");
+            const overview = group.querySelector(".nav-item--group");
+            group.addEventListener("pointerenter", function (event) {
+                if (event.pointerType === "mouse") setGroupOpen(group, true);
+            });
+            group.addEventListener("pointerleave", function (event) {
+                if (event.pointerType === "mouse" && !group.contains(document.activeElement)) {
+                    setGroupOpen(group, false);
+                }
+            });
+            trigger.addEventListener("click", function () {
+                const open = !group.classList.contains("nav-group--open");
+                groups.forEach(function (other) { setGroupOpen(other, false); });
+                setGroupOpen(group, open);
+            });
+            function enterSubmenu(event) {
+                if (event.key === "ArrowDown") {
+                    event.preventDefault();
+                    setGroupOpen(group, true);
+                    group.querySelector(".nav-subnav a").focus();
+                }
+            }
+            trigger.addEventListener("keydown", enterSubmenu);
+            overview.addEventListener("keydown", enterSubmenu);
+            group.addEventListener("focusout", function (event) {
+                if (!group.contains(event.relatedTarget)) setGroupOpen(group, false);
+            });
+        });
+
+        function closeMenu() {
+            groups.forEach(function (group) { setGroupOpen(group, false); });
+            shell.classList.remove("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+
+        function syncMenuState() {
+            shell.classList.add("site-nav-shell--ready");
+
+            closeMenu();
+        }
+
+        toggle.addEventListener("click", function () {
+            const isOpen = shell.classList.toggle("site-nav-shell--open");
+            toggle.setAttribute("aria-expanded", String(isOpen));
+            if (!isOpen) closeMenu();
+        });
+
+        nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("click", function (event) {
+            if (shell.contains(event.target)) {
+                return;
+            }
+
+            closeMenu();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                const openGroup = groups.find(function (group) {
+                    return group.classList.contains("nav-group--open");
+                });
+                if (openGroup) {
+                    setGroupOpen(openGroup, false);
+                    openGroup.querySelector("button").focus();
+                } else {
+                    if (shell.classList.contains("site-nav-shell--open")) toggle.focus();
+                    closeMenu();
+                }
+            }
+        });
+
+        if (typeof mobileQuery.addEventListener === "function") {
+            mobileQuery.addEventListener("change", syncMenuState);
+        } else {
+            mobileQuery.addListener(syncMenuState);
+        }
+
+        syncMenuState();
+    });
+});
+</script>
+
+    </header>
+    
+
+    <main class="page-shell page-shell--use-cases">
+        
+
+        <div class="content text">
+            
+<div class="use-cases-intro">
+    <h1>Use cases</h1>
+    <p class="use-cases-lead">StratoWeave is an orchestration platform on top of which you can build various use cases. As a community we have developed reference implementations for common scenarios, which you can use as starting points for your own orchestration system.</p>
+</div>
+<div class="use-cases-grid">
+    
+    <article class="use-cases-card">
+        <h2><a href="https://www.stratoweave.org/use-cases/ip-transport/">IP Transport</a></h2>
+        <p>Complete lifecycle management for IP transport networks, from address management and provisioning to fault management.</p>
+        <a class="use-cases-more" href="https://www.stratoweave.org/use-cases/ip-transport/">Explore IP Transport <span aria-hidden="true">→</span></a>
+    </article>
+    
+    <article class="use-cases-card">
+        <h2><a href="https://www.stratoweave.org/use-cases/vpn-services/">VPN Services</a></h2>
+        <p>Accept customer connectivity requests and coordinate the network configuration behind each VPN. Report on operational state and SLA compliance.</p>
+        <a class="use-cases-more" href="https://www.stratoweave.org/use-cases/vpn-services/">Explore VPN Services <span aria-hidden="true">→</span></a>
+    </article>
+    
+    <article class="use-cases-card">
+        <h2><a href="https://www.stratoweave.org/use-cases/fleet-management/">Fleet Management</a></h2>
+        <p>Complete software lifecycle management built right into your orchestration platform. Select a set of devices, define a target release, and let the system plan and execute the upgrade campaign.</p>
+        <a class="use-cases-more" href="https://www.stratoweave.org/use-cases/fleet-management/">Explore Fleet Management <span aria-hidden="true">→</span></a>
+    </article>
+    
+</div>
+<div class="use-cases-combine"><h2 id="combine-use-cases-make-them-your-own">Combine use cases. Make them your own.</h2>
+<p>Every operator has different priorities, systems, and ways of working.
+StratoWeave gives you the building blocks to develop use cases around those
+needs and combine them into a broader orchestration system. Shared models,
+layered transforms, and operational state provide a foundation for connecting
+capabilities across domains.</p>
+<p>Adapt each use case to your needs: choose your service models, encode your
+network policies, add device adapters, and connect your OSS/BSS through modeled
+APIs. Start with one use case, then extend it or add new ones as your
+requirements grow.</p>
+<p>Have you implemented a use case with StratoWeave that you are ready to share?
+Join a <a href="https://www.stratoweave.org/community/">community meeting</a> and present your work!</p>
+</div>
+
+        </div>
+
+        
+        
+    </main>
+
+    
+    <footer class="site-footer">
+        <small class="subtext">
+            Copyright © 2026 <a href="https://www.stratoweave.org">StratoWeave Project</a> © 2026 <a href="https://www.linuxfoundation.org/">The Linux Foundation®</a>. All rights reserved.
+        </small>
+    </footer>
+    
+</body>
+<script>
+    function highlightNav(heading) {
+        let pathname = location.pathname;
+        document.querySelectorAll(".toc a").forEach((item) => {
+            item.classList.remove("active");
+        });
+        const activeItem = document.querySelector(".toc a[href$='" + pathname + "#" + heading + "']");
+        if (activeItem) {
+            activeItem.classList.add("active");
+        }
+    }
+
+    let currentHeading = "";
+    window.onscroll = function () {
+        if (!document.querySelector(".toc")) {
+            return;
+        }
+
+        let h = document.querySelectorAll("h1,h2,h3,h4,h5,h6");
+        let elementArr = [];
+
+        h.forEach(item => {
+            if (item.id !== "") {
+                elementArr[item.id] = item.getBoundingClientRect().top;
+            }
+        });
+        elementArr.sort();
+        for (let key in elementArr) {
+            if (!elementArr.hasOwnProperty(key)) {
+                continue;
+            }
+            if (elementArr[key] > 0 && elementArr[key] < 300) {
+                if (currentHeading !== key) {
+                    highlightNav(key);
+                    currentHeading = key;
+                }
+                break;
+            }
+        }
+    }
+</script>
+
+<script>
+// Inject copy buttons into fenced code blocks and handle clipboard copying
+(function () {
+    if (typeof navigator === 'undefined' || !navigator.clipboard) return;
+    function addCopyButtons() {
+        document.querySelectorAll('pre > code').forEach(function (code) {
+            var pre = code.parentNode;
+            if (!pre || pre.querySelector('.code-copy-btn')) return;
+            pre.classList.add('has-copy');
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'code-copy-btn';
+            btn.setAttribute('aria-label', 'Copy code');
+            btn.textContent = 'Copy';
+            btn.addEventListener('click', function () {
+                var text = code.innerText;
+                navigator.clipboard.writeText(text).then(function () {
+                    btn.textContent = 'Copied';
+                    setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+                }).catch(function () {
+                    /* ignore */
+                });
+            });
+            pre.appendChild(btn);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', addCopyButtons);
+    } else {
+        addCopyButtons();
+    }
+})();
+</script>
+
+</html>
