@@ -1,0 +1,14 @@
+{% component youtube(id: string, title: string) %}
+<div class="community-video">
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/{{ id }}"
+        title="{{ title }}"
+        width="720"
+        height="405"
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    <p><a href="https://www.youtube.com/watch?v={{ id }}">Watch on YouTube: {{ title }}</a></p>
+</div>
+{% endcomponent youtube %}

@@ -61,6 +61,15 @@ and caption. The first article is a complete example, including
 source permalinks and the review date. Check `zola build` and the rendered page
 at desktop and mobile widths before publishing.
 
+## Community videos
+
+Add recordings to `content/community/videos/index.md`, newest first. Give each
+recording a level-two heading and a short introduction, then embed it with
+`{{<youtube id="YOUTUBE_VIDEO_ID" title="Video title" />}}`. The shortcode provides
+a responsive, lazy-loaded YouTube privacy-enhanced player and a direct watch link.
+Use the video's actual title for the accessible player label. Run `zola build`
+and check the page at desktop and mobile widths.
+
 ## Web UI demo
 
 The tutorial *Exploring the SORESPO Web UI* embeds an interactive demo of the

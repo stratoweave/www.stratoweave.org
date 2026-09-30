@@ -27,6 +27,22 @@
   strong { color: var(--stratoweave-mist); }
   a:focus-visible { outline: 2px solid var(--stratoweave-cyan); outline-offset: 4px; }
 
+  .community-video {
+    margin: 1.5rem 0 2.5rem;
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--border-color);
+      border-radius: .6rem;
+      background: #081020;
+    }
+
+    p { margin-top: .75rem; font-size: .94rem; }
+  }
+
   table {
     width: 100%;
     border-collapse: collapse;

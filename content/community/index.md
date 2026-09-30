@@ -24,6 +24,11 @@ The community meets **weekly on Thursdays** at **09:30 Eastern / 15:30 Central E
 - [Read the community meeting minutes](https://lf-networking.atlassian.net/wiki/spaces/StratoWeave/pages/795738113).
 - [Meeting recordings](https://openprofile.dev/my-meetings) are available through the Past Meetings tab in your LF profile.
 
+## Webinars and talks
+
+Watch our [webinars and conference talks](@/community/videos/index.md), starting
+with the StratoWeave introduction webinar.
+
 ## Ways to contribute
 
 As an operator you can bring deployment requirements and operational experience
