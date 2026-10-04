@@ -12,6 +12,7 @@ build_search_index = true
 [markdown]
 
 [markdown.highlighting]
+extra_grammars = ["syntaxes/acton.json"]
 light_theme = "github-light"
 dark_theme = "github-dark"
 
