@@ -1,0 +1,184 @@
+{
+  "name": "Acton",
+  "fileTypes": [
+    "act"
+  ],
+  "scopeName": "source.acton",
+  "uuid": "F0BF8B90-4A9B-4A31-AD0D-A521BD41D987",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#functions"
+    },
+    {
+      "include": "#types"
+    },
+    {
+      "include": "#decorators"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "match": "#.*$",
+          "name": "comment.line.number-sign.acton"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.triple.double.acton",
+          "begin": "\"\"\"",
+          "end": "\"\"\""
+        },
+        {
+          "name": "string.quoted.triple.single.acton",
+          "begin": "'''",
+          "end": "'''"
+        },
+        {
+          "name": "string.quoted.double.acton",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.acton",
+              "match": "\\\\[\\\\\"'abfnrtv]|\\\\x[0-9A-Fa-f]{2}|\\\\[0-7]{1,3}|\\\\u[0-9A-Fa-f]{4}|\\\\U[0-9A-Fa-f]{8}"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.acton",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.acton",
+              "match": "\\\\[\\\\\"'abfnrtv]|\\\\x[0-9A-Fa-f]{2}|\\\\[0-7]{1,3}"
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.acton",
+          "match": "\\b(if|elif|else|while|for|in|try|except|finally|with|return|break|continue|pass|raise|yield|from|import|as|assert|await|async|del|lambda)\\b"
+        },
+        {
+          "name": "keyword.declaration.acton",
+          "match": "\\b(def|class|actor|protocol|extension|var)\\b"
+        },
+        {
+          "name": "constant.language.acton",
+          "match": "\\b(True|False|None|NotImplemented|\\.\\.\\.)\\b"
+        },
+        {
+          "name": "keyword.effect.acton",
+          "match": "\\b(proc|mut|pure|action)\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arithmetic.acton",
+          "match": "\\+|-|\\*|/|//|%|@|\\*\\*"
+        },
+        {
+          "name": "keyword.operator.comparison.acton",
+          "match": "==|!=|<>|<|>|<=|>=|\\b(is not|is|in|not in)\\b"
+        },
+        {
+          "name": "keyword.operator.logical.acton",
+          "match": "\\b(and|or|not)\\b"
+        },
+        {
+          "name": "keyword.operator.bitwise.acton",
+          "match": "&|\\||\\^|~|<<|>>"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer.hexadecimal.acton",
+          "match": "\\b0x[0-9a-fA-F]+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.octal.acton",
+          "match": "\\b0o[0-7]+\\b"
+        },
+        {
+          "name": "constant.numeric.float.acton",
+          "match": "\\b\\d+\\.\\d*([eE][+-]?\\d+)?j?\\b|\\b\\.\\d+([eE][+-]?\\d+)?j?\\b"
+        },
+        {
+          "name": "constant.numeric.integer.decimal.acton",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "entity.name.function.acton",
+          "match": "(?<=def\\s)[a-zA-Z_][a-zA-Z0-9_]*"
+        },
+        {
+          "name": "support.function.builtin.acton",
+          "match": "\\b(isinstance)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "entity.name.type.acton",
+          "match": "(?<=:)\\s*([A-Z][a-zA-Z0-9_]*)"
+        },
+        {
+          "name": "entity.name.type.class.acton",
+          "match": "(?<=class\\s)[A-Z][a-zA-Z0-9_]*"
+        },
+        {
+          "name": "entity.name.type.protocol.acton",
+          "match": "(?<=protocol\\s)[A-Z][a-zA-Z0-9_]*"
+        },
+        {
+          "name": "entity.name.type.actor.acton",
+          "match": "(?<=actor\\s)[A-Z][a-zA-Z0-9_]*"
+        },
+        {
+          "name": "entity.name.type.generic.acton",
+          "match": "\\b[A-Z]\\d*\\b"
+        }
+      ]
+    },
+    "decorators": {
+      "patterns": [
+        {
+          "name": "entity.name.function.decorator.acton",
+          "match": "@(property|staticmethod|static)"
+        }
+      ]
+    }
+  }
+}
