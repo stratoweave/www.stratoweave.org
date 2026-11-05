@@ -63,12 +63,16 @@ at desktop and mobile widths before publishing.
 
 ## Community videos
 
-Add recordings to `content/community/videos/index.md`, newest first. Give each
-recording a level-two heading and a short introduction, then embed it with
-`{{<youtube id="YOUTUBE_VIDEO_ID" title="Video title" />}}`. The shortcode provides
-a responsive, lazy-loaded YouTube privacy-enhanced player and a direct watch link.
-Use the video's actual title for the accessible player label. Run `zola build`
-and check the page at desktop and mobile widths.
+Add recordings to `data/videos.toml` with their YouTube ID, actual title,
+category, short description, source, publication timestamp, and duration.
+Include presenters when known. Categories are short introductions, webinars,
+and conference talks. Recordings appear in their order in the data file.
+The `videos.html` template builds the category filters and counts from that data.
+
+Cards open a privacy-enhanced YouTube player in a dialog. Closing it stops
+playback and returns focus to the card. Without JavaScript, cards link directly
+to YouTube and all recordings remain visible. Run `zola build` and check filtering,
+player opening and closing, and desktop and mobile layouts.
 
 ## Web UI demo
 

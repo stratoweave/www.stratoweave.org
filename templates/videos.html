@@ -1,0 +1,51 @@
+{% extends "community.html" %}
+
+{% block description %}<meta name="description" content="{{ page.description }}">{% endblock description %}
+{% block head %}<script src="{{ get_url(path="js/videos.js") }}" defer></script>{% endblock head %}
+{% block page_shell_class %} page-shell--community page-shell--videos{% endblock page_shell_class %}
+
+{% block content %}
+{% set library = load_data(path="data/videos.toml") %}
+<div class="video-library">
+    <h1>{{ page.title }}</h1>
+    <p class="page-intro">{{ page.description }}</p>
+
+    <div class="video-filters" role="group" aria-label="Filter videos by category" hidden>
+        <button type="button" data-video-filter="all" aria-pressed="true" aria-controls="video-grid">All videos <span>{{ library.videos | length }}</span></button>
+        {% for category in library.categories %}
+        {% set category_videos = [video for video in library.videos if video.category == category.id] %}
+        <button type="button" data-video-filter="{{ category.id }}" aria-pressed="false" aria-controls="video-grid">{{ category.title }} <span>{{ category_videos | length }}</span></button>
+        {% endfor %}
+    </div>
+
+    <ul class="video-grid" id="video-grid">
+        {% for video in library.videos %}
+        <li class="video-card" data-video-category="{{ video.category }}">
+            <a class="video-card__link" href="https://www.youtube.com/watch?v={{ video.id }}" data-video-id="{{ video.id }}" data-video-title="{{ video.title }}" aria-labelledby="video-title-{{ video.id }}">
+                <div class="video-card__thumbnail">
+                    <img src="https://i.ytimg.com/vi/{{ video.id }}/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+                    <span class="video-card__play" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 5 11 7-11 7z" /></svg></span>
+                    <span class="video-card__duration" aria-label="Duration {{ video.duration }}">{{ video.duration }}</span>
+                </div>
+                <div class="video-card__body">
+                    <h2 id="video-title-{{ video.id }}">{{ video.title }}</h2>
+                    <p class="video-card__description">{{ video.description }}</p>
+                    <div class="video-card__credits">
+                        {% if video.presenters %}<p>{{ video.presenters }}</p>{% endif %}
+                        <p>{{ video.source }}</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<dialog class="video-player" aria-labelledby="video-player-title">
+    <div class="video-player__header">
+        <h2 id="video-player-title"></h2>
+        <button type="button" class="video-player__close" aria-label="Close video" autofocus><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="video-player__embed"></div>
+</dialog>
+{% endblock content %}
