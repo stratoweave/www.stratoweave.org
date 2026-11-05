@@ -1,0 +1,1 @@
+function e(e){let t=e.indexOf(`?`);return t===-1?`?#${e}`:`${e.slice(t)}#${e.slice(0,t)}`}function t(e){return e.hash.replace(/^#/,``).split(`?`)[0]||`/`}export{t as n,e as t};
