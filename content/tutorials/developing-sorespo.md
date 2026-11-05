@@ -1,7 +1,7 @@
 +++
 title = "Developing SORESPO"
 weight = 20
-description = "Finally: install Acton, change the SORESPO automation code, and apply your build in the lab."
+description = "Change the SORESPO automation code, build it with Acton, and apply your changes in the live lab."
 aliases = [
     "/tutorials/develop-on-linux/",
     "/tutorials/develop-on-macos/",
@@ -11,6 +11,7 @@ aliases = [
 
 [extra]
 track = "develop"
+setup = "The running lab and the Acton toolchain. Setup is included."
 full_width = true
 platform_selector = true
 +++

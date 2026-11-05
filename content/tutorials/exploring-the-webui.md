@@ -1,10 +1,11 @@
 +++
 title = "Exploring the SORESPO Web UI"
 weight = 10
-description = "Start here: take a zero-install browser tour of the topology, devices, config queue, layers, and service editors."
+description = "Explore the network topology, devices, configuration layers, and service editors in an interactive browser demo."
 
 [extra]
 track = "run"
+setup = "Just a browser. No installation required."
 +++
 
 ## Introduction

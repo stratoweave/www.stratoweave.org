@@ -1,7 +1,7 @@
 +++
 title = "Running SORESPO"
 weight = 15
-description = "Next: launch a live Nokia SR Linux lab, then follow the Web UI path or use the equivalent terminal commands."
+description = "Launch a live Nokia SR Linux lab and configure the network through the Web UI or equivalent terminal commands."
 aliases = [
     "/tutorials/run-on-linux/",
     "/tutorials/run-on-macos/",
@@ -11,6 +11,7 @@ aliases = [
 
 [extra]
 track = "run"
+setup = "A container runtime and Git, or GitHub Codespaces."
 full_width = true
 platform_selector = true
 tutorial_mode_selector = true
