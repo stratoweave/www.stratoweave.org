@@ -38,7 +38,20 @@
                 </ul>
             </div>
         </div>
-        <a class="nav-item" href="https://stratoweave.guide">Documentation</a>
+        <div class="nav-group">
+            <div class="nav-group-trigger">
+                <a class="nav-item nav-item--group" href="https://stratoweave.guide">Documentation</a>
+                <button class="nav-group-toggle" type="button" aria-label="Toggle Documentation submenu" aria-expanded="false" aria-controls="documentation-menu"></button>
+            </div>
+            <div class="nav-subnav" id="documentation-menu">
+                <ul class="nav-subnav__items">
+                    <li><a class="nav-item--subnav" href="https://stratoweave.guide/developer/">Developer Guide</a></li>
+                    <li><a class="nav-item--subnav" href="https://stratoweave.guide/operations/">Operations Guide</a></li>
+                    <li><a class="nav-item--subnav" href="https://stratoweave.guide/releases/">Releases</a></li>
+                    <li><a class="nav-item--subnav" href="https://stratoweave.guide/roadmap/">Roadmap</a></li>
+                </ul>
+            </div>
+        </div>
         <div class="nav-group">
             <div class="nav-group-trigger">
                 <a class="nav-item nav-item--group" href="{{ get_url(path="/community") }}">Community</a>
