@@ -1,0 +1,1 @@
+function e(e){return window.addEventListener(`global-refresh`,e),()=>window.removeEventListener(`global-refresh`,e)}export{e as t};
