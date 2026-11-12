@@ -426,7 +426,7 @@ header {
   outline-offset: -2px;
 }
 
-/* Keep both submenus in document flow when JavaScript is unavailable. */
+/* Keep submenus in document flow when JavaScript is unavailable. */
 header:has(.site-nav-shell:not(.site-nav-shell--ready)) {
   position: static;
   flex-wrap: wrap;
